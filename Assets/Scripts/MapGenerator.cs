@@ -7,10 +7,15 @@ namespace com.zhifez.gamejams {
 	public class MapPoint {
 		public int r;
 		public int c;
+		public int height; // for room generation use
 
 		public MapPoint ( int r, int c ) {
 			this.r = r;
 			this.c = c;
+		}
+
+		public string Log () {
+			return r + ", " + c;
 		}
 
 		public MapPoint Clone () {
@@ -33,6 +38,19 @@ namespace com.zhifez.gamejams {
 		}
  	}
 
+	[ System.Serializable ]
+	public class RoomAssets {
+		// public string name;
+		public GameObject[] topLeftGO;
+		public GameObject[] topRightGO;
+		public GameObject[] bottomLeftGO;
+		public GameObject[] bottomRightGO;
+		public GameObject[] topGO;
+		public GameObject[] bottomGO;
+		public GameObject[] leftGO;
+		public GameObject[] rightGO;
+	}
+
 	public class MapGenerator : MonoBehaviour {
 		public static MapGenerator instance;
 
@@ -44,6 +62,8 @@ namespace com.zhifez.gamejams {
 		public int maxPivot = 10;
 		public int minObstacle = 3;
 		public int maxObstacle = 5;
+
+		public RoomAssets defaultRoomAssets;
 
 		private string[][] _generatedMap;
 		public string[][] generatedMap {
@@ -57,6 +77,7 @@ namespace com.zhifez.gamejams {
 		//--------------------------------------------------
 		// private
 		//--------------------------------------------------
+		private int[][] buggedTempMap;
 		private List<MapPoint> FindPaths ( 
 			string[][] map, 
 			MapPoint startPoint, 
@@ -74,10 +95,6 @@ namespace com.zhifez.gamejams {
 					case "start":
 					case "end":
 						_tempMap[r][c] = 0;
-						break;
-
-					case "obstacle":
-						_tempMap[r][c] = -1;
 						break;
 
 					default:
@@ -104,7 +121,12 @@ namespace com.zhifez.gamejams {
 						}
 					}
 				}
+				
 				if ( _curPoints.Count <= 0 ) {
+					if ( canCrossover ) {
+						Debug.Log ( "from: " + startPoint.Log () + "; to: " + endPoint.Log () + " (" + _pathScore + ")" );
+					}
+					buggedTempMap = _tempMap;
 					break;
 				}
 
@@ -148,7 +170,7 @@ namespace com.zhifez.gamejams {
 
 				++_iteration;
 			}
-			
+
 			if ( !_reachedEnd ) {
 				return null;
 			}
@@ -224,12 +246,20 @@ namespace com.zhifez.gamejams {
 			int _padding = 1;
 			MapPoint _s = new MapPoint ( 
 				Random.Range ( _padding, row - _padding ), 
-				Random.Range ( _padding, column - _padding ) );
+				Random.Range ( _padding, column - _padding ) 
+			);
+			while ( _s.ExistsIn ( _obsPoints.ToArray () ) ) {
+				_s = new MapPoint ( 
+					Random.Range ( _padding, row - _padding ), 
+					Random.Range ( _padding, column - _padding ) 
+				);
+			}
 			MapPoint _e = new MapPoint ( 
 				Random.Range ( _padding, row - _padding ), 
 				Random.Range ( _padding, column - _padding ) 
 			);
-			while ( _e.Equals ( _s ) ) {
+			while ( _e.Equals ( _s )
+				|| _e.ExistsIn ( _obsPoints.ToArray () ) ) {
 				_e = new MapPoint ( 
 					Random.Range ( _padding, row - _padding ), 
 					Random.Range ( _padding, column - _padding ) 
@@ -253,7 +283,10 @@ namespace com.zhifez.gamejams {
 					Random.Range ( 0, row ),
 					Random.Range ( 0, column )
 				);
-				while ( _mp.ExistsIn ( _mapPaths.ToArray () ) ) {
+				while ( _mp.Equals ( _startPath )
+					|| _mp.Equals ( _e )
+					|| _mp.ExistsIn ( _mapPaths.ToArray () )
+					|| _mp.ExistsIn ( _obsPoints.ToArray () ) ) {
 					_mp = new MapPoint (
 						Random.Range ( 0, row ),
 						Random.Range ( 0, column )
@@ -292,10 +325,24 @@ namespace com.zhifez.gamejams {
 					// }
 				}
 			}
+			else {
+				Debug.LogError ( "paths not found even after crossover" );
+			}
 		}
 
 		private void GenerateRooms () {
-
+			// 1. Go from one path from _mapPaths to another;
+			// 		if there's an intersection, increase the following path in _mapPaths by 1
+			for ( int a=0; a<_mapPaths.Count; ++a ) {
+				MapPoint mp = _mapPaths[a];
+				if ( a > 0 ) {
+					for ( int b=0; b<a; ++b ) { // compare with existing paths
+						if ( _mapPaths[b].Equals ( mp ) ) {
+							++mp.height;
+						}
+					}
+				}
+			}
 		}
 
 		//--------------------------------------------------
@@ -309,8 +356,11 @@ namespace com.zhifez.gamejams {
 		//--------------------------------------------------
 		// protected
 		//--------------------------------------------------
+		private float timer = 0f;
 		protected void Update () {
-			if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+			timer -= Time.deltaTime;
+			if ( timer <= 0f ) {
+				timer = 0.2f;
 				Generate ();
 			}
 		}
@@ -358,11 +408,37 @@ namespace com.zhifez.gamejams {
 			}
 
 			if ( _mapPaths != null ) {
-				Gizmos.color = Color.white;
 				for ( int a=0; a<_mapPaths.Count; ++a ) {
 					MapPoint mp = _mapPaths[a];
-					Vector3 _pos = new Vector3 ( mp.c * columnUnit, 0, mp.r * rowUnit );
-					Gizmos.DrawWireSphere ( _pos, 0.05f + ( a + 1 ) * 0.005f );		
+					Vector3 _pos = new Vector3 ( mp.c * columnUnit, mp.height, mp.r * rowUnit );
+					if ( _generatedMap[ mp.r ][ mp.c ] == "pivot" ) {
+						Gizmos.color = Color.black;
+						Gizmos.DrawWireSphere ( _pos, 0.5f );
+					}
+					else {
+						Gizmos.color = Color.white;
+						Gizmos.DrawWireSphere ( _pos, 0.05f + ( a + 1 ) * 0.005f );
+					}
+
+					if ( a > 0 ) {
+						MapPoint mpPrev = _mapPaths[ a - 1 ];
+						Vector3 _prevPos = new Vector3 ( mpPrev.c * columnUnit, mpPrev.height, mpPrev.r * rowUnit );
+						Gizmos.color = Color.blue;
+						Gizmos.DrawLine ( _pos, _prevPos );
+					}
+				}
+			}
+
+			if ( buggedTempMap != null ) {
+				Gizmos.color = Color.red;
+				for ( int r=0; r<buggedTempMap.Length; ++r ) {
+					for ( int c=0; c<buggedTempMap[r].Length; ++c ) {
+						int _mapValue = buggedTempMap[r][c];
+						Vector3 _pos = new Vector3 ( c * columnUnit, 5, r * rowUnit );
+						if ( _mapValue > 0 ) {
+							Gizmos.DrawWireSphere ( _pos, 0.1f + _mapValue * 0.05f );
+						}
+					}
 				}
 			}
 		}
