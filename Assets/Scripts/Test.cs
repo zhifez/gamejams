@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace com.zhifez.gamejams {
   public class Test : MonoBehaviour {
+    public Transform playerTransform;
+
+    private MapGenerator mapGen;
 
     //--------------------------------------------------
     // private
@@ -17,7 +20,10 @@ namespace com.zhifez.gamejams {
     // protected
     //--------------------------------------------------
     protected void Awake () {
-      
+      mapGen = GetComponentInChildren<MapGenerator> ();
+      mapGen.Generate ();
+
+      playerTransform.position = mapGen.GetStartPosition ();
     }
 
     protected void Update () {
