@@ -40,8 +40,8 @@ namespace com.zhifez.gamejams {
 		public int column = 10;
 		public float rowUnit = 1.0f;
 		public float columnUnit = 1.5f;
-		public int minPivot = 3;
-		public int maxPivot = 5;
+		public int minPivot = 7;
+		public int maxPivot = 10;
 		public int minObstacle = 3;
 		public int maxObstacle = 5;
 
@@ -49,6 +49,8 @@ namespace com.zhifez.gamejams {
 		public string[][] generatedMap {
 			get { return _generatedMap; }
 		}
+
+		private float timer = 0f;
 
 		//--------------------------------------------------
 		// private
@@ -217,17 +219,18 @@ namespace com.zhifez.gamejams {
 			}
 			
 			// generate rooms
+			int _padding = 1;
 			MapPoint _s = new MapPoint ( 
-				Random.Range ( 0, row ), 
-				Random.Range ( 0, column ) );
+				Random.Range ( _padding, row - _padding ), 
+				Random.Range ( _padding, column - _padding ) );
 			MapPoint _e = new MapPoint ( 
-				Random.Range ( 0, row ), 
-				Random.Range ( 0, column ) 
+				Random.Range ( _padding, row - _padding ), 
+				Random.Range ( _padding, column - _padding ) 
 			);
 			while ( _e.Equals ( _s ) ) {
 				_e = new MapPoint ( 
-					Random.Range ( 0, row ), 
-					Random.Range ( 0, column ) 
+					Random.Range ( _padding, row - _padding ), 
+					Random.Range ( _padding, column - _padding ) 
 				);
 			}
 			
@@ -235,36 +238,31 @@ namespace com.zhifez.gamejams {
 			_generatedMap[ _e.r ][ _e.c ] = "end";
 
 			int _pivot = Random.Range ( minPivot, maxPivot );
-			List<int> _pivotRows = new List<int> ();
-			for ( int a=1; a<column - 1; ++a ) {
-				_pivotRows.Add ( a );
-			}
+
 			MapPoint _startPath = _s.Clone ();
 			paths = new List<MapPoint> ();
 			for ( int a=0; a<_pivot; ++a ) {
-				int _padding = 0;// Mathf.FloorToInt ( ( float ) column / 2 ) - ( a + 2 );
-				if ( _padding <= 0 ) {
-					_padding = 0;
+				if ( paths.Count > row * column ) {
+					break;
 				}
-				
-				int _randRow = _pivotRows[ Random.Range ( 0, _pivotRows.Count ) ];
+
 				MapPoint _mp = new MapPoint (
-					_randRow,
-					Random.Range ( _padding, column - _padding )
+					Random.Range ( 0, row ),
+					Random.Range ( 0, column )
 				);
 				while ( _mp.ExistsIn ( paths.ToArray () ) ) {
 					_mp = new MapPoint (
-						_randRow,
-						Random.Range ( _padding, column - _padding )
+						Random.Range ( 0, row ),
+						Random.Range ( 0, column )
 					);
 				}
-				Debug.Log ( a + "/" + _pivot + ": " + _mp.r + ", " + _mp.c );
-				FindAndUpdatePaths ( _startPath, _mp );
 
-				_pivotRows.Remove ( _randRow );
+				FindAndUpdatePaths ( _startPath, _mp );
+				
+				// _pivotRows.Remove ( _randRow );
 				_startPath = _mp;
 			}
-			Debug.Log ( "startpath: " + _startPath.r + ", " + _startPath.c );
+			// Debug.Log ( "startpath: " + _startPath.r + ", " + _startPath.c );
 			FindAndUpdatePaths ( _startPath, _e );
 		}
 
@@ -297,7 +295,9 @@ namespace com.zhifez.gamejams {
 		// protected
 		//--------------------------------------------------
 		protected void Update () {
-			if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+			timer -= Time.deltaTime;
+			if ( timer <= 0f ) {
+				timer = 0.2f;
 				Generate ();
 			}
 		}
