@@ -60,6 +60,18 @@ namespace com.zhifez.gamejams {
 		public GameObject[] centerGO;
 	}
 
+	[ System.Serializable ]
+	public class RoomLayout {
+		public string name;
+		public Vector3 roomPosition;
+		public string[][] layout;
+
+		public RoomLayout ( string name, Vector3 roomPosition ) {
+			this.name = name;
+			this.roomPosition = roomPosition;
+		}
+	}
+
 	public class MapGenerator : MonoBehaviour {
 		public int row = 10;
 		public int column = 10;
@@ -89,6 +101,10 @@ namespace com.zhifez.gamejams {
 		private MapPoint _endPoint;
 		public MapPoint endPoint {
 			get { return _endPoint; }
+		}
+		private RoomLayout[] _roomLayouts;
+		public RoomLayout[] roomLayouts {
+			get { return _roomLayouts; }
 		}
 
 		//--------------------------------------------------
@@ -350,6 +366,7 @@ namespace com.zhifez.gamejams {
 		private void GenerateRooms () {
 			// 1. Go from one path from _mapPaths to another;
 			// 		if there's an intersection, increase the following path in _mapPaths by 1
+			_roomLayouts = new RoomLayout[ _mapPaths.Count ];
 			for ( int a=0; a<_mapPaths.Count; ++a ) {
 				MapPoint mp = _mapPaths[a];
 				if ( a > 0 ) {
@@ -359,9 +376,79 @@ namespace com.zhifez.gamejams {
 						}
 					}
 				}
+
+				// 2. Generate a room layout, based on the rowUnit and columnUnit
+				RoomLayout _room = new RoomLayout ( "room_" + a, mp.GetPosition (
+					unitSize, rowUnit, columnUnit, heightUnit
+				) );
+				_room.layout = new string[ rowUnit ][];
+				for ( int r=0; r<rowUnit; ++r ) {
+					_room.layout[r] = new string[ columnUnit ];
+					for ( int c=0; c<columnUnit; ++c ) {
+						_room.layout[r][c] = "Rooms/room0/";
+						if ( r == 0 ) {
+							if ( c == 0 ) {
+								_room.layout[r][c] += defaultRoomAssets.bottomLeftGO[0].name;
+							}
+							else if ( c == columnUnit - 1 ) {
+								_room.layout[r][c] += defaultRoomAssets.bottomRightGO[0].name;
+							}
+							else {
+								_room.layout[r][c] += defaultRoomAssets.bottomGO[0].name;
+							}
+						}
+						else if ( r == rowUnit - 1 ) {
+							if ( c == 0 ) {
+								_room.layout[r][c] += defaultRoomAssets.topLeftGO[0].name;
+							}
+							else if ( c == columnUnit - 1 ) {
+								_room.layout[r][c] += defaultRoomAssets.topRightGO[0].name;
+							}
+							else {
+								_room.layout[r][c] += defaultRoomAssets.topGO[0].name;
+							}
+						}
+						else {
+							if ( c == 0 ) {
+								_room.layout[r][c] += defaultRoomAssets.leftGO[0].name;
+							}
+							else if ( c == columnUnit - 1 ) {
+								_room.layout[r][c] += defaultRoomAssets.rightGO[0].name;
+							}
+							else {
+								_room.layout[r][c] += defaultRoomAssets.centerGO[0].name;
+							}
+						}
+					}
+				}
+				_roomLayouts[a] = _room;
 			}
 
-			// 2. Generate a room layout, 3 x 5
+			// 3. Instantiate assets based on room layouts
+			float _roomWidth = columnUnit * unitSize;
+			float _roomLength = rowUnit * unitSize;
+			foreach ( RoomLayout rl in roomLayouts ) {
+				GameObject _roomGO = new GameObject ( rl.name );
+				_roomGO.transform.SetParent ( transform );
+				_roomGO.transform.position = rl.roomPosition;
+				for ( int r=0; r<rl.layout.Length; ++r ) {
+					for ( int c=0; c<rl.layout[r].Length; ++c ) {
+						// GameObject _roomPartGO = new GameObject ( rl.layout[r][c] );
+						// _roomPartGO.transform.SetParent ( _roomGO.transform );
+						Vector3 _roomPartPos = rl.roomPosition;
+						_roomPartPos.x -= _roomWidth * 0.5f - unitSize * 0.5f;// + c * unitSize;
+						_roomPartPos.x += c * unitSize;
+						_roomPartPos.z -= _roomLength * 0.5f - unitSize * 0.5f;// + r * unitSize;
+						_roomPartPos.z += r * unitSize;
+						// _roomPartGO.transform.position = _roomPartPos;
+						GameObject _roomPartGO = Resources.Load<GameObject> ( rl.layout[r][c] );
+						_roomPartGO = Instantiate<GameObject> ( 
+							_roomPartGO, _roomPartPos, Quaternion.identity
+						);
+						_roomPartGO.transform.SetParent ( _roomGO.transform );
+					}
+				}
+			}
 		}
 
 		//--------------------------------------------------
