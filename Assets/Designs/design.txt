@@ -1,0 +1,8 @@
+1. Map Generator
+[X] Generate map
+[] Generate connecting rooms
+[] Generate buildings based on rooms
+
+2. Room Design
+[] Forests
+[] Dungeon
