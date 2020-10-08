@@ -21,6 +21,18 @@ namespace com.zhifez.gamejams {
       }
     }
 
+    private bool tryGetBoxCollider = false;
+    private BoxCollider _boxCollider;
+    private BoxCollider boxCollider {
+      get {
+        if ( !tryGetBoxCollider ) {
+          _boxCollider = gameObject.AddComponent<BoxCollider> ();
+          tryGetBoxCollider = true;
+        }
+        return _boxCollider;
+      }
+    }
+
     //--------------------------------------------------
     // private
     //--------------------------------------------------
@@ -36,7 +48,12 @@ namespace com.zhifez.gamejams {
       bool doorRight
     ) {
       roomWidth = mapGen.columnUnit * mapGen.unitSize;
-      roomLength = mapGen.rowUnit * mapGen.unitSize;;
+      roomLength = mapGen.rowUnit * mapGen.unitSize;
+
+      boxCollider.size = new Vector3 (
+        roomWidth, 0.5f, roomLength
+      );
+      boxCollider.center = new Vector3 ( 0f, -0.25f, 0f );
 
       layout = new string[ mapGen.rowUnit ][];
       for ( int r=0; r<mapGen.rowUnit; ++r ) {
@@ -121,7 +138,7 @@ namespace com.zhifez.gamejams {
     // protected
     //--------------------------------------------------
     protected void Awake () {
-      
+      gameObject.tag = "Room";
     }
 
     protected void Update () {
