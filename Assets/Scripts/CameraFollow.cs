@@ -11,6 +11,7 @@ namespace com.zhifez.gamejams {
     public float rotateSpeed = 50f;
 
     private Transform target;
+    private float maxHeight;
 
     //--------------------------------------------------
     // private
@@ -27,10 +28,24 @@ namespace com.zhifez.gamejams {
       target = GameObject.FindGameObjectWithTag ( "Player" ).transform;
     }
 
+    protected void Update () {
+      Vector3 _rayOrigin = target.position;
+      _rayOrigin.y += 2.5f;
+      RaycastHit _hit;
+      if ( Physics.Raycast ( _rayOrigin, Vector3.up, out _hit ) ) {
+        if ( _hit.collider.CompareTag ( "Room" ) ) {
+          maxHeight = ( _hit.point.y - target.position.y - 2f );
+        }
+      }
+      else {
+        maxHeight = height;
+      }
+    }
+
     protected void LateUpdate () {
       Vector3 _followPos = target.position;
       _followPos.z -= distance;
-      _followPos.y += height;
+      _followPos.y += Mathf.Min ( height, maxHeight );
 
       transform.position = Vector3.Slerp (
         transform.position,
