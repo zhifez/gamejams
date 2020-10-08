@@ -53,6 +53,7 @@ namespace com.zhifez.gamejams {
 		public int rowUnit = 3;
 		public int columnUnit = 5;
 		public int heightUnit = 1;
+		public int startEndMinDistance = 2;
 		public int minPivot = 7;
 		public int maxPivot = 10;
 		public int minObstacle = 3;
@@ -263,12 +264,17 @@ namespace com.zhifez.gamejams {
 				Random.Range ( _padding, row - _padding ), 
 				Random.Range ( _padding, column - _padding ) 
 			);
-			while ( _endPoint.Equals ( _startPoint )
+			int _dist = Mathf.Abs ( _startPoint.r - _endPoint.r ) + 
+				Mathf.Abs ( _startPoint.c - _endPoint.c );
+			while ( _dist <= startEndMinDistance
+				|| _endPoint.Equals ( _startPoint )
 				|| _endPoint.ExistsIn ( _obsPoints.ToArray () ) ) {
 				_endPoint = new MapPoint ( 
 					Random.Range ( _padding, row - _padding ), 
 					Random.Range ( _padding, column - _padding ) 
 				);
+				_dist = Mathf.Abs ( _startPoint.r - _endPoint.r ) + 
+					Mathf.Abs ( _startPoint.c - _endPoint.c );
 			}
 			
 			_generatedMap[ _startPoint.r ][ _startPoint.c ] = "start";
@@ -444,61 +450,79 @@ namespace com.zhifez.gamejams {
 		// }
 
 		protected void OnDrawGizmos () {
-			if ( _generatedMap != null ) {
-				for ( int r=0; r<_generatedMap.Length; ++r ) {
-					for ( int c=0; c<_generatedMap[r].Length; ++c ) {
-						// _generatedMap[r][c] = 0;
-						Vector3 _pos = new Vector3 ( c * columnUnit, ( float ) heightUnit / 2f, r * rowUnit ) * unitSize;
-						bool _drawWire = true;
-						switch ( _generatedMap[r][c] ) {
-						case "start":
-						case "end":
-							Gizmos.color = Color.red;
-							break;
+			// if ( _generatedMap != null ) {
+			// 	for ( int r=0; r<_generatedMap.Length; ++r ) {
+			// 		for ( int c=0; c<_generatedMap[r].Length; ++c ) {
+			// 			// _generatedMap[r][c] = 0;
+			// 			Vector3 _pos = new Vector3 ( c * columnUnit, ( float ) heightUnit / 2f, r * rowUnit ) * unitSize;
+			// 			bool _drawWire = true;
+			// 			switch ( _generatedMap[r][c] ) {
+			// 			case "start":
+			// 			case "end":
+			// 				Gizmos.color = Color.red;
+			// 				break;
 
-						case "pivot":
-							Gizmos.color = Color.black;
-							break;
+			// 			case "pivot":
+			// 				Gizmos.color = Color.black;
+			// 				break;
 
-						case "room":
-							Gizmos.color = Color.green;
-							break;
+			// 			case "room":
+			// 				Gizmos.color = Color.green;
+			// 				break;
 
-						case "obstacle":
-							_drawWire = false;
-							Gizmos.color = Color.black;
-							break;
+			// 			case "obstacle":
+			// 				_drawWire = false;
+			// 				Gizmos.color = Color.black;
+			// 				break;
 
-						default:
-							_drawWire = false;
-							Gizmos.color = Color.white;
-							break;
-						}
+			// 			default:
+			// 				_drawWire = false;
+			// 				Gizmos.color = Color.white;
+			// 				break;
+			// 			}
 						
-						if ( _drawWire ) {
-							Gizmos.DrawWireCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
-						}
-						else {
-							Gizmos.DrawCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
-						}			
-					}
-				}
-			}
+			// 			if ( _drawWire ) {
+			// 				Gizmos.DrawWireCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
+			// 			}
+			// 			else {
+			// 				Gizmos.DrawCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
+			// 			}			
+			// 		}
+			// 	}
+			// }
 
 			if ( _mapPaths != null ) {
 				for ( int a=0; a<_mapPaths.Count; ++a ) {
 					MapPoint mp = _mapPaths[a];
 					Vector3 _pos = new Vector3 ( 
 						mp.c * columnUnit, 
-						mp.height * heightUnit, 
+						heightUnit * 0.5f + mp.height * heightUnit, 
 						mp.r * rowUnit
 					) * unitSize;
-					if ( _generatedMap[ mp.r ][ mp.c ] == "pivot" ) {
+					bool _drawPivot = true;
+					switch ( _generatedMap[ mp.r ][ mp.c ] ) {
+					case "pivot":
 						Gizmos.color = Color.black;
-						Gizmos.DrawWireSphere ( _pos, ( unitSize / 2f ) );
+						break;
+
+					case "start":
+						Gizmos.color = Color.white;
+						break;
+
+					case "end":
+						Gizmos.color = Color.red;
+						break;
+					
+					default:
+						_drawPivot = false;
+						Gizmos.color = Color.blue;
+						break;
+					}
+
+					if ( _drawPivot ) {
+						Gizmos.DrawSphere ( _pos, ( unitSize / 2f ) );
 					}
 					else {
-						Gizmos.color = Color.white;
 						Gizmos.DrawWireSphere ( _pos, ( unitSize / 2f ) + ( a + 1 ) * ( unitSize / 100f ) );
 					}
 
@@ -506,7 +530,7 @@ namespace com.zhifez.gamejams {
 						MapPoint mpPrev = _mapPaths[ a - 1 ];
 						Vector3 _prevPos = new Vector3 ( 
 							mpPrev.c * columnUnit, 
-							mpPrev.height * heightUnit, 
+							heightUnit * 0.5f + mpPrev.height * heightUnit, 
 							mpPrev.r * rowUnit
 						) * unitSize ;
 						Gizmos.color = Color.blue;
@@ -515,22 +539,22 @@ namespace com.zhifez.gamejams {
 				}
 			}
 
-			if ( buggedTempMap != null ) {
-				Gizmos.color = Color.red;
-				for ( int r=0; r<buggedTempMap.Length; ++r ) {
-					for ( int c=0; c<buggedTempMap[r].Length; ++c ) {
-						int _mapValue = buggedTempMap[r][c];
-						Vector3 _pos = new Vector3 ( 
-							c * columnUnit, 
-							5, 
-							r * rowUnit 
-						) * unitSize;
-						if ( _mapValue > 0 ) {
-							Gizmos.DrawWireSphere ( _pos, ( unitSize / 2f ) + _mapValue * ( unitSize / 100f ) );
-						}
-					}
-				}
-			}
+			// if ( buggedTempMap != null ) {
+			// 	Gizmos.color = Color.red;
+			// 	for ( int r=0; r<buggedTempMap.Length; ++r ) {
+			// 		for ( int c=0; c<buggedTempMap[r].Length; ++c ) {
+			// 			int _mapValue = buggedTempMap[r][c];
+			// 			Vector3 _pos = new Vector3 ( 
+			// 				c * columnUnit, 
+			// 				5, 
+			// 				r * rowUnit 
+			// 			) * unitSize;
+			// 			if ( _mapValue > 0 ) {
+			// 				Gizmos.DrawWireSphere ( _pos, ( unitSize / 2f ) + _mapValue * ( unitSize / 100f ) );
+			// 			}
+			// 		}
+			// 	}
+			// }
 		}
 	}
 }

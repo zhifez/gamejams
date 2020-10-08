@@ -48,27 +48,9 @@ MonoBehaviour:
   unitSize: 5
   rowUnit: 5
   columnUnit: 7
-  heightUnit: 2
+  heightUnit: 3
+  startEndMinDistance: 3
   minPivot: 7
   maxPivot: 10
   minObstacle: 7
   maxObstacle: 13
-  defaultRoomAssets:
-    topLeftGO:
-    - {fileID: 2086948597079007752, guid: 45ea8027bb48b44d8bfedb5cd3959256, type: 3}
-    topRightGO:
-    - {fileID: 8534145325064496633, guid: 792bc2c210adf4e78a0f51df8b028a98, type: 3}
-    bottomLeftGO:
-    - {fileID: 2467671762202580477, guid: fd00a6a9d36df4d9b9bbec86f3c7ee69, type: 3}
-    bottomRightGO:
-    - {fileID: 7919703749654757167, guid: 0ee1df4d8451d4afaac173594a93f731, type: 3}
-    topGO:
-    - {fileID: 8004713309508744528, guid: d4b852b2473d942bc8269cf0720f372e, type: 3}
-    bottomGO:
-    - {fileID: 8650971007356411855, guid: 4a3d101f134654c2fad7483beaf3e4f4, type: 3}
-    leftGO:
-    - {fileID: 1951375954233028875, guid: 66adc680d92b74b0f9b5562c5b866804, type: 3}
-    rightGO:
-    - {fileID: 5309655367259422313, guid: b66fa48398e2243169d3431b2119c24f, type: 3}
-    centerGO:
-    - {fileID: 7064740148108516095, guid: e5fec91356ce54fd899cb75d6cc5791c, type: 3}
