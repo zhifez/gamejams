@@ -1,7 +1,10 @@
 1. Map Generator
 [X] Generate map
-[] Generate connecting rooms
-[] Generate buildings based on rooms
+[X] Generate connecting rooms
+[X] Generate buildings based on rooms
+[] Plot multiple areas to have specific room themes
+  - Able to set specific pivot (start or end) to have specific room theme
+  - Able to set and calculate a range around the pivot to follow the specific theme
 
 2. Room Design
 [] Forests

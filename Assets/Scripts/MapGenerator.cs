@@ -46,20 +46,6 @@ namespace com.zhifez.gamejams {
 		}
  	}
 
-	[ System.Serializable ]
-	public class RoomAssets {
-		// public string name;
-		public GameObject[] topLeftGO;
-		public GameObject[] topRightGO;
-		public GameObject[] bottomLeftGO;
-		public GameObject[] bottomRightGO;
-		public GameObject[] topGO;
-		public GameObject[] bottomGO;
-		public GameObject[] leftGO;
-		public GameObject[] rightGO;
-		public GameObject[] centerGO;
-	}
-
 	public class MapGenerator : MonoBehaviour {
 		public int row = 10;
 		public int column = 10;
@@ -71,8 +57,6 @@ namespace com.zhifez.gamejams {
 		public int maxPivot = 10;
 		public int minObstacle = 3;
 		public int maxObstacle = 5;
-
-		public RoomAssets defaultRoomAssets;
 
 		private string[][] _generatedMap;
 		public string[][] generatedMap {
@@ -371,11 +355,60 @@ namespace com.zhifez.gamejams {
 				_room.transform.position = mp.GetPosition (
 					unitSize, rowUnit, columnUnit, heightUnit
 				);
-				_room.InitLayout ( defaultRoomAssets );
+
+				// 3. Calculate connecting doors
+				bool doorTop = false;
+				bool doorBottom = false;
+				bool doorLeft = false;
+				bool doorRight = false;
+
+				if ( a < _mapPaths.Count - 1 ) {
+					MapPoint _nextMp = _mapPaths[ a + 1 ];
+					if ( _nextMp.c == mp.c ) {
+						if ( _nextMp.r > mp.r ) {
+							doorTop = true;
+						}
+						else if ( _nextMp.r < mp.r ) {
+							doorBottom = true;
+						}
+					}
+					else if ( _nextMp.r == mp.r ) {
+						if ( _nextMp.c > mp.c ) {
+							doorRight = true;
+						}
+						else if ( _nextMp.c < mp.c ) {
+							doorLeft = true;
+						}
+					}
+				}
+				if ( a > 0 ) {
+					MapPoint _prevMp = _mapPaths[ a - 1 ];
+					if ( _prevMp.c == mp.c ) {
+						if ( _prevMp.r > mp.r ) {
+							doorTop = true;
+						}
+						else if ( _prevMp.r < mp.r ) {
+							doorBottom = true;
+						}
+					}
+					else if ( _prevMp.r == mp.r ) {
+						if ( _prevMp.c > mp.c ) {
+							doorRight = true;
+						}
+						else if ( _prevMp.c < mp.c ) {
+							doorLeft = true;
+						}
+					}
+				}
+				
+				_room.InitLayout ( 
+					"plains",
+					doorTop, doorBottom, doorLeft, doorRight
+				);
 				_roomLayouts[a] = _room;
 			}
 
-			// 3. Instantiate assets based on room layouts]
+			// 4. Instantiate assets based on room layouts]
 			foreach ( RoomLayout rl in roomLayouts ) {
 				rl.Generate ();
 			}

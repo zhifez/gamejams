@@ -28,7 +28,13 @@ namespace com.zhifez.gamejams {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
-    public void InitLayout ( RoomAssets roomAssets ) {
+    public void InitLayout ( 
+      string roomTheme,
+      bool doorTop,
+      bool doorBottom,
+      bool doorLeft,
+      bool doorRight
+    ) {
       roomWidth = mapGen.columnUnit * mapGen.unitSize;
       roomLength = mapGen.rowUnit * mapGen.unitSize;;
 
@@ -36,38 +42,58 @@ namespace com.zhifez.gamejams {
       for ( int r=0; r<mapGen.rowUnit; ++r ) {
         layout[r] = new string[ mapGen.columnUnit ];
         for ( int c=0; c<mapGen.columnUnit; ++c ) {
-          layout[r][c] = "Rooms/room0/";
+          layout[r][c] = "Rooms/" + roomTheme + "/";
           if ( r == 0 ) {
             if ( c == 0 ) {
-              layout[r][c] += roomAssets.bottomLeftGO[0].name;
+              layout[r][c] += "bottom_left";
             }
             else if ( c == mapGen.columnUnit - 1 ) {
-              layout[r][c] += roomAssets.bottomRightGO[0].name;
+              layout[r][c] += "bottom_right";
             }
             else {
-              layout[r][c] += roomAssets.bottomGO[0].name;
+              if ( doorBottom ) {
+                layout[r][c] += "center";
+              }
+              else {
+                layout[r][c] += "bottom";
+              }
             }
           }
           else if ( r == mapGen.rowUnit - 1 ) {
             if ( c == 0 ) {
-              layout[r][c] += roomAssets.topLeftGO[0].name;
+              layout[r][c] += "top_left";
             }
             else if ( c == mapGen.columnUnit - 1 ) {
-              layout[r][c] += roomAssets.topRightGO[0].name;
+              layout[r][c] += "top_right";
             }
             else {
-              layout[r][c] += roomAssets.topGO[0].name;
+              if ( doorTop ) {
+                layout[r][c] += "center";
+              }
+              else {
+                layout[r][c] += "top";
+              }
             }
           }
           else {
             if ( c == 0 ) {
-              layout[r][c] += roomAssets.leftGO[0].name;
+              if ( doorLeft ) {
+                layout[r][c] += "center";
+              }
+              else {
+                layout[r][c] += "left";
+              }
             }
             else if ( c == mapGen.columnUnit - 1 ) {
-              layout[r][c] += roomAssets.rightGO[0].name;
+              if ( doorRight ) {
+                layout[r][c] += "center";
+              }
+              else {
+                layout[r][c] += "right";
+              }
             }
             else {
-              layout[r][c] += roomAssets.centerGO[0].name;
+              layout[r][c] += "center";
             }
           }
         }
