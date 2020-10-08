@@ -54,3 +54,12 @@ MonoBehaviour:
   maxPivot: 10
   minObstacle: 7
   maxObstacle: 13
+  startRoomTheme:
+    roomTheme: forest
+    range: 2
+  endRoomTheme:
+    roomTheme: dungeon
+    range: 2
+  centerPivotRoomTheme:
+    roomTheme: plains
+    range: 2

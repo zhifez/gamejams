@@ -46,7 +46,14 @@ namespace com.zhifez.gamejams {
 		}
  	}
 
+	[ System.Serializable ]
+	public class RoomThemeAssignment {
+		public string roomTheme;
+		public int range;
+	}
+
 	public class MapGenerator : MonoBehaviour {
+		[ Header ( "Map" ) ]
 		public int row = 10;
 		public int column = 10;
 		public float unitSize = 5f;
@@ -58,6 +65,11 @@ namespace com.zhifez.gamejams {
 		public int maxPivot = 10;
 		public int minObstacle = 3;
 		public int maxObstacle = 5;
+
+		[ Header ( "Themes" ) ]
+		public RoomThemeAssignment startRoomTheme;
+		public RoomThemeAssignment endRoomTheme;
+		public RoomThemeAssignment centerPivotRoomTheme;
 
 		private string[][] generatedMap;
 		private List<MapPoint> mapPaths;
@@ -329,6 +341,28 @@ namespace com.zhifez.gamejams {
 
 		private void GenerateMapRoomThemes () {
 			// Plot multiple areas to have specific room themes
+			
+			// 1. Setup temp map for calculation
+			int[][] _tempMap = new int[ row ][];
+			mapRoomThemes = new string[ row ][];
+			for ( int r=0; r<row; ++r ) {
+				_tempMap[r] = new int[ column ];
+				mapRoomThemes[r] = new string[ column ];
+				for ( int c=0; c<column; ++c ) {
+					mapRoomThemes[r][c] = null;
+					if ( generatedMap[r][c] == "obstacle" ) {
+						_tempMap[r][c] = -1;
+					}
+					else {
+						_tempMap[r][c] = 0;
+					}
+				}
+			}
+
+			// 2. From end point > start point > pivot, find 3 points around each point,
+			//		generate a range around each of them. Plot a room theme on the generated range
+
+			
 		}
 
 		private void GenerateRooms () {
