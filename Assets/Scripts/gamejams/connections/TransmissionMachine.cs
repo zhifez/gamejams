@@ -41,21 +41,17 @@ namespace com.zhifez.seagj {
 			lineRenderer.numCornerVertices = 5;
 			lineRenderer.numCapVertices = 5;
 
-			float alpha = 1.0f;
-			Gradient gradient = new Gradient ();
-			gradient.SetKeys (
-				new GradientColorKey[] { 
-					new GradientColorKey ( graphColors[0], 0.0f ), 
-					new GradientColorKey ( graphColors[1], 1.0f ), 
-					// new GradientColorKey ( c3, 1.0f ) 
-				},
-				new GradientAlphaKey[] { 
-					new GradientAlphaKey ( alpha, 0.0f ), 
-					new GradientAlphaKey ( alpha, 1.0f ), 
-					// new GradientAlphaKey ( alpha, 1.0f ) 
-				}
-			);
-			lineRenderer.colorGradient = gradient;
+			float _alpha = 1.0f;
+			Gradient _gradient = new Gradient ();
+			GradientColorKey[] _colorKeys = new GradientColorKey[graphColors.Length];
+			GradientAlphaKey[] _alphaKeys = new GradientAlphaKey[graphColors.Length];
+			float _value = 1f / ( _colorKeys.Length - 1 );
+			for ( int a=0; a<graphColors.Length; ++a ) {
+				_colorKeys[a] = new GradientColorKey ( graphColors[a], _value * a );
+				_alphaKeys[a] = new GradientAlphaKey ( _alpha, _value * a );
+			} 
+			_gradient.SetKeys ( _colorKeys, _alphaKeys );
+			lineRenderer.colorGradient = _gradient;
     }
 
     protected void Update () {
