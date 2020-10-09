@@ -28,7 +28,7 @@ namespace com.zhifez.gamejams {
 			return ( this.r == mp.r && this.c == mp.c );
 		}
 
-		public bool ExistsIn ( MapPoint[] mps ) {
+		public bool ExistsIn ( List<MapPoint> mps ) {
 			foreach ( MapPoint mp in mps ) {
 				if ( mp.Equals ( this ) ) {
 					return true;
@@ -40,7 +40,7 @@ namespace com.zhifez.gamejams {
 		public Vector3 GetPosition ( float unitSize, int rowUnit, int columnUnit, int heightUnit ) {
 			return new Vector3 (
 				c * columnUnit,
-				height * heightUnit,
+				height * heightUnit * -1f,
 				r * rowUnit
 			) * unitSize;
 		}
@@ -67,15 +67,18 @@ namespace com.zhifez.gamejams {
 		public int maxObstacle = 5;
 
 		[ Header ( "Themes" ) ]
-		public RoomThemeAssignment startRoomTheme;
-		public RoomThemeAssignment endRoomTheme;
-		public RoomThemeAssignment centerPivotRoomTheme;
+		public string startRoomTheme;
+		public string endRoomTheme;
+		public string defaultRoomTheme;
 
 		private string[][] generatedMap;
 		private List<MapPoint> mapPaths;
 		private MapPoint startPoint;
 		private MapPoint endPoint;
+		private List<MapPoint> pivotPoints;
+		private List<MapPoint> obsPoints;
 		private string[][] mapRoomThemes;
+		private const int mapRoomThemePlotCount = 3;
 		private RoomLayout[] roomLayouts;
 
 		//--------------------------------------------------
@@ -188,19 +191,19 @@ namespace com.zhifez.gamejams {
 					MapPoint _trackPoint = _paths[0].Clone ();
 					switch ( a ) {
 					case 0: // up
-						--_trackPoint.c;
-						break;
-
-					case 1: // down
-						++_trackPoint.c;
-						break;
-
-					case 2: // left
 						--_trackPoint.r;
 						break;
 
-					case 3: // right
+					case 1: // down
 						++_trackPoint.r;
+						break;
+
+					case 2: // left
+						--_trackPoint.c;
+						break;
+
+					case 3: // right
+						++_trackPoint.c;
 						break;
 					}
 
@@ -228,46 +231,25 @@ namespace com.zhifez.gamejams {
 				}
 			}
 
-			int _obstacle = Random.Range ( minObstacle, maxObstacle );
-			List<MapPoint> _obsPoints = new List<MapPoint> ();
-			for ( int a=0; a<_obstacle; ++a ) {
-				MapPoint _obs = new MapPoint (
-					Random.Range ( 0, row ),
-					Random.Range ( 0, column )
-				);
-				while ( _obs.ExistsIn ( _obsPoints.ToArray () ) ) {
-					_obs = new MapPoint (
-						Random.Range ( 0, row - 0 ),
-						Random.Range ( 0, column - 0 )
-					);
-				}
-				_obsPoints.Add ( _obs );
+			// Generate rooms：
+			// 1. Randomly select end and start point
+			int _endPadding = 3;
+			endPoint = new MapPoint ( 
+				Random.Range ( _endPadding, row - _endPadding ), 
+				Random.Range ( _endPadding, column - _endPadding ) 
+			);
 
-				generatedMap[ _obs.r ][ _obs.c ] = "obstacle";
-			}
-			
-			// generate rooms
 			int _padding = 1;
 			startPoint = new MapPoint ( 
 				Random.Range ( _padding, row - _padding ), 
 				Random.Range ( _padding, column - _padding ) 
 			);
-			while ( startPoint.ExistsIn ( _obsPoints.ToArray () ) ) {
-				startPoint = new MapPoint ( 
-					Random.Range ( _padding, row - _padding ), 
-					Random.Range ( _padding, column - _padding ) 
-				);
-			}
-			endPoint = new MapPoint ( 
-				Random.Range ( _padding, row - _padding ), 
-				Random.Range ( _padding, column - _padding ) 
-			);
+			
 			int _dist = Mathf.Abs ( startPoint.r - endPoint.r ) + 
 				Mathf.Abs ( startPoint.c - endPoint.c );
 			while ( _dist <= startEndMinDistance
-				|| endPoint.Equals ( startPoint )
-				|| endPoint.ExistsIn ( _obsPoints.ToArray () ) ) {
-				endPoint = new MapPoint ( 
+				|| startPoint.Equals ( endPoint ) ) {
+				startPoint = new MapPoint ( 
 					Random.Range ( _padding, row - _padding ), 
 					Random.Range ( _padding, column - _padding ) 
 				);
@@ -278,11 +260,31 @@ namespace com.zhifez.gamejams {
 			generatedMap[ startPoint.r ][ startPoint.c ] = "start";
 			generatedMap[ endPoint.r ][ endPoint.c ] = "end";
 
-			int _pivot = Random.Range ( minPivot, maxPivot );
+			// 2. Randomly select obstacle points
+			int _obstacle = Random.Range ( minObstacle, maxObstacle );
+			obsPoints = new List<MapPoint> ();
+			for ( int a=0; a<_obstacle; ++a ) {
+				MapPoint _obs = new MapPoint (
+					Random.Range ( 0, row ),
+					Random.Range ( 0, column )
+				);
+				while ( _obs.ExistsIn ( obsPoints ) ) {
+					_obs = new MapPoint (
+						Random.Range ( 0, row - 0 ),
+						Random.Range ( 0, column - 0 )
+					);
+				}
+				obsPoints.Add ( _obs );
 
+				generatedMap[ _obs.r ][ _obs.c ] = "obstacle";
+			}
+
+			// 3. Generate a navigation path from start to pivots to end points
+			int _pivot = Random.Range ( minPivot, maxPivot );
 			MapPoint _startPath = startPoint.Clone ();
 			mapPaths = new List<MapPoint> ();
 			mapPaths.Add ( _startPath );
+			pivotPoints = new List<MapPoint> ();
 			for ( int a=0; a<_pivot; ++a ) {
 				if ( mapPaths.Count > row * column ) {
 					break;
@@ -294,14 +296,15 @@ namespace com.zhifez.gamejams {
 				);
 				while ( _mp.Equals ( _startPath )
 					|| _mp.Equals ( endPoint )
-					|| _mp.ExistsIn ( mapPaths.ToArray () )
-					|| _mp.ExistsIn ( _obsPoints.ToArray () ) ) {
+					|| _mp.ExistsIn ( mapPaths )
+					|| _mp.ExistsIn ( obsPoints ) ) {
 					_mp = new MapPoint (
 						Random.Range ( 0, row ),
 						Random.Range ( 0, column )
 					);
 				}
 
+				pivotPoints.Add ( _mp );
 				FindAndUpdatePaths ( _startPath, _mp );
 				
 				// _pivotRows.Remove ( _randRow );
@@ -319,7 +322,7 @@ namespace com.zhifez.gamejams {
 
 			if ( _pathsFound != null ) {
 				for ( int p=1; p<_pathsFound.Count; ++p ) {
-					// if ( !_pathsFound[p].ExistsIn ( mapPaths.ToArray () ) ) {
+					// if ( !_pathsFound[p].ExistsIn ( mapPaths ) ) {
 						mapPaths.Add ( _pathsFound[p] );
 						if ( generatedMap[ _pathsFound[p].r ][ _pathsFound[p].c ] == null
 							|| generatedMap[ _pathsFound[p].r ][ _pathsFound[p].c ] == "obstacle" ) {
@@ -361,8 +364,141 @@ namespace com.zhifez.gamejams {
 
 			// 2. From end point > start point > pivot, find 3 points around each point,
 			//		generate a range around each of them. Plot a room theme on the generated range
+			List<MapPoint> _allPivots = new List<MapPoint> ();
+			_allPivots.Add ( startPoint );
+			_allPivots.AddRange ( pivotPoints );
+			_allPivots.Add ( endPoint );
+			for ( int a=_allPivots.Count - 1; a>=0; --a ) {
+				if ( a != 0 && a != _allPivots.Count - 1 ) {
+					continue;
+				}
 
-			
+				List<MapPoint> _plotPoints = GetPlotPoints ( 
+					_allPivots[a],
+					( a == _allPivots.Count - 1 ) ? 2 : 1
+				);
+				_plotPoints.Add ( _allPivots[a] );
+
+				foreach ( MapPoint mp in _plotPoints ) {
+					for ( int d=0; d<4; ++d ) {
+						MapPoint dmp = mp.Clone ();
+						_tempMap[ dmp.r ][ dmp.c ] = ( a + 1 );
+
+						switch ( d ) {
+						case 0:
+							--dmp.r;
+							break;
+
+						case 1:
+							++dmp.r;
+							break;
+
+						case 2:
+							--dmp.c;
+							break;
+
+						case 3:
+							++dmp.c;
+							break;
+						}
+
+						if ( dmp.r >= 0 && dmp.r < row 
+							&& dmp.c >= 0 && dmp.c < column ) {
+							// if ( _tempMap[ dmp.r ][ dmp.c ] == 0 ) {
+								_tempMap[ dmp.r ][ dmp.c ] = ( a + 1 );
+							// }
+						}
+					}
+				}
+			}
+
+			// 3. Decide on room themes
+			for ( int a=0; a<mapPaths.Count; ++a ) {
+				MapPoint mp = mapPaths[a];
+				int _tempMapValue = _tempMap[ mp.r ][ mp.c ];
+				if ( _tempMapValue == _allPivots.Count ) {
+					mapRoomThemes[ mp.r ][ mp.c ] = endRoomTheme;
+				}
+				else if ( _tempMapValue == 1 ) {
+					mapRoomThemes[ mp.r ][ mp.c ] = startRoomTheme;
+				}
+				else {
+					mapRoomThemes[ mp.r ][ mp.c ] = defaultRoomTheme;
+				}
+			}
+		}
+
+		private List<MapPoint> GetPlotPoints ( 
+			MapPoint mapPoint,
+			int range = 1
+		) {
+			List<MapPoint> _plotPoints = new List<MapPoint> ();
+			List<MapPoint> _rangePoints = new List<MapPoint> ();
+			_rangePoints.Add ( mapPoint.Clone () );
+			int _curRange = 0;
+			while ( _curRange < range ) {
+				List<MapPoint> _batchRangePoints = new List<MapPoint> ();
+				foreach ( MapPoint mp in _rangePoints ) {
+					for ( int a=0; a<8; ++a ) {
+						MapPoint _clonedMp = mp.Clone ();
+						switch ( a ) {
+						case 0: // top
+							--_clonedMp.r;
+							break;
+
+						case 1: // bottom
+							++_clonedMp.r;
+							break;
+
+						case 2: // left
+							--_clonedMp.c;
+							break;
+
+						case 3: // right
+							++_clonedMp.c;
+							break;
+
+						case 4: // top left
+							--_clonedMp.r;
+							--_clonedMp.c;
+							break;
+
+						case 5: // top right
+							--_clonedMp.r;
+							++_clonedMp.c;
+							break;
+
+						case 6: // bottom left
+							++_clonedMp.r;
+							--_clonedMp.c;
+							break;
+
+						case 7: // bottom right
+							++_clonedMp.r;
+							++_clonedMp.c;
+							break;
+						}
+						if ( !_clonedMp.Equals ( startPoint )
+							&& !_clonedMp.Equals ( endPoint )
+							&& !_clonedMp.ExistsIn ( _rangePoints )
+							// && !_clonedMp.ExistsIn ( pivotPoints )
+							&& !_clonedMp.ExistsIn ( obsPoints ) ) {
+							_batchRangePoints.Add ( _clonedMp );
+						}
+					}	
+				}
+				_rangePoints.AddRange ( _batchRangePoints );
+				
+				++_curRange;
+			}
+
+			while ( _rangePoints.Count > 0
+				&& _plotPoints.Count < mapRoomThemePlotCount * range ) {
+				int _range = Random.Range ( 0, _rangePoints.Count );
+				_plotPoints.Add ( _rangePoints[ _range ] );
+				_rangePoints.RemoveAt ( _range );
+			}
+			return _plotPoints;
 		}
 
 		private void GenerateRooms () {
@@ -432,7 +568,7 @@ namespace com.zhifez.gamejams {
 				}
 				
 				_room.InitLayout ( 
-					"plains",
+					mapRoomThemes[ mp.r ][ mp.c ],
 					doorTop, doorBottom, doorLeft, doorRight
 				);
 				roomLayouts[a] = _room;
@@ -475,53 +611,71 @@ namespace com.zhifez.gamejams {
 		// }
 
 		protected void OnDrawGizmos () {
-			// if ( generatedMap != null ) {
-			// 	for ( int r=0; r<generatedMap.Length; ++r ) {
-			// 		for ( int c=0; c<generatedMap[r].Length; ++c ) {
-			// 			// generatedMap[r][c] = 0;
-			// 			Vector3 _pos = new Vector3 ( c * columnUnit, ( float ) heightUnit / 2f, r * rowUnit ) * unitSize;
-			// 			bool _drawWire = true;
-			// 			switch ( generatedMap[r][c] ) {
-			// 			case "start":
-			// 			case "end":
-			// 				Gizmos.color = Color.red;
-			// 				break;
+			if ( generatedMap != null ) {
+				Vector3 _size = new Vector3 ( columnUnit, 0, rowUnit ) * unitSize;
+				for ( int r=0; r<generatedMap.Length; ++r ) {
+					for ( int c=0; c<generatedMap[r].Length; ++c ) {
+						Vector3 _pos = new Vector3 ( c * columnUnit, ( float ) heightUnit / 2f, r * rowUnit ) * unitSize;
+						Gizmos.color = Color.white;
+						Gizmos.DrawWireCube ( _pos, _size );	
 
-			// 			case "pivot":
-			// 				Gizmos.color = Color.black;
-			// 				break;
+						_pos.y = 100f;
+						switch ( mapRoomThemes[r][c] ) {
+						case "forest":
+							Gizmos.color = Color.green;
+							break;
 
-			// 			case "room":
-			// 				Gizmos.color = Color.green;
-			// 				break;
+						case "dungeon":
+							Gizmos.color = Color.red;
+							break;
 
-			// 			case "obstacle":
-			// 				_drawWire = false;
-			// 				Gizmos.color = Color.black;
-			// 				break;
+						default:
+							Gizmos.color = Color.white;
+							break;
+						}
+						Gizmos.DrawWireCube ( _pos, _size * 0.5f );
+						// bool _drawWire = true;
+						// switch ( generatedMap[r][c] ) {
+						// case "start":
+						// case "end":
+						// 	Gizmos.color = Color.red;
+						// 	break;
 
-			// 			default:
-			// 				_drawWire = false;
-			// 				Gizmos.color = Color.white;
-			// 				break;
-			// 			}
+						// case "pivot":
+						// 	Gizmos.color = Color.black;
+						// 	break;
+
+						// case "room":
+						// 	Gizmos.color = Color.green;
+						// 	break;
+
+						// case "obstacle":
+						// 	_drawWire = false;
+						// 	Gizmos.color = Color.black;
+						// 	break;
+
+						// default:
+						// 	_drawWire = false;
+						// 	Gizmos.color = Color.white;
+						// 	break;
+						// }
 						
-			// 			if ( _drawWire ) {
-			// 				Gizmos.DrawWireCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
-			// 			}
-			// 			else {
-			// 				Gizmos.DrawCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
-			// 			}			
-			// 		}
-			// 	}
-			// }
+						// if ( _drawWire ) {
+						// 	Gizmos.DrawWireCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
+						// }
+						// else {
+						// 	Gizmos.DrawCube ( _pos, new Vector3 ( columnUnit, heightUnit, rowUnit ) * unitSize );	
+						// }			
+					}
+				}
+			}
 
 			if ( mapPaths != null ) {
 				for ( int a=0; a<mapPaths.Count; ++a ) {
 					MapPoint mp = mapPaths[a];
 					Vector3 _pos = new Vector3 ( 
 						mp.c * columnUnit, 
-						heightUnit * 0.5f + mp.height * heightUnit, 
+						heightUnit * 0.5f + mp.height * heightUnit * -1f, 
 						mp.r * rowUnit
 					) * unitSize;
 					bool _drawPivot = true;
@@ -555,11 +709,28 @@ namespace com.zhifez.gamejams {
 						MapPoint mpPrev = mapPaths[ a - 1 ];
 						Vector3 _prevPos = new Vector3 ( 
 							mpPrev.c * columnUnit, 
-							heightUnit * 0.5f + mpPrev.height * heightUnit, 
+							heightUnit * 0.5f + mpPrev.height * heightUnit * -1f, 
 							mpPrev.r * rowUnit
 						) * unitSize ;
+
 						Gizmos.color = Color.blue;
-						Gizmos.DrawLine ( _pos, _prevPos );
+
+						if ( mpPrev.height != mp.height ) {
+							Vector3 _dir = Vector3.Normalize ( _pos - _prevPos );
+							if ( mpPrev.height < mp.height ) {
+								_dir = Vector3.Normalize ( _prevPos - _pos );
+							}
+							_dir.y = 0f;
+							Vector3 _midPoint = _prevPos + _dir * 5f * unitSize;
+							if ( mpPrev.height < mp.height ) {
+								_midPoint = _pos + _dir * 3f * unitSize;
+							}
+							Gizmos.DrawLine ( _pos, _midPoint );
+							Gizmos.DrawLine ( _midPoint, _prevPos );
+						}
+						else {
+							Gizmos.DrawLine ( _pos, _prevPos );
+						}
 					}
 				}
 			}
