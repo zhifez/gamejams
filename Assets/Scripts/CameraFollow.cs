@@ -29,16 +29,29 @@ namespace com.zhifez.gamejams {
     }
 
     protected void Update () {
-      Vector3 _rayOrigin = target.position;
-      _rayOrigin.y += 2.5f;
       RaycastHit _hit;
-      if ( Physics.Raycast ( _rayOrigin, Vector3.up, out _hit ) ) {
-        if ( _hit.collider.CompareTag ( "Room" ) ) {
-          maxHeight = ( _hit.point.y - target.position.y - 2f );
+      maxHeight = height;
+      for ( int a=0; a<4; ++a ) {
+        Vector3 _rayOrigin = target.position;
+        _rayOrigin.y += 2.5f;
+        switch ( a ) {
+        case 1:
+          _rayOrigin.x -= 5f;
+          break;
+
+        case 2:
+          _rayOrigin.x -= 5f;
+          break;
+
+        case 3:
+          _rayOrigin.z -= distance;
+          break;
         }
-      }
-      else {
-        maxHeight = height;
+        if ( Physics.Raycast ( _rayOrigin, Vector3.up, out _hit ) ) {
+          if ( _hit.collider.CompareTag ( "Room" ) ) {
+            maxHeight = ( _hit.point.y - target.position.y - 2f );
+          }
+        }
       }
     }
 

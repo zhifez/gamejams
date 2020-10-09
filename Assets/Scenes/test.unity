@@ -521,8 +521,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetOffset: {x: 0, y: 2, z: 0}
   distance: 20
-  height: 30
-  speed: 10
+  height: 20
+  speed: 5
   rotateSpeed: 30
 --- !u!4 &1359447695 stripped
 Transform:
