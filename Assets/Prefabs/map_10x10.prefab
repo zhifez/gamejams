@@ -49,17 +49,11 @@ MonoBehaviour:
   rowUnit: 5
   columnUnit: 7
   heightUnit: 3
-  startEndMinDistance: 3
+  startEndMinDistance: 5
   minPivot: 7
   maxPivot: 10
   minObstacle: 7
   maxObstacle: 13
-  startRoomTheme:
-    roomTheme: forest
-    range: 2
-  endRoomTheme:
-    roomTheme: dungeon
-    range: 2
-  centerPivotRoomTheme:
-    roomTheme: plains
-    range: 2
+  startRoomTheme: forest
+  endRoomTheme: dungeon
+  defaultRoomTheme: ruins
