@@ -9,6 +9,7 @@ namespace com.zhifez.gamejams {
     public float gravity = 30f;
 
     private CharacterController charControl;
+    private Animator animator;
 
     //--------------------------------------------------
     // private
@@ -23,6 +24,7 @@ namespace com.zhifez.gamejams {
     //--------------------------------------------------
     protected void Awake () {
       charControl = GetComponentInChildren<CharacterController> ();
+      animator = GetComponentInChildren<Animator> ();
     }
 
     protected void Update () {
@@ -46,6 +48,10 @@ namespace com.zhifez.gamejams {
       if ( _horAxis < -_moveOffset || _horAxis > _moveOffset
         || _verAxis < -_moveOffset || _verAxis > _moveOffset ) {
         _move += transform.forward * speed;
+        animator.SetInteger ( "anim", 1 );
+      }
+      else {
+        animator.SetInteger ( "anim", 0 );
       }
       charControl.Move ( _move * Time.deltaTime );
     }
