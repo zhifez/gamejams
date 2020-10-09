@@ -1,0 +1,14 @@
+Gameplay:
+- Player have to control the facing direction of a satalite dish.
+- The dish's direction will affects the wave pattern generated in the holographic display.
+- Data packages will coming in every day, and varies in size.
+- Data package which are in the process of being transmitted will stop when the signal is lost.
+- Player can only deal with 1 types of signal at a time.
+- Player has a handbook which describes the type of wave pattern by code name.
+- When day is over, player's earnings are calculated based on the types (telecom) and sizes of packages.
+- Game ends when funding hits below negative.
+Phase 2
+- The day's weather may affect direction of satalite's dish.
+- Some weather may damage satalite dish, and player will have to spend money to repair it.
+- Player may purchase new trasmission machine.
+- Trasmission machine may gets overheated and requires money to repair if not turned off in time.

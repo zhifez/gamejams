@@ -1,0 +1,31 @@
+Map Generator
+[X] Generate map
+[X] Generate connecting rooms
+[X] Generate buildings based on rooms
+[X] Plot multiple areas to have specific room themes
+  - Able to set specific pivot (start or end) to have specific room theme
+[] Calculate interconnected room
+[] Conduct mesh combines for all rooms
+[] Generate some rooms for empty areas
+
+Room Design
+[] Ruins
+[] [Optional] Forests
+[] Dungeon
+
+Player
+[] Move around with WASD and arrow keys
+[] Shoot projectiles
+[] Shoot multiple projectiles at the same time
+[] Cause enemies to group up spherically or rectangularly
+[] Can be injured by touching enemy or hit by enemies' projectiles
+
+Enemies
+[] Will move around aimlessly
+[] Will move towards player when triggered (attacked)
+[] Can be coded individually for special moves
+[] 4 different types of enemies
+  - [] Light Blob Spirit - Wanders around
+  - [] Dark Blob Spirit - Wanders around, will attack (dash) player when spooked
+  - [] Rough Dark Blob Spirit - Wanders around, spooked from start, will summon DBS
+  - [] Evil Scarecrow Men - Wanders around, will attack (spin) player when spooked
