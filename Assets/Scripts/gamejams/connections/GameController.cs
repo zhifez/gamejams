@@ -25,7 +25,7 @@ namespace com.zhifez.seagj {
 
 		private SateliteDish activeSatDish;
 		private TransmissionMachine activeTm;
-		private List<ServiceStatus> serviceStatuses;
+		public List<ServiceStatus> serviceStatuses;
 
 		//--------------------------------------------------
     // state machine
@@ -85,16 +85,17 @@ namespace com.zhifez.seagj {
 			}
 
 			float _offset = 0f;
-			if ( INPUT_HOR < -_offset || INPUT_HOR > _offset ) {
-				activeSatDish.RotateDish ( INPUT_HOR, "Horizontal" );
-			}
+			if ( INPUT_HOR < -_offset || INPUT_HOR > _offset
+				|| INPUT_VER < -_offset || INPUT_VER > _offset ) {
+				if ( INPUT_HOR < -_offset || INPUT_HOR > _offset ) {
+					activeSatDish.RotateDish ( INPUT_HOR, "Horizontal" );
+				}
 
-			if ( INPUT_VER < -_offset || INPUT_VER > _offset ) {
-				activeSatDish.RotateDish ( INPUT_VER, "Vertical" );
+				if ( INPUT_VER < -_offset || INPUT_VER > _offset ) {
+					activeSatDish.RotateDish ( INPUT_VER, "Vertical" );
+				}
 			}
-
-			if ( INPUT_HOR >= -_offset && INPUT_HOR <= _offset
-				&& INPUT_VER >= -_offset && INPUT_VER <= _offset ) {
+			else {	
 				activeSatDish.RotateDish ( 0 );
 			}
 
@@ -225,13 +226,11 @@ namespace com.zhifez.seagj {
 				if ( ss.service == _status.service
 					&& ss.tmMachineId.Equals ( _status.tmMachineId ) ) {
 					ss.isStable = _status.isStable;
-					UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
 					return;
 				}
 			}
 
 			serviceStatuses.Add ( _status );
-			UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
 		}
 
 		public void RemoveServiceStatus ( ServiceStatus _status ) {
@@ -243,8 +242,6 @@ namespace com.zhifez.seagj {
 					break;
 				}
 			}
-			
-			UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
 		}
 
 		public bool HasService ( DataPackage.Service _service ) {

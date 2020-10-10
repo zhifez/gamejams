@@ -200,13 +200,13 @@ namespace com.zhifez.seagj {
 		public void IncrementSignalOffset () {
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
-				_linkedSatDishes[ _index ].signalStrengthOffset += 0.1f;
+				_linkedSatDishes[ _index ].signalStrengthOffset += 0.05f;
 				if ( _linkedSatDishes[ _index ].signalStrengthOffset >= 1f ) {
 					_linkedSatDishes[ _index ].signalStrengthOffset = 1f;
 				}
 			}
 			else {
-				_linkedSatDishes[ _index ].signalSpeedOffset += 0.1f;
+				_linkedSatDishes[ _index ].signalSpeedOffset += 0.05f;
 				if ( _linkedSatDishes[ _index ].signalSpeedOffset >= 1f ) {
 					_linkedSatDishes[ _index ].signalSpeedOffset = 1f;
 				}
@@ -216,13 +216,13 @@ namespace com.zhifez.seagj {
 		public void DecrementSignalOffset () {
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
-				_linkedSatDishes[ _index ].signalStrengthOffset -= 0.1f;
+				_linkedSatDishes[ _index ].signalStrengthOffset -= 0.05f;
 				if ( _linkedSatDishes[ _index ].signalStrengthOffset <= -1f ) {
 					_linkedSatDishes[ _index ].signalStrengthOffset = -1f;
 				}
 			}
 			else {
-				_linkedSatDishes[ _index ].signalSpeedOffset -= 0.1f;
+				_linkedSatDishes[ _index ].signalSpeedOffset -= 0.05f;
 				if ( _linkedSatDishes[ _index ].signalSpeedOffset <= -1f ) {
 					_linkedSatDishes[ _index ].signalSpeedOffset = -1f;
 				}

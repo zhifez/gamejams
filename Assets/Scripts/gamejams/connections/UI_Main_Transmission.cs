@@ -98,7 +98,7 @@ namespace com.zhifez.seagj {
           break;
         }
 
-        float _perc = data.transmitTimer / ( data.size * DATA_PACKAGE.dataTransmitDuration );
+        float _perc = data.transmitTimer / ( ( data.size + 1 ) * DATA_PACKAGE.dataTransmitDuration );
         _content += " (" + Mathf.RoundToInt ( _perc * 100f ) + "%)";
       }
       activeDataTitle.text = "active data (" + dataPackages.Count + ")";
@@ -140,7 +140,11 @@ namespace com.zhifez.seagj {
     }
 
     protected void Update () {
-      
+      if ( GAME == null ) {
+        return;
+      }
+
+			UpdateServicesLabel ( GAME.serviceStatuses );
     }
   }
 }
