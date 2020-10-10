@@ -2976,7 +2976,7 @@ MonoBehaviour:
   maxGenerateDataInterval: 4
   minResolvePendingInterval: 1
   maxResolvePendingInterval: 2
-  dataTransmitDuration: 2
+  dataTransmitDuration: 4
   serviceSignalPatterns:
   - service: 0
     signalPatterns:

@@ -86,7 +86,7 @@ namespace com.zhifez.seagj {
         resolvePendingTimer = Random.Range ( minResolvePendingInterval, maxResolvePendingInterval );
 
         for ( int a=0; a<pendingData.Count; ++a ) {
-          if ( true ) { // TODO: Detect whether service is available
+          if ( GAME.HasService ( pendingData[a].service ) ) { // TODO: Detect whether service is available
             activeData.Add ( pendingData[a] );
             pendingData.RemoveAt ( a );
             break;
@@ -97,7 +97,16 @@ namespace com.zhifez.seagj {
 
     private void RunActiveData () {
       for ( int a=0; a<activeData.Count; ++a ) {
-        activeData[a].transmitTimer += Time.deltaTime;
+        bool _hasService = GAME.HasService ( activeData[a].service );
+        if ( !_hasService ) {
+          activeData[a].transmitTimer = 0f;
+          pendingData.Add ( activeData[a] );
+          activeData.RemoveAt ( a );
+          break;
+        }
+
+        float _serviceMultiplier = GAME.GetServiceMultipler ( activeData[a].service );
+        activeData[a].transmitTimer += Time.deltaTime * _serviceMultiplier;
         float _duration = ( activeData[a].size + 1 ) * dataTransmitDuration;
         if( activeData[a].transmitTimer > _duration ) {
           transmittedData.Add ( activeData[a] );

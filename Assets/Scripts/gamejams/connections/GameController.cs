@@ -53,6 +53,7 @@ namespace com.zhifez.seagj {
 					SCIENTIST.transform.position = playerStartPos.position;
 					SCIENTIST.transform.rotation = playerStartPos.rotation;
 					currentState = State.idle;
+					DATA_PACKAGE.enabled = true;
 					break;
 
 				case State.idle:
@@ -244,6 +245,25 @@ namespace com.zhifez.seagj {
 			}
 			
 			UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
+		}
+
+		public bool HasService ( DataPackage.Service _service ) {
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( ss.service == _service ) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public float GetServiceMultipler ( DataPackage.Service _service ) {
+			float _multiplier = 0f;
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( ss.service == _service ) {
+					_multiplier += ss.isStable ? 1f : 0.5f;
+				}
+			}
+			return _multiplier;
 		}
 
     //--------------------------------------------------
