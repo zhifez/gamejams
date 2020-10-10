@@ -81,8 +81,8 @@ namespace com.zhifez.seagj {
 			}
 
 			UI_SateliteKiosk.instance.UpdateValues (
-				activeSatDish.valueX,
-				activeSatDish.valueY
+				activeSatDish.strength,
+				activeSatDish.speed
 			);
 		}
 
@@ -205,8 +205,7 @@ namespace com.zhifez.seagj {
 				satKiosks[a].linkId = satDishes[a].name;
 			}
 
-			tmMachines[0].LinkSateliteDish ( satDishes[0] );
-			tmMachines[0].LinkSateliteDish ( satDishes[0] );
+			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
 
 			machineLinks = new List<MachineLink> ();
 			machineLinks.Add ( new MachineLink ( tmMachines[0], satDishes[0] ) );

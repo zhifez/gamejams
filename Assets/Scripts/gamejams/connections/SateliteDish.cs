@@ -7,7 +7,7 @@ namespace com.zhifez.seagj {
     public Transform baseTransform;
     public Transform bowlTransform;
 
-    public float valueX {
+    public float strength {
       get {
         float _angleX = Mathf.Abs ( bowlTransform.eulerAngles.x );
         _angleX -= minRotateUp;
@@ -16,7 +16,7 @@ namespace com.zhifez.seagj {
       }
     }
 
-    public float valueY {
+    public float speed {
       get {
         float _angleY = Mathf.Abs ( baseTransform.eulerAngles.y );
         float _valueY = _angleY / 180f;

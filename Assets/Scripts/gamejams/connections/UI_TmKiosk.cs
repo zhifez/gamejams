@@ -40,14 +40,14 @@ namespace com.zhifez.seagj {
 				if ( _index == a && tm.linkedSatDishIndex % 2 == 0 ) {
 					_selected += "> ";
 				}
-        float _valueDeci = ( ( float ) tm.linkedSatDishes[a].signalStrengthOffset / 10f );
+        float _valueDeci = tm.linkedSatDishes[a].signalStrengthOffset;
         values.text += "\n  " + _selected + "signal strength offset: " + _valueDeci;
         
         _selected = "";
 				if ( _index == a && tm.linkedSatDishIndex % 2 == 1 ) {
 					_selected += "> ";
 				}
-        _valueDeci = ( ( float ) tm.linkedSatDishes[a].signalSpeedOffset / 10f );
+        _valueDeci = tm.linkedSatDishes[a].signalSpeedOffset;
         values.text += "\n  " + _selected + "signal speed offset: " + _valueDeci;
       }
     }
