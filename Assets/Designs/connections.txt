@@ -1,9 +1,8 @@
 Gameplay:
 [X] Player have to control the facing direction of a satalite dish.
-  - Can link T-machine(s) to a dish
-  - Can set offset to a T-machine (optional: with an "offset" component)
-[] The dish's direction will affects the wave pattern generated in the holographic display.
+[] Can link T-machine(s) to a dish
   - Dish's facing direction (hor and ver) will affect the linked T-machine
+  - Can set offset to a T-machine (optional: with an "offset" component)
 [] Data packages will coming in every day, and varies in size.
   - Data in trasmission will stop when signal is interrupted
   - Go to a kiosk to see current progress (optional: may buy more kiosk)

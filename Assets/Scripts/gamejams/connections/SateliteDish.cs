@@ -12,18 +12,25 @@ namespace com.zhifez.seagj {
         float _angleX = Mathf.Abs ( bowlTransform.eulerAngles.x );
         _angleX -= minRotateUp;
         _angleX /= ( maxRotateUp - minRotateUp );
-        return _angleX;
+        return Mathf.Clamp ( _angleX, 0f, 1f );
       }
     }
 
     public float valueY {
       get {
-        float _angleY = Mathf.Abs ( bowlTransform.eulerAngles.y );
-        _angleY /= 180f;
+        float _angleY = Mathf.Abs ( baseTransform.eulerAngles.y );
+        float _valueY = _angleY / 180f;
         if ( _angleY > 180f ) {
-          _angleY *= -1f;
+          _angleY -= 180f;
+          _valueY = 1f - _angleY / 180f;
         }
-        return _angleY;
+        if ( _valueY <= 0f ) {
+          _valueY = 0f;
+        }
+        else if ( _valueY >= 1f ) {
+          _valueY = 1f;
+        }
+        return Mathf.Clamp ( _valueY, 0f, 1f );
       }
     }
     

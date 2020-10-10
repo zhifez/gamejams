@@ -73,16 +73,27 @@ namespace com.zhifez.seagj {
     }
 
     protected void Update () {
-      Vector3 _interactPoint = transform.position + transform.forward * interactDistance * 0.75f;
-      float _dist = Vector3.Distance ( _interactPoint, SCIENTIST.transform.position );
-      showPointer = ( _dist < interactDistance );
-      if ( showPointer ) {
-        if ( Input.GetKeyDown ( KeyCode.Z )
-          || Input.GetKeyDown ( KeyCode.J ) ) {
-          if ( linkType == LinkType.satelite ) {
-            GAME.ManageSatelite ( linkId );
+      if ( GAME.isIdle ) {
+        Vector3 _interactPoint = transform.position + transform.forward * interactDistance * 0.75f;
+        float _dist = Vector3.Distance ( _interactPoint, SCIENTIST.transform.position );
+        showPointer = ( _dist < interactDistance );
+        if ( showPointer ) {
+          if ( Input.GetKeyDown ( KeyCode.Z )
+            || Input.GetKeyDown ( KeyCode.J ) ) {
+            switch ( linkType ) {
+            case LinkType.satelite:
+              GAME.ManageSatelite ( linkId );
+              break;
+
+            case LinkType.t_machine:
+              GAME.ManageTM ( linkId );
+              break;
+            }
           }
         }
+      }
+      else {
+        showPointer = false;
       }
     }
 
