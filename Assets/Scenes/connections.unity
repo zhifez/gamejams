@@ -1324,6 +1324,7 @@ MonoBehaviour:
   height: 15
   speed: 10
   rotateSpeed: 30
+  minLookAtTargetDistance: 20
 --- !u!81 &777257441
 AudioListener:
   m_ObjectHideFlags: 0

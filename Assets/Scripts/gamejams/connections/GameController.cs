@@ -147,7 +147,10 @@ namespace com.zhifez.seagj {
 			}
 			
 			UI_SAT_DISH.Setup ( activeSatDish );
-			CAMERA.SetLookAtTarget ( activeSatDish.transform );
+			CAMERA.SetLookAtTarget ( 
+				activeSatDish.transform,
+				playerStartPos
+			);
 		}
 
 		private void StopManageSatelite () {

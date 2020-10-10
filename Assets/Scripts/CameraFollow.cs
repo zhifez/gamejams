@@ -23,6 +23,7 @@ namespace com.zhifez.gamejams {
     }
     private Transform overrideTarget;
     private Transform lookAtTarget;
+    private Transform lookAtMoveToTarget;
     private float maxHeight;
 
     //--------------------------------------------------
@@ -32,8 +33,9 @@ namespace com.zhifez.gamejams {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
-    public void SetLookAtTarget ( Transform _target ) {
+    public void SetLookAtTarget ( Transform _target, Transform _moveToTarget = null ) {
       lookAtTarget = _target;
+      lookAtMoveToTarget = _moveToTarget;
     }
 
     public void SetOverrideTarget ( Transform _target ) {
@@ -78,7 +80,21 @@ namespace com.zhifez.gamejams {
 
     protected void LateUpdate () {
       if ( lookAtTarget != null ) {
+        if ( lookAtMoveToTarget != null ) {
+          Vector3 _followPos = lookAtMoveToTarget.position;
+          _followPos.z -= distance;
+          _followPos.y += Mathf.Min ( height, maxHeight );
+
+          transform.position = Vector3.Slerp (
+            transform.position,
+            _followPos,
+            Time.deltaTime * speed
+          );
+        }
+
         Vector3 _targetPos = lookAtTarget.position;
+        _targetPos += Vector3.zero;
+        _targetPos /= 2f;
         Vector3 _dir = Vector3.Normalize ( _targetPos - transform.position );
         Quaternion _rot = Quaternion.LookRotation ( _dir );
         transform.rotation = Quaternion.Slerp (
