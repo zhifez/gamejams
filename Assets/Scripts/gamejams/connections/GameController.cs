@@ -81,8 +81,8 @@ namespace com.zhifez.seagj {
 			}
 
 			UI_SateliteKiosk.instance.UpdateValues (
-				activeSatDish.strength,
-				activeSatDish.speed
+				activeSatDish.valueX,
+				activeSatDish.valueY
 			);
 		}
 

@@ -1324,7 +1324,6 @@ MonoBehaviour:
   height: 15
   speed: 10
   rotateSpeed: 30
-  minLookAtTargetDistance: 20
 --- !u!81 &777257441
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3840,6 +3839,10 @@ PrefabInstance:
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446566498828982411, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
+      propertyPath: graphFrequency
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982414, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_Name

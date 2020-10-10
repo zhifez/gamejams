@@ -21,12 +21,7 @@ namespace com.zhifez.seagj {
     public Transform receiver;
 		public Color[] graphColors;
 
-		public int graphFrequency = 20;
-		private int pseudoGraphFrequency {
-			get {
-				return graphFrequency + 1;
-			}
-		}
+		private const int graphFrequency = 40;
 		private const float graphStrength = 1f;
 		private const float graphSpeed = 5f;
 
@@ -65,7 +60,7 @@ namespace com.zhifez.seagj {
 					Shader.Find ( "Sprites/Default" )
 				);
 				_lineRender.widthMultiplier = 0.2f;
-				_lineRender.positionCount = pseudoGraphFrequency;
+				_lineRender.positionCount = 10;
 				_lineRender.alignment = LineAlignment.View;
 				_lineRender.numCornerVertices = 5;
 				_lineRender.numCapVertices = 5;
@@ -106,20 +101,25 @@ namespace com.zhifez.seagj {
 
 		private void RunWaves () {
 			float _dist = Vector3.Distance ( emitter.position, receiver.position );
-			float _width = _dist / ( float ) graphFrequency;
 
 			foreach ( LinkedSatDish lsd in linkedSatDishes ) {
 				LineRenderer _wave = GetWave ( lsd.sateliteDish.name );
-				float _strength = lsd.sateliteDish.strength;
-				_strength += lsd.signalStrengthOffset;
+				float _strength = lsd.signalStrengthOffset + lsd.sateliteDish.valueX;
+				_strength = Mathf.Clamp ( _strength, 0f, 1f );
 				_strength *= graphStrength;
-				float _speed = 1 + lsd.sateliteDish.speed;
-				_speed += lsd.signalSpeedOffset;
-				_speed *= graphSpeed;
+				float _speed = lsd.signalSpeedOffset + lsd.sateliteDish.valueY;
+				_speed = Mathf.Clamp ( _speed, 0f, 1f );
+				int _frequency = Mathf.RoundToInt ( _speed * ( float ) graphFrequency );
+				_frequency = Mathf.Max ( 10, _frequency );
+				if ( _wave.positionCount != _frequency ) {
+					_wave.positionCount = _frequency;
+				}
 
-				float t = Time.time * _speed;
-				Vector3[] _points = new Vector3[ pseudoGraphFrequency ];
-				for ( int a=0; a<pseudoGraphFrequency; ++a ) {
+				float _width = _dist / ( float ) _frequency;
+
+				float t = Time.time * 2f;
+				Vector3[] _points = new Vector3[ _frequency + 1 ];
+				for ( int a=0; a<_frequency + 1; ++a ) {
 					_points[a] = receiver.position;
 					_points[a].x -= a * _width;
 					_points[a].y += Mathf.Sin ( a + t ) * _strength;
@@ -183,14 +183,14 @@ namespace com.zhifez.seagj {
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
 				_linkedSatDishes[ _index ].signalStrengthOffset -= 0.1f;
-				if ( _linkedSatDishes[ _index ].signalStrengthOffset <= 0 ) {
-					_linkedSatDishes[ _index ].signalStrengthOffset = 0;
+				if ( _linkedSatDishes[ _index ].signalStrengthOffset <= -1f ) {
+					_linkedSatDishes[ _index ].signalStrengthOffset = -1f;
 				}
 			}
 			else {
 				_linkedSatDishes[ _index ].signalSpeedOffset -= 0.1f;
-				if ( _linkedSatDishes[ _index ].signalSpeedOffset <= 0 ) {
-					_linkedSatDishes[ _index ].signalSpeedOffset = 0;
+				if ( _linkedSatDishes[ _index ].signalSpeedOffset <= -1f ) {
+					_linkedSatDishes[ _index ].signalSpeedOffset = -1f;
 				}
 			}
 		}
