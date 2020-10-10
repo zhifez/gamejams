@@ -35,6 +35,26 @@ namespace com.zhifez.seagj {
 			get { return _linkedSatDishes; }
 		}
 
+		private ServiceStatus _currentServiceStatus;
+		private ServiceStatus currentServiceStatus {
+			get { return _currentServiceStatus; }
+			set {
+				if ( _currentServiceStatus != null ) {
+					if ( _currentServiceStatus.Equals ( value ) ) {
+						return;
+					}
+
+					GAME.RemoveServiceStatus ( _currentServiceStatus );
+				}
+
+				_currentServiceStatus = value;
+
+				if ( _currentServiceStatus != null ) {
+					GAME.AddServiceStatus ( _currentServiceStatus );
+				}
+			}
+		}
+
     //--------------------------------------------------
     // private
     //--------------------------------------------------
@@ -102,6 +122,7 @@ namespace com.zhifez.seagj {
 		private void RunWaves () {
 			float _dist = Vector3.Distance ( emitter.position, receiver.position );
 
+			List<SignalPattern> _signalPatterns = new List<SignalPattern> ();
 			foreach ( LinkedSatDish lsd in linkedSatDishes ) {
 				LineRenderer _wave = GetWave ( lsd.sateliteDish.name );
 				float _strength = lsd.signalStrengthOffset + lsd.sateliteDish.valueX;
@@ -115,6 +136,11 @@ namespace com.zhifez.seagj {
 					_wave.positionCount = _frequency;
 				}
 
+				_signalPatterns.Add ( new SignalPattern (
+					_strength,
+					_speed
+				) );
+
 				float _width = _dist / ( float ) _frequency;
 
 				float t = Time.time * 2f;
@@ -126,6 +152,10 @@ namespace com.zhifez.seagj {
 				}
 				_wave.SetPositions ( _points );
 			}
+
+			ServiceStatus _serviceStatus = DATA_PACKAGE.GetServiceStatus ( _signalPatterns.ToArray () );
+			_serviceStatus.tmMachineId = name;
+			currentServiceStatus = _serviceStatus;
 		}
 
     //--------------------------------------------------

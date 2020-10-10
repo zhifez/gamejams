@@ -23,6 +23,41 @@ namespace com.zhifez.seagj {
     }
   }
 
+  [ System.Serializable ]
+  public class SignalPattern {
+    public float strength;
+		public float speed;
+
+    public SignalPattern ( float strength, float speed ) {
+      this.strength = strength;
+      this.speed = speed;
+    }
+  }
+
+	[ System.Serializable ]
+	public class ServiceSignalPattern {
+		public DataPackage.Service service;
+    public SignalPattern[] signalPatterns;
+	}
+
+  [ System.Serializable ]
+  public class ServiceStatus {
+		public DataPackage.Service service;
+    public bool isStable;
+    public string tmMachineId;
+
+    public ServiceStatus ( DataPackage.Service service, bool isStable ) {
+      this.service = service;
+      this.isStable = isStable;
+    }
+
+    public bool Equals ( ServiceStatus compare ) {
+      return ( this.service == compare.service 
+        && this.isStable == compare.isStable
+        && this.tmMachineId.Equals ( compare.tmMachineId ) );
+    }
+  }
+
   public class DataPackageHandler : Base {
     public static DataPackageHandler instance;
 
@@ -31,6 +66,7 @@ namespace com.zhifez.seagj {
     public float minResolvePendingInterval = 1f;
     public float maxResolvePendingInterval = 2f;
     public float dataTransmitDuration = 2f;
+    public ServiceSignalPattern[] serviceSignalPatterns;
 
     private float timer;
     private float resolvePendingTimer = 0f;
@@ -71,6 +107,37 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public ServiceStatus GetServiceStatus ( SignalPattern[] _signalPatterns ) {
+      foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
+        List<SignalPattern> _tempSP = new List<SignalPattern> ();
+        _tempSP.AddRange ( _signalPatterns );
+        if ( ssp.signalPatterns.Length != _signalPatterns.Length ) {
+          continue;
+        }
+
+        for ( int a=0; a<ssp.signalPatterns.Length; ++a ) {
+          SignalPattern sp = ssp.signalPatterns[a];
+          
+          for ( int b=0; b<_tempSP.Count; ++b ) {
+            SignalPattern spCompare = _tempSP[b];
+            float _strengthDiff = Mathf.Abs ( sp.strength - spCompare.strength );
+            float _speedDiff = Mathf.Abs ( sp.speed - spCompare.speed );
+            if ( _strengthDiff + _speedDiff / 2f <= 0.15f ) { // stable enough
+              _tempSP.RemoveAt ( b );
+              break;
+            }
+          }
+        }
+
+        if ( _tempSP.Count <= 0 ) {
+          return new ServiceStatus ( ssp.service, true );
+        }
+        else if ( _tempSP.Count / ( ssp.signalPatterns.Length + 1 ) <= 0.3f ) {
+          return new ServiceStatus ( ssp.service, false );
+        }
+      }
+      return null;
+    }
 
     //--------------------------------------------------
     // protected
@@ -82,7 +149,7 @@ namespace com.zhifez.seagj {
       activeData = new List<DataPackage> ();
       transmittedData = new List<DataPackage> ();
 
-      // enabled = false;
+      enabled = false;
     }
 
     protected void OnEnable () {

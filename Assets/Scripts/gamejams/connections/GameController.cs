@@ -26,6 +26,7 @@ namespace com.zhifez.seagj {
 		private List<MachineLink> machineLinks;
 		private SateliteDish activeSatDish;
 		private TransmissionMachine activeTm;
+		private List<ServiceStatus> serviceStatuses;
 
 		//--------------------------------------------------
     // state machine
@@ -219,6 +220,33 @@ namespace com.zhifez.seagj {
 			CAMERA.SetLookAtTarget ( null );
 		}
 
+		public void AddServiceStatus ( ServiceStatus _status ) {
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( ss.service == _status.service
+					&& ss.tmMachineId.Equals ( _status.tmMachineId ) ) {
+					ss.isStable = _status.isStable;
+					UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
+					return;
+				}
+			}
+
+			serviceStatuses.Add ( _status );
+			UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
+		}
+
+		public void RemoveServiceStatus ( ServiceStatus _status ) {
+			for ( int a=0; a<serviceStatuses.Count; ++a ) {
+				ServiceStatus ss = serviceStatuses[a];
+				if ( ss.service == _status.service
+					&& ss.tmMachineId.Equals ( _status.tmMachineId ) ) {
+					serviceStatuses.RemoveAt ( a );
+					break;
+				}
+			}
+			
+			UI_MAIN_TRANSMISSION.UpdateServicesLabel ( serviceStatuses );
+		}
+
     //--------------------------------------------------
     // protected
     //--------------------------------------------------
@@ -240,10 +268,11 @@ namespace com.zhifez.seagj {
 				satKiosks[a].linkId = satDishes[a].name;
 			}
 
-			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
-
 			machineLinks = new List<MachineLink> ();
+			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
 			machineLinks.Add ( new MachineLink ( tmMachines[0], satDishes[0] ) );
+
+			serviceStatuses = new List<ServiceStatus> ();
     }
 
 		protected void Start () {

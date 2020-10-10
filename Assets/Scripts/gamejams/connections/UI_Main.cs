@@ -14,8 +14,9 @@ namespace com.zhifez.seagj {
 
     public enum Section {
       transmission,
-      guide,
+      machines,
       connections,
+      guide,
       about
     }
     private string[] sectionNames {
@@ -25,10 +26,6 @@ namespace com.zhifez.seagj {
     private Section currentSection {
       get { return _currentSection; }
       set {
-        if ( _currentSection == value ) {
-          return;
-        }
-        
         _currentSection = value;
 
         title.text = "";

@@ -30,92 +30,106 @@ namespace com.zhifez.seagj {
       transmittedDataLabel.text = "";
     }
 
-    public void UpdateServicesLabel ( List<DataPackage> dataPackages ) {
-      // servicesLabel.text = content;
+    public void UpdateServicesLabel ( List<ServiceStatus> serviceStatuses ) {
+      string _content = "";
+      int _count = 0;
+      foreach ( ServiceStatus ss in serviceStatuses ) {
+        if ( _count > 0 ) {
+          _content += "\n";
+        }
+        ++_count;
+        if ( ss.isStable ) {
+          _content += ss.service.ToString ();
+        }
+        else {
+          _content += "<color=#E83F6F>" + ss.service + " (unstable)</color>";
+        }
+      }
+      servicesLabel.text = _content;
     }
 
     public void UpdatePendingDataLabel ( List<DataPackage> dataPackages ) {
-      string _dataList = "";
+      string _content = "";
       int _count = 0;
       foreach ( DataPackage data in dataPackages ) {
         if ( _count > 0 ) {
-          _dataList += "\n";
+          _content += "\n";
         }
         ++_count;
-        _dataList += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
+        _content += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
         switch ( data.size ) {
         case 0:
-          _dataList += "100kb";
+          _content += "100kb";
           break;
 
         case 1:
-          _dataList += "500kb";
+          _content += "500kb";
           break;
 
         case 2:
-          _dataList += "1mb";
+          _content += "1mb";
           break;
         }
       }
       pendingDataTitle.text = "pending data (" + dataPackages.Count + ")";
-      pendingDataLabel.text = _dataList;
+      pendingDataLabel.text = _content;
     }
 
     public void UpdateActiveDataLabel ( List<DataPackage> dataPackages ) {
-      string _dataList = "";
+      string _content = "";
       int _count = 0;
       foreach ( DataPackage data in dataPackages ) {
         if ( _count > 0 ) {
-          _dataList += "\n";
+          _content += "\n";
         }
         ++_count;
-        _dataList += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
+        _content += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
         switch ( data.size ) {
         case 0:
-          _dataList += "100kb";
+          _content += "100kb";
           break;
 
         case 1:
-          _dataList += "500kb";
+          _content += "500kb";
           break;
 
         case 2:
-          _dataList += "1mb";
+          _content += "1mb";
           break;
         }
 
         float _perc = data.transmitTimer / ( data.size * DATA_PACKAGE.dataTransmitDuration );
-        _dataList += " (" + Mathf.RoundToInt ( _perc * 100f ) + "%)";
+        _content += " (" + Mathf.RoundToInt ( _perc * 100f ) + "%)";
       }
       activeDataTitle.text = "active data (" + dataPackages.Count + ")";
-      activeDataLabel.text = _dataList;
+      activeDataLabel.text = _content;
     }
 
     public void UpdateTransmittedDataLabel ( List<DataPackage> dataPackages ) {
-      string _dataList = "";
+      string _content = "";
       int _count = 0;
       foreach ( DataPackage data in dataPackages ) {
         if ( _count > 0 ) {
-          _dataList += "\n";
+          _content += "\n";
         }
         ++_count;
-        _dataList += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
+        _content += "<color=#CBEF43>[" + data.service + "]</color> " + data.type + ", size: ";
         switch ( data.size ) {
         case 0:
-          _dataList += "100kb";
+          _content += "100kb";
           break;
 
         case 1:
-          _dataList += "500kb";
+          _content += "500kb";
           break;
 
         case 2:
-          _dataList += "1mb";
+          _content += "1mb";
           break;
         }
       }
       transmittedDataTitle.text = "transmitted data (" + dataPackages.Count + ")";
-      transmittedDataLabel.text = _dataList;
+      transmittedDataLabel.text = _content;
     }
 
     //--------------------------------------------------
