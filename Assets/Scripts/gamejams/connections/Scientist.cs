@@ -4,7 +4,7 @@ using UnityEngine;
 using com.zhifez.gamejams;
 
 namespace com.zhifez.seagj {
-  public class Scientist : MonoBehaviour {
+  public class Scientist : Base {
     public static Scientist instance;
 
     private Player player;
@@ -17,10 +17,6 @@ namespace com.zhifez.seagj {
         _isProud = value;
         player.enabled = !_isProud;
       }
-    }
-
-    private GameController GAME {
-      get { return GameController.instance; }
     }
 
     //--------------------------------------------------
@@ -39,6 +35,15 @@ namespace com.zhifez.seagj {
 
       player = GetComponentInChildren<Player> ();
       animator = GetComponentInChildren<Animator> ();
+    }
+
+    protected void OnDisable () {
+      animator.SetInteger ( "anim", 0 );
+      player.enabled = false;
+    }
+
+    protected void OnEnable () {
+      player.enabled = true;
     }
 
     protected void Update () {

@@ -22,6 +22,7 @@ namespace com.zhifez.gamejams {
       }
     }
     private Transform overrideTarget;
+    private Transform lookAtTarget;
     private float maxHeight;
 
     //--------------------------------------------------
@@ -31,6 +32,10 @@ namespace com.zhifez.gamejams {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public void SetLookAtTarget ( Transform _target ) {
+      lookAtTarget = _target;
+    }
+
     public void SetOverrideTarget ( Transform _target ) {
       overrideTarget = _target;
     }
@@ -72,24 +77,37 @@ namespace com.zhifez.gamejams {
     }
 
     protected void LateUpdate () {
-      Vector3 _followPos = target.position;
-      _followPos.z -= distance;
-      _followPos.y += Mathf.Min ( height, maxHeight );
+      if ( lookAtTarget != null ) {
+        Vector3 _targetPos = lookAtTarget.position;
+        Vector3 _dir = Vector3.Normalize ( _targetPos - transform.position );
+        Quaternion _rot = Quaternion.LookRotation ( _dir );
+        transform.rotation = Quaternion.Slerp (
+          transform.rotation,
+          _rot,
+          Time.deltaTime * rotateSpeed
+        );
+        return;
+      }
+      else {
+        Vector3 _followPos = target.position;
+        _followPos.z -= distance;
+        _followPos.y += Mathf.Min ( height, maxHeight );
 
-      transform.position = Vector3.Slerp (
-        transform.position,
-        _followPos,
-        Time.deltaTime * speed
-      );
+        transform.position = Vector3.Slerp (
+          transform.position,
+          _followPos,
+          Time.deltaTime * speed
+        );
 
-      Vector3 _targetPos = target.position + targetOffset;
-      Vector3 _dir = Vector3.Normalize ( _targetPos - transform.position );
-      Quaternion _rot = Quaternion.LookRotation ( _dir );
-      transform.rotation = Quaternion.Slerp (
-        transform.rotation,
-        _rot,
-        Time.deltaTime * rotateSpeed
-      );
+        Vector3 _targetPos = target.position + targetOffset;
+        Vector3 _dir = Vector3.Normalize ( _targetPos - transform.position );
+        Quaternion _rot = Quaternion.LookRotation ( _dir );
+        transform.rotation = Quaternion.Slerp (
+          transform.rotation,
+          _rot,
+          Time.deltaTime * rotateSpeed
+        );
+      }
     }
   }
 }

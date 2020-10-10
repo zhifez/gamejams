@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.zhifez.seagj {
-  public class TransmissionMachine : MonoBehaviour {
+  public class TransmissionMachine : Base {
     public Transform emitter;
     public Transform receiver;
 		public Color[] graphColors;

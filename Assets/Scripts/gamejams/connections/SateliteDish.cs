@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.zhifez.seagj {
-  public class SateliteDish : MonoBehaviour {
+  public class SateliteDish : Base {
     public Transform baseTransform;
     public Transform bowlTransform;
 
@@ -63,11 +63,11 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     public void RotateDish ( float _value, string _direction = null ) {
       switch ( _direction ) {
-      case "horizontal":
+      case "Horizontal":
         currentState = State.move_hor;
         break;
 
-      case "vertical":
+      case "Vertical":
         currentState = State.move_ver;
         break;
 
@@ -83,6 +83,14 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     protected void Awake () {
       currentState = State.idle;
+    }
+
+    protected void OnDisable () {
+      baseTransform.gameObject.SetActive ( false );
+    }
+
+    protected void OnEnable () {
+      baseTransform.gameObject.SetActive ( true );
     }
 
     protected void Update () {

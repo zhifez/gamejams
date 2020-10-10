@@ -1,5 +1,5 @@
 Gameplay:
-[] Player have to control the facing direction of a satalite dish.
+[X] Player have to control the facing direction of a satalite dish.
   - Can link T-machine(s) to a dish
   - Can set offset to a T-machine (optional: with an "offset" component)
 [] The dish's direction will affects the wave pattern generated in the holographic display.
