@@ -52,6 +52,9 @@ namespace com.zhifez.seagj {
     }
 
     public bool Equals ( ServiceStatus compare ) {
+      if ( compare == null ) {
+        return false;
+      }
       return ( this.service == compare.service 
         && this.isStable == compare.isStable
         && this.tmMachineId.Equals ( compare.tmMachineId ) );
@@ -115,6 +118,7 @@ namespace com.zhifez.seagj {
           continue;
         }
 
+        float _stableDiff = 0.1f;
         for ( int a=0; a<ssp.signalPatterns.Length; ++a ) {
           SignalPattern sp = ssp.signalPatterns[a];
           
@@ -122,7 +126,8 @@ namespace com.zhifez.seagj {
             SignalPattern spCompare = _tempSP[b];
             float _strengthDiff = Mathf.Abs ( sp.strength - spCompare.strength );
             float _speedDiff = Mathf.Abs ( sp.speed - spCompare.speed );
-            if ( _strengthDiff + _speedDiff / 2f <= 0.15f ) { // stable enough
+            if ( _strengthDiff <=_stableDiff
+              && _speedDiff < _stableDiff ) { // stable enough
               _tempSP.RemoveAt ( b );
               break;
             }
@@ -132,7 +137,7 @@ namespace com.zhifez.seagj {
         if ( _tempSP.Count <= 0 ) {
           return new ServiceStatus ( ssp.service, true );
         }
-        else if ( _tempSP.Count / ( ssp.signalPatterns.Length + 1 ) <= 0.3f ) {
+        else if ( ( float ) _tempSP.Count / ( float ) ssp.signalPatterns.Length <= 0.4f ) {
           return new ServiceStatus ( ssp.service, false );
         }
       }

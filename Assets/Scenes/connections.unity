@@ -2982,6 +2982,12 @@ MonoBehaviour:
     signalPatterns:
     - strength: 0.5
       speed: 0.65
+  - service: 1
+    signalPatterns:
+    - strength: 0.5
+      speed: 0.65
+    - strength: 0
+      speed: 0
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}

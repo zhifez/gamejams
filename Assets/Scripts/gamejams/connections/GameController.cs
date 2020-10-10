@@ -23,7 +23,6 @@ namespace com.zhifez.seagj {
 		public SateliteDish[] satDishes;
 		public Kiosk[] satKiosks;
 
-		private List<MachineLink> machineLinks;
 		private SateliteDish activeSatDish;
 		private TransmissionMachine activeTm;
 		private List<ServiceStatus> serviceStatuses;
@@ -268,9 +267,9 @@ namespace com.zhifez.seagj {
 				satKiosks[a].linkId = satDishes[a].name;
 			}
 
-			machineLinks = new List<MachineLink> ();
 			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
-			machineLinks.Add ( new MachineLink ( tmMachines[0], satDishes[0] ) );
+			// tmMachines[0].LinkSateliteDish ( satDishes[1], 0f, 0f );
+			// tmMachines[1].LinkSateliteDish ( satDishes[0], 0f, 0f );
 
 			serviceStatuses = new List<ServiceStatus> ();
     }

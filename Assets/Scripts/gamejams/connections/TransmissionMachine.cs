@@ -44,7 +44,9 @@ namespace com.zhifez.seagj {
 						return;
 					}
 
-					GAME.RemoveServiceStatus ( _currentServiceStatus );
+					if ( value == null ) {
+						GAME.RemoveServiceStatus ( _currentServiceStatus );
+					}
 				}
 
 				_currentServiceStatus = value;
@@ -154,7 +156,9 @@ namespace com.zhifez.seagj {
 			}
 
 			ServiceStatus _serviceStatus = DATA_PACKAGE.GetServiceStatus ( _signalPatterns.ToArray () );
-			_serviceStatus.tmMachineId = name;
+			if ( _serviceStatus != null ) {
+				_serviceStatus.tmMachineId = name;
+			}
 			currentServiceStatus = _serviceStatus;
 		}
 
