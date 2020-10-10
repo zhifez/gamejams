@@ -5,6 +5,8 @@ using com.zhifez.gamejams;
 
 namespace com.zhifez.seagj {
   public class Scientist : MonoBehaviour {
+    public static Scientist instance;
+
     private Player player;
     private Animator animator;
 
@@ -15,6 +17,10 @@ namespace com.zhifez.seagj {
         _isProud = value;
         player.enabled = !_isProud;
       }
+    }
+
+    private GameController GAME {
+      get { return GameController.instance; }
     }
 
     //--------------------------------------------------
@@ -29,6 +35,8 @@ namespace com.zhifez.seagj {
     // protected
     //--------------------------------------------------
     protected void Awake () {
+      instance = this;
+
       player = GetComponentInChildren<Player> ();
       animator = GetComponentInChildren<Animator> ();
     }

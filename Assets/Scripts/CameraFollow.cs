@@ -4,13 +4,24 @@ using UnityEngine;
 
 namespace com.zhifez.gamejams {
   public class CameraFollow : MonoBehaviour {
+    public static CameraFollow instance;
+
     public Vector3 targetOffset = Vector3.zero;
     public float distance = 10f;
     public float height = 10f;
     public float speed = 10f;
     public float rotateSpeed = 50f;
 
-    private Transform target;
+    private Transform _target;
+    private Transform target {
+      get { 
+        if ( overrideTarget != null ) {
+          return overrideTarget;
+        }
+        return _target; 
+      }
+    }
+    private Transform overrideTarget;
     private float maxHeight;
 
     //--------------------------------------------------
@@ -20,12 +31,17 @@ namespace com.zhifez.gamejams {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public void SetOverrideTarget ( Transform _target ) {
+      overrideTarget = _target;
+    }
 
     //--------------------------------------------------
     // protected
     //--------------------------------------------------
     protected void Awake () {
-      target = GameObject.FindGameObjectWithTag ( "Player" ).transform;
+      instance = this;
+
+      _target = GameObject.FindGameObjectWithTag ( "Player" ).transform;
     }
 
     protected void Update () {
