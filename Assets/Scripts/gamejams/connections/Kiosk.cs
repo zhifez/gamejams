@@ -81,6 +81,10 @@ namespace com.zhifez.seagj {
           if ( Input.GetKeyDown ( KeyCode.Z )
             || Input.GetKeyDown ( KeyCode.J ) ) {
             switch ( linkType ) {
+            case LinkType.main:
+              GAME.ManageOverall ();
+              break;
+
             case LinkType.satelite:
               GAME.ManageSatelite ( linkId );
               break;

@@ -33,6 +33,7 @@ namespace com.zhifez.seagj {
 		public enum State {
 			start,
 			idle,
+			manage_overall,
 			manage_satelite,
 			manage_tm
 		}
@@ -60,6 +61,22 @@ namespace com.zhifez.seagj {
 			}
 		}
 
+		private void State_manage_overall () {
+			if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
+				StopManageOverall ();
+				return;
+			}
+
+			if ( Input.GetKeyDown ( KeyCode.A ) 
+				|| Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
+				UI_MAIN.GoToPrevSection ();
+			}
+			if ( Input.GetKeyDown ( KeyCode.D ) 
+				|| Input.GetKeyDown ( KeyCode.RightArrow ) ) {
+				UI_MAIN.GoToNextSection ();
+			}
+		}
+
 		private void State_manage_satelite () {
 			if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
 				StopManageSatelite ();
@@ -80,7 +97,7 @@ namespace com.zhifez.seagj {
 				activeSatDish.RotateDish ( 0 );
 			}
 
-			UI_SateliteKiosk.instance.UpdateValues (
+			UI_SAT.UpdateValues (
 				activeSatDish.valueX,
 				activeSatDish.valueY
 			);
@@ -109,11 +126,15 @@ namespace com.zhifez.seagj {
 				activeTm.IncrementSignalOffset ();
 			}
 
-			UI_TmKiosk.instance.UpdateValues ( activeTm );
+			UI_TM.UpdateValues ( activeTm );
 		}
 
 		private void RunState () {
 			switch ( currentState ) {
+			case State.manage_overall:
+				State_manage_overall ();
+				break;
+
 			case State.manage_satelite:
 				State_manage_satelite ();
 				break;
@@ -135,6 +156,20 @@ namespace com.zhifez.seagj {
 			get { return currentState == State.idle; }
 		}
 
+		public void ManageOverall () {
+			currentState = State.manage_overall;
+			UI_MAIN.enabled = true;
+			SCIENTIST.enabled = false;
+			CAMERA.SetLookAtTarget ( transform );
+		}
+
+		private void StopManageOverall () {
+			currentState = State.idle;
+			UI_MAIN.enabled = false;
+			SCIENTIST.enabled = true;
+			CAMERA.SetLookAtTarget ( null );
+		}
+
 		public void ManageSatelite ( string sateliteId ) {
 			currentState = State.manage_satelite;
 			SCIENTIST.enabled = false;
@@ -146,7 +181,7 @@ namespace com.zhifez.seagj {
 				}
 			}
 			
-			UI_SAT_DISH.Setup ( activeSatDish );
+			UI_SAT.Setup ( activeSatDish );
 			CAMERA.SetLookAtTarget ( 
 				activeSatDish.transform,
 				playerStartPos
@@ -155,7 +190,7 @@ namespace com.zhifez.seagj {
 
 		private void StopManageSatelite () {
 			currentState = State.idle;
-			UI_SAT_DISH.enabled = false;
+			UI_SAT.enabled = false;
 			SCIENTIST.enabled = true;
 			activeSatDish = null;
 			CAMERA.SetLookAtTarget ( null );

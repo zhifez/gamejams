@@ -9,6 +9,10 @@ namespace com.zhifez.seagj {
 			get { return GameController.instance; }
 		}
 
+		protected DataPackageHandler DATA_PACKAGE {
+			get { return DataPackageHandler.instance; }
+		}
+
 		protected CameraFollow CAMERA {
 			get { return CameraFollow.instance; }
 		}
@@ -17,7 +21,15 @@ namespace com.zhifez.seagj {
 			get { return Scientist.instance; }
 		}
 		
-		protected UI_SateliteKiosk UI_SAT_DISH {
+		protected UI_Main UI_MAIN {
+			get { return UI_Main.instance; }
+		}
+
+		protected UI_Main_Transmission UI_MAIN_TRANSMISSION {
+			get { return UI_Main_Transmission.instance; }
+		}
+
+		protected UI_SateliteKiosk UI_SAT {
 			get { return UI_SateliteKiosk.instance; }
 		}
 

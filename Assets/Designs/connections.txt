@@ -1,6 +1,6 @@
 Gameplay:
 [X] Player have to control the facing direction of a satalite dish.
-[] Can link T-machine(s) to a dish
+[X] Can link T-machine(s) to a dish
   - Dish's facing direction (hor and ver) will affect the linked T-machine
   - Can set offset to a T-machine (optional: with an "offset" component)
 [] Data packages will coming in every day, and varies in size.
