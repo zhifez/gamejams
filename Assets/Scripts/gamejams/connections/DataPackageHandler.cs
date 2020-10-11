@@ -37,6 +37,9 @@ namespace com.zhifez.seagj {
 	[ System.Serializable ]
 	public class ServiceSignalPattern {
 		public DataPackage.Service service;
+    public int price;
+    public int dailyRates;
+    public int commission;
     public SignalPattern[] signalPatterns;
 	}
 
@@ -61,6 +64,19 @@ namespace com.zhifez.seagj {
     }
   }
 
+  [ System.Serializable ]
+  public class Result {
+    public string result0;
+    public string result1;
+    public int totalEarnings;
+  }
+
+  [ System.Serializable ]
+  public class PriceAndRates {
+    public int price;
+    public int dailyRates;
+  }
+
   public class DataPackageHandler : Base {
     public static DataPackageHandler instance;
 
@@ -70,12 +86,15 @@ namespace com.zhifez.seagj {
     public float maxResolvePendingInterval = 2f;
     public float dataTransmitDuration = 2f;
     public ServiceSignalPattern[] serviceSignalPatterns;
+    public PriceAndRates tMachineRates;
+    public PriceAndRates satDishRates;
 
     private float timer;
     private float resolvePendingTimer = 0f;
     private List<DataPackage> pendingData;
     private List<DataPackage> activeData;
     private List<DataPackage> transmittedData;
+    private List<DataPackage.Service> enabledServices;
 
     //--------------------------------------------------
     // private
@@ -151,6 +170,86 @@ namespace com.zhifez.seagj {
         }
       }
       return null;
+    }
+
+    public Result GetFinalResult () {
+      Result _result = new Result ();
+      _result.result0 = "<size=25><b>total data transmitted:</b> " + transmittedData.Count + "</size>";
+      
+      int[] _dataCount = new int[ serviceSignalPatterns.Length ];
+      int[] _commissions = new int[ serviceSignalPatterns.Length ];
+      _result.totalEarnings = 0;
+      for ( int a=0; a<serviceSignalPatterns.Length; ++a ) {
+        ServiceSignalPattern ssp = serviceSignalPatterns[a];
+        foreach ( DataPackage data in transmittedData ) {
+          if ( data.service == ssp.service ) {
+            ++_dataCount[a];
+          }
+        }
+        if ( _dataCount[a] > 0 ) {
+          _result.result0 += "\n    " + ssp.service + ": " + _dataCount[a];
+        }
+        _commissions[a] = _dataCount[a] * ssp.commission;
+        _result.totalEarnings += _commissions[a];
+      }
+
+      _result.result0 += "\n\n<size=25><b>total commissions:</b> $" + _result.totalEarnings + "</size>";
+
+      for ( int a=0; a<serviceSignalPatterns.Length; ++a ) {
+        if ( _commissions[a] > 0 ) {
+          _result.result0 += "\n    " + serviceSignalPatterns[a].service + ": $" + _commissions[a];
+        }
+      }
+      
+      int _totalBills = 0;
+      _totalBills -= GAME.enabledTmMachineCount * tMachineRates.dailyRates;
+      _totalBills -= GAME.enabledSatDishCount * satDishRates.dailyRates;
+      string _billsResult = "\n     electric_bills: $" + _totalBills;
+      if ( enabledServices != null ) {
+        foreach ( DataPackage.Service es in enabledServices ) {
+          foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
+            if ( ssp.service == es ) {
+              _totalBills -= ssp.dailyRates;
+              _billsResult += "\n    licensing_" + ssp.service + ": $-" + ssp.dailyRates;
+              break;
+            }
+          }
+        }
+      }
+
+      _result.result0 += "\n\n<size=25><b>total bills:</b> $" + _totalBills + "</size>";
+      _result.result0 += _billsResult;
+
+      _result.totalEarnings += _totalBills;
+      _result.result0 += "\n\n<size=25><b>total earnings:</b> $" + _result.totalEarnings + "</size>";
+
+      _result.result1 = "<size=25><b>current funds:</b> $" + PLAYER_STATS.funds + "</size>";
+      _result.result1 += "\n    + earnings: $" + _result.totalEarnings;
+
+      PLAYER_STATS.funds += _result.totalEarnings;
+      _result.result1 += "\n\n<size=25><b>total funds:</b> $" + ( PLAYER_STATS.funds ) + "</size>";
+      return _result;
+    }
+
+    public bool ServiceIsEnabled ( DataPackage.Service _service ) {
+      return ( enabledServices != null
+        && enabledServices.Contains ( _service ) );
+    }
+
+    public void EnableService ( DataPackage.Service _service ) {
+      if ( enabledServices == null ) {
+        enabledServices = new List<DataPackage.Service> ();
+      }
+
+      if ( !enabledServices.Contains ( _service ) ) {
+        enabledServices.Add ( _service );
+      }
+    }
+
+    public void DisableService ( DataPackage.Service _service ) {
+      if ( enabledServices != null ) {
+        enabledServices.Remove ( _service );
+      }
     }
 
     //--------------------------------------------------

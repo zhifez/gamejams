@@ -929,7 +929,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &209824974
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3807,15 +3807,45 @@ MonoBehaviour:
   dataTransmitDuration: 4
   serviceSignalPatterns:
   - service: 0
+    price: 0
+    dailyRates: 0
+    commission: 5
     signalPatterns:
     - strength: 0.5
       speed: 0.65
   - service: 1
+    price: 500
+    dailyRates: 150
+    commission: 10
     signalPatterns:
     - strength: 0.5
       speed: 0.65
     - strength: 0
       speed: 0
+  - service: 2
+    price: 1000
+    dailyRates: 250
+    commission: 25
+    signalPatterns:
+    - strength: 0.5
+      speed: 0.65
+    - strength: 0
+      speed: 0
+  - service: 3
+    price: 1500
+    dailyRates: 350
+    commission: 50
+    signalPatterns:
+    - strength: 0.5
+      speed: 0.65
+    - strength: 0
+      speed: 0
+  tMachineRates:
+    price: 400
+    dailyRates: 100
+  satDishRates:
+    price: 600
+    dailyRates: 200
 --- !u!114 &1333166202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3830,7 +3860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingFund: 1000
   secondsPerHour: 1
-  workHour: 8
+  workHour: 1
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}
@@ -6473,7 +6503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2086806652
 RectTransform:
   m_ObjectHideFlags: 0

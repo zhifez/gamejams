@@ -24,9 +24,33 @@ namespace com.zhifez.seagj {
 		public SateliteDish[] satDishes;
 		public Kiosk[] satKiosks;
 
+		private TransmissionMachine activeTmMachine;
 		private SateliteDish activeSatDish;
-		private TransmissionMachine activeTm;
 		public List<ServiceStatus> serviceStatuses;
+		private int _enabledTmMachineCount = 0;
+		public int enabledTmMachineCount {
+			get { return _enabledTmMachineCount; }
+			set {
+				_enabledTmMachineCount = value;
+
+				for ( int a=0; a<tmMachines.Length; ++a ) {
+					tmMachines[a].gameObject.SetActive ( a < _enabledTmMachineCount );
+					tmKiosks[a].gameObject.SetActive ( a < _enabledTmMachineCount );
+				}
+			}
+		}
+		private int _enabledSatDishCount;
+		public int enabledSatDishCount {
+			get { return _enabledSatDishCount; }
+			set {
+				_enabledSatDishCount = value;
+
+				for ( int a=0; a<satDishes.Length; ++a ) {
+					satDishes[a].enabled = ( a < _enabledSatDishCount );
+					satKiosks[a].gameObject.SetActive ( a < _enabledSatDishCount );
+				}
+			}
+		}
 
 		//--------------------------------------------------
     // state machine
@@ -71,7 +95,8 @@ namespace com.zhifez.seagj {
 				case State.manage_overall:
 				case State.manage_satelite:
 				case State.manage_tm:
-					UI_GAME.SetLabelsAlpha ( 0.3f );
+				case State.results:
+					UI_GAME.SetLabelsAlpha ( 0.2f );
 					break;
 				}
 			}
@@ -126,22 +151,22 @@ namespace com.zhifez.seagj {
 
 			if ( Input.GetKeyDown ( KeyCode.W ) 
 				|| Input.GetKeyDown ( KeyCode.UpArrow ) ) {
-				activeTm.SelectPrevLinkedSatDish ();
+				activeTmMachine.SelectPrevLinkedSatDish ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.S ) 
 				|| Input.GetKeyDown ( KeyCode.DownArrow ) ) {
-				activeTm.SelectNextLinkedSatDish ();
+				activeTmMachine.SelectNextLinkedSatDish ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.A ) 
 				|| Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
-				activeTm.DecrementSignalOffset ();
+				activeTmMachine.DecrementSignalOffset ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.D ) 
 				|| Input.GetKeyDown ( KeyCode.RightArrow ) ) {
-				activeTm.IncrementSignalOffset ();
+				activeTmMachine.IncrementSignalOffset ();
 			}
 
-			UI_TM.UpdateValues ( activeTm );
+			UI_TM.UpdateValues ( activeTmMachine );
 		}
 
 		private void RunState () {
@@ -217,20 +242,20 @@ namespace com.zhifez.seagj {
 
 			foreach ( TransmissionMachine tm in tmMachines ) {
 				if ( tm.name.Equals ( tmId ) ) {
-					activeTm = tm;
+					activeTmMachine = tm;
 					break;
 				}
 			}
 
-			UI_TM.Setup ( activeTm );
-			CAMERA.SetLookAtTarget ( activeTm.transform );
+			UI_TM.Setup ( activeTmMachine );
+			CAMERA.SetLookAtTarget ( activeTmMachine.transform );
 		}
 
 		private void StopManageTM () {
 			currentState = State.idle;
 			UI_TM.enabled = false;
 			SCIENTIST.enabled = true;
-			activeTm = null;
+			activeTmMachine = null;
 			CAMERA.SetLookAtTarget ( null );
 		}
 
@@ -297,23 +322,16 @@ namespace com.zhifez.seagj {
 
 		protected void Start () {
 			for ( int a=0; a<tmMachines.Length; ++a ) {
-				if ( a > 0 ) {
-					tmMachines[a].gameObject.SetActive ( false );
-					tmKiosks[a].gameObject.SetActive ( false );
-				}
 				tmKiosks[a].linkId = tmMachines[a].name;
 			}
+			enabledTmMachineCount = 1;
+
 			for ( int a=0; a<satDishes.Length; ++a ) {
-				if ( a > 0 ) {
-					satDishes[a].enabled = false;
-					satKiosks[a].gameObject.SetActive ( false );
-				}
 				satKiosks[a].linkId = satDishes[a].name;
 			}
+			enabledSatDishCount = 1;
 
 			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
-			// tmMachines[0].LinkSateliteDish ( satDishes[1], 0f, 0f );
-			// tmMachines[1].LinkSateliteDish ( satDishes[0], 0f, 0f );
 
 			serviceStatuses = new List<ServiceStatus> ();
 			

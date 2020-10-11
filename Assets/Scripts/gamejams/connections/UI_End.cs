@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 namespace com.zhifez.seagj {
@@ -42,25 +43,32 @@ namespace com.zhifez.seagj {
 
         switch ( _currentState ) {
         case State.results:
-          title.text = "Results";
-          instructionsLabel.text = "Press SPACE to continue";
+          Setup_results ();
           break;
 
         case State.purchases:
-          title.text = "Purchases";
+          title.text = "purchases";
           instructionsLabel.text = "Press W/S or Arrow Up/Down keys to choose an item";
           instructionsLabel.text += "\nPress A/D or Arrow Left/Right keys to change quantity of selected item";
           instructionsLabel.text += "\nPress SPACE to purchase and continue";
           break;
 
         case State.game_over:
-          title.text = "Game Over";
+          title.text = "game over";
           instructionsLabel.text = "Press R key to restart game";
           instructionsLabel.text += "\nPress SPACE to continue";
           break;
         }
-
       }
+    }
+
+    private void Setup_results () {
+      title.text = "results";
+      instructionsLabel.text = "Press SPACE to continue";
+      
+      Result _result = DATA_PACKAGE.GetFinalResult ();
+      resultsLabels[0].text = _result.result0;
+      resultsLabels[1].text = _result.result1;
     }
 
     private void State_results () {
@@ -71,20 +79,23 @@ namespace com.zhifez.seagj {
 
     private void State_purchases () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        // if enough fund, continue game,
-        GAME.StartGame ();
-        // else, game over
-        // currentState = State.game_over;
+        if ( PLAYER_STATS.funds > 0 ) {
+          GAME.StartGame ();
+        }
+        else {
+          currentState = State.game_over;
+        }
       }
     }
 
     private void State_game_over () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        // Go to main menu
+        SceneManager.LoadScene ( "menu" );
       }
 
       if ( Input.GetKeyDown ( KeyCode.R ) ) {
-        // Restart game
+        Scene _scene = SceneManager.GetActiveScene (); 
+        SceneManager.LoadScene ( _scene.name );
       }
     }
 
