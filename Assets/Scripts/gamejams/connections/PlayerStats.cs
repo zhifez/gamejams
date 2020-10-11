@@ -66,6 +66,7 @@ namespace com.zhifez.seagj {
       if ( dayTimerIsStarted ) {
         dayTimer -= Time.deltaTime;
         if ( dayTimer <= 0 ) {
+          GAME.EndGame ();
           dayTimerIsStarted = false;
         }
       }

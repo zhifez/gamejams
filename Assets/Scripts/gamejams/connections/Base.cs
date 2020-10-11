@@ -33,6 +33,10 @@ namespace com.zhifez.seagj {
 			get { return UI_Main.instance; }
 		}
 
+		protected UI_End UI_END {
+			get { return UI_End.instance; }
+		}
+
 		protected UI_Main_Transmission UI_MAIN_TRANSMISSION {
 			get { return UI_Main_Transmission.instance; }
 		}

@@ -18,6 +18,7 @@ namespace com.zhifez.seagj {
 		public static GameController instance;
 
 		public Transform playerStartPos;
+		public Transform endLookPos;
 		public TransmissionMachine[] tmMachines;
 		public Kiosk[] tmKiosks;
 		public SateliteDish[] satDishes;
@@ -36,7 +37,8 @@ namespace com.zhifez.seagj {
 			idle,
 			manage_overall,
 			manage_satelite,
-			manage_tm
+			manage_tm,
+			results
 		}
 		private State _currentState = State.idle;
 		public State currentState {
@@ -51,16 +53,19 @@ namespace com.zhifez.seagj {
 				// next state
 				switch ( _currentState ) {
 				case State.start:
+					SCIENTIST.enabled = true;
 					SCIENTIST.transform.position = playerStartPos.position;
 					SCIENTIST.transform.rotation = playerStartPos.rotation;
-					currentState = State.idle;
+					CAMERA.SetLookAtTarget ( null );
 					DATA_PACKAGE.enabled = true;
 					PLAYER_STATS.BeginTimer ();
 					UI_GAME.SetLabelsAlpha ( 1.0f );
+					currentState = State.idle;
 					break;
 
 				case State.idle:
 					UI_GAME.SetLabelsAlpha ( 1.0f );
+					UI_END.enabled = false;
 					break;
 
 				case State.manage_overall:
@@ -269,6 +274,18 @@ namespace com.zhifez.seagj {
 				}
 			}
 			return _multiplier;
+		}
+
+		public void StartGame () {
+			currentState = State.start;
+		}
+
+		public void EndGame () {
+			currentState = State.results;
+			SCIENTIST.enabled = false;
+			UI_MAIN.enabled = false;
+			UI_END.enabled = true;
+			CAMERA.SetLookAtTarget ( endLookPos );
 		}
 
     //--------------------------------------------------
