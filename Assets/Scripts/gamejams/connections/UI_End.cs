@@ -256,7 +256,7 @@ namespace com.zhifez.seagj {
       }
 
       if ( Input.GetKeyDown ( KeyCode.R ) ) {
-        // GAME.RestartGame ();
+        GAME.RestartGame ();
       }
     }
 

@@ -26,6 +26,11 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public void Respawn ( Transform _point ) {
+			transform.position = _point.position;
+			transform.rotation = _point.rotation;
+      animator.SetInteger ( "anim", 0 );
+    }
 
     //--------------------------------------------------
     // protected

@@ -1,28 +1,28 @@
 Gameplay:
 [X] Player have to control the facing direction of a satalite dish.
-[X] Can link T-machine(s) to a dish
-  - Dish's facing direction (hor and ver) will affect the linked T-machine
-  - Can set offset to a T-machine (optional: with an "offset" component)
+[X] Can link TmMachine(s) to a dish
+  - Dish's facing direction (hor and ver) will affect the linked TmMachine
+  - Can set offset to a TmMachine (optional: with an "offset" component)
 [X] Data packages will coming in every day, and varies in size
 [X] Go to a kiosk to see current progress
 [X] Different signal will requires different wave(s) pattern
 [X] Data will check whether a signal is stable
 [X] Data in trasmission will stop when signal is interrupted
 [X] Machine can draw multiple lines when connected to different sat_dish
-[X] Can link/unlink tmachine to sat_dish through UI
+[X] Can link/unlink TmMachine to sat_dish through UI
 [X] When day is over, player's earnings are calculated based on the types (telecom) and sizes of packages.
 [X] Check whether there's service before checking if service is available
 [X] Can purchase more satelite dish
 [X] Can purchase more tmMachine
 [X] Can purchase service licenses
-[] Display enabled service guide in services section (main UI)
+[X] Display enabled services in services section (main UI)
 [X] Game ends when funding hits below negative
+[] Game restart function
+[] Main menu
+[] Display total signal strength/speed in TmMachine's kiosk
+[] Trasmission machine may gets overheated and requires money to repair if not turned off in time
 Phase 2
-- Change signal strength/speed change to W/S for selection and A/D
 - Negotiate with telecom company to license their signal service
 - Signal may changes after a while and player will have to reconfigure it
-- Player has a handbook which describes the type of wave pattern by code name.
-- The day's weather may affect direction of satalite's dish.
-- Some weather may damage satalite dish, and player will have to spend money to repair it.
-- Player may purchase new trasmission machine.
-- Trasmission machine may gets overheated and requires money to repair if not turned off in time.
+- The day's weather may affect direction of satalite's dish
+- Some weather may damage satalite dish, and player will have to spend money to repair it

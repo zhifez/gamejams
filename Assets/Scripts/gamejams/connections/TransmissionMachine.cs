@@ -164,6 +164,17 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+		public void Reboot () {
+			_linkedSatDishes.Clear ();
+			_linkedSatDishIndex = 0;
+			if ( lineRenderers != null ) {
+				foreach ( LineRenderer lr in lineRenderers ) {
+					lr.gameObject.SetActive ( false );
+				}
+			}
+			_currentServiceStatus = null;
+		}
+
 		public bool SateliteDishIsLinked ( SateliteDish _satDish ) {
 			foreach ( LinkedSatDish lsd in _linkedSatDishes ) {
 				if ( lsd.sateliteDish == _satDish ) {

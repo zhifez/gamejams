@@ -78,8 +78,7 @@ namespace com.zhifez.seagj {
 				switch ( _currentState ) {
 				case State.start:
 					SCIENTIST.enabled = true;
-					SCIENTIST.transform.position = playerStartPos.position;
-					SCIENTIST.transform.rotation = playerStartPos.rotation;
+					SCIENTIST.Respawn ( playerStartPos );
 					CAMERA.SetLookAtTarget ( null );
 					DATA_PACKAGE.enabled = true;
 					PLAYER_STATS.BeginTimer ();
@@ -307,6 +306,7 @@ namespace com.zhifez.seagj {
 
 		public void EndGame () {
 			currentState = State.results;
+			SCIENTIST.Respawn ( playerStartPos );
 			SCIENTIST.enabled = false;
 			DATA_PACKAGE.enabled = false;
 			UI_MAIN.enabled = false;
@@ -314,6 +314,23 @@ namespace com.zhifez.seagj {
 			UI_SAT.enabled = false;
 			UI_END.enabled = true;
 			CAMERA.SetLookAtTarget ( endLookPos );
+		}
+
+		public void RestartGame () {
+			UI_END.enabled = false;
+			enabledTmMachineCount = 1;
+			enabledSatDishCount = 1;
+			foreach ( TransmissionMachine tm in tmMachines ) {
+				tm.Reboot ();
+			}
+			foreach ( SateliteDish sd in satDishes ) {
+				sd.Reboot ();
+			}
+			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
+			serviceStatuses.Clear ();
+			PLAYER_STATS.Init ();
+
+			currentState = State.start;
 		}
 
     //--------------------------------------------------
@@ -334,12 +351,9 @@ namespace com.zhifez.seagj {
 			}
 			enabledSatDishCount = 1;
 
-			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
-
 			serviceStatuses = new List<ServiceStatus> ();
-			
-			PLAYER_STATS.InitFund ();
-			currentState = State.start;
+
+			RestartGame ();
 		}
 
     protected void Update () {

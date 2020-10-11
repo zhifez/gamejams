@@ -50,8 +50,11 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
-    public void InitFund () {
+    public void Init () {
       funds = startingFund;
+      dayTimer = 0f;
+      dayTimerIsStarted = false;
+      _daysSurvived = 0;
     }
 
     public void BeginTimer () {

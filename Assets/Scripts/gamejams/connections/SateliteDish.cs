@@ -68,6 +68,13 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public void Reboot () {
+      currentState = State.idle;
+      rotateDirection = 0f;
+      baseTransform.rotation = Quaternion.identity;
+      bowlTransform.localEulerAngles = new Vector3 ( 50f, 0f, 0f );
+    }
+
     public void RotateDish ( float _value, string _direction = null ) {
       switch ( _direction ) {
       case "Horizontal":
