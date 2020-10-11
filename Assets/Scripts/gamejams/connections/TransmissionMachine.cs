@@ -44,9 +44,7 @@ namespace com.zhifez.seagj {
 						return;
 					}
 
-					if ( value == null ) {
-						GAME.RemoveServiceStatus ( _currentServiceStatus );
-					}
+					GAME.RemoveServiceStatus ( _currentServiceStatus );
 				}
 
 				_currentServiceStatus = value;

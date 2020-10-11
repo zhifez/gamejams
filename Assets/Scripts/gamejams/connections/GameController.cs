@@ -308,6 +308,7 @@ namespace com.zhifez.seagj {
 		public void EndGame () {
 			currentState = State.results;
 			SCIENTIST.enabled = false;
+			DATA_PACKAGE.enabled = false;
 			UI_MAIN.enabled = false;
 			UI_TM.enabled = false;
 			UI_SAT.enabled = false;

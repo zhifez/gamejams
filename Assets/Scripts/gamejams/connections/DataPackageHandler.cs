@@ -80,6 +80,8 @@ namespace com.zhifez.seagj {
   public class DataPackageHandler : Base {
     public static DataPackageHandler instance;
 
+    public float signalAccuracy = 0.05f;
+    public float minOverallSignalAccuracy = 0.4f;
     public float minGenerateDataInterval = 2f;
     public float maxGenerateDataInterval = 4f;
     public float minResolvePendingInterval = 1f;
@@ -147,7 +149,6 @@ namespace com.zhifez.seagj {
           continue;
         }
 
-        float _stableDiff = 0.1f;
         for ( int a=0; a<ssp.signalPatterns.Length; ++a ) {
           SignalPattern sp = ssp.signalPatterns[a];
           
@@ -155,8 +156,8 @@ namespace com.zhifez.seagj {
             SignalPattern spCompare = _tempSP[b];
             float _strengthDiff = Mathf.Abs ( sp.strength - spCompare.strength );
             float _speedDiff = Mathf.Abs ( sp.speed - spCompare.speed );
-            if ( _strengthDiff <=_stableDiff
-              && _speedDiff < _stableDiff ) { // stable enough
+            if ( _strengthDiff <= signalAccuracy
+              && _speedDiff < signalAccuracy ) { // stable enough
               _tempSP.RemoveAt ( b );
               break;
             }
@@ -166,7 +167,7 @@ namespace com.zhifez.seagj {
         if ( _tempSP.Count <= 0 ) {
           return new ServiceStatus ( ssp.service, true );
         }
-        else if ( ( float ) _tempSP.Count / ( float ) ssp.signalPatterns.Length <= 0.4f ) {
+        else if ( ( float ) _tempSP.Count / ( float ) ssp.signalPatterns.Length <= minOverallSignalAccuracy ) {
           return new ServiceStatus ( ssp.service, false );
         }
       }
@@ -190,7 +191,7 @@ namespace com.zhifez.seagj {
           }
         }
         if ( _dataCount[a] > 0 ) {
-          _result.result0 += "\n    " + ssp.service + ": " + _dataCount[a];
+          _result.result0 += "\n  " + ssp.service + ": " + _dataCount[a];
         }
         _commissions[a] = _dataCount[a] * ssp.commission * _totalDataSize;
         _result.totalEarnings += _commissions[a];
@@ -200,14 +201,14 @@ namespace com.zhifez.seagj {
 
       for ( int a=0; a<serviceSignalPatterns.Length; ++a ) {
         if ( _commissions[a] > 0 ) {
-          _result.result0 += "\n    " + serviceSignalPatterns[a].service + ": $" + _commissions[a];
+          _result.result0 += "\n  " + serviceSignalPatterns[a].service + ": $" + _commissions[a];
         }
       }
       
       int _totalBills = 0;
       _totalBills -= GAME.enabledTmMachineCount * tmMachineRates.dailyRates;
       _totalBills -= GAME.enabledSatDishCount * satDishRates.dailyRates;
-      string _billsResult = "\n    electric_bills: $" + _totalBills;
+      string _billsResult = "\n  electric_bills: $" + _totalBills;
       if ( enabledServices != null ) {
         foreach ( DataPackage.Service es in enabledServices ) {
           if ( es == DataPackage.Service.unaffiliated ) {
@@ -217,7 +218,7 @@ namespace com.zhifez.seagj {
           foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
             if ( ssp.service == es ) {
               _totalBills -= ssp.dailyRates;
-              _billsResult += "\n    licensing_" + ssp.service + ": $-" + ssp.dailyRates;
+              _billsResult += "\n  licensing_" + ssp.service + ": $-" + ssp.dailyRates;
               break;
             }
           }
@@ -231,7 +232,7 @@ namespace com.zhifez.seagj {
       _result.result0 += "\n\n<size=25><b>total earnings:</b> $" + _result.totalEarnings + "</size>";
 
       _result.result1 = "<size=25><b>current funds:</b> $" + PLAYER_STATS.funds + "</size>";
-      _result.result1 += "\n    + earnings: $" + _result.totalEarnings;
+      _result.result1 += "\n  + earnings: $" + _result.totalEarnings;
 
       PLAYER_STATS.funds += _result.totalEarnings;
       _result.result1 += "\n\n<size=25><b>total funds:</b> $" + ( PLAYER_STATS.funds ) + "</size>";

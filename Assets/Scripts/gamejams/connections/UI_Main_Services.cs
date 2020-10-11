@@ -29,12 +29,12 @@ namespace com.zhifez.seagj {
 					continue;
 				}
 
-				labels[a].text = "<size=25><b>" + ssp.service + " (" + ssp.signalPatterns.Length + ")</b></size>";
+				labels[a].text = "<size=25>" + ssp.service + " (" + ssp.signalPatterns.Length + ")</size>";
 				for ( int b=0; b<ssp.signalPatterns.Length; ++b ) {
 					SignalPattern sp = ssp.signalPatterns[b];
-					labels[a].text += "\n    Frequency " + b + ":";
-					labels[a].text += "\n        target signal strength: " + sp.strength;
-					labels[a].text += "\n        target signal speed: " + sp.speed;
+					labels[a].text += "\n  Frequency " + b + ":";
+					labels[a].text += "\n    signal strength: " + sp.strength;
+					labels[a].text += "\n    signal speed: " + sp.speed;
 				}
 			}
     }

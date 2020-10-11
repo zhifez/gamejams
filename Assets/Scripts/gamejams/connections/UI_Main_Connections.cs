@@ -134,7 +134,7 @@ namespace com.zhifez.seagj {
         if ( activeTm == tm ) {
           labels[a].text = "<b>" + tm.name + "</b>";
         }
-        else if ( selectionIndex == a ) {
+        else if ( activeTm == null && selectionIndex == a ) {
           labels[a].text = "> " + tm.name;
         }
         else {
@@ -147,7 +147,7 @@ namespace com.zhifez.seagj {
             continue;
           }
 
-          labels[a].text += "\n    ";
+          labels[a].text += "\n  ";
           if ( activeTm == tm 
             && selectionIndex == b ) {
             labels[a].text += "> ";
