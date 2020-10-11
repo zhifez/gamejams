@@ -2942,7 +2942,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 300, y: 200}
@@ -3859,8 +3859,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingFund: 1000
-  secondsPerHour: 1
-  workHour: 1
+  secondsPerHour: 30
+  workHour: 2
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}

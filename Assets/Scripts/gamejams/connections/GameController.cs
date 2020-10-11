@@ -309,6 +309,8 @@ namespace com.zhifez.seagj {
 			currentState = State.results;
 			SCIENTIST.enabled = false;
 			UI_MAIN.enabled = false;
+			UI_TM.enabled = false;
+			UI_SAT.enabled = false;
 			UI_END.enabled = true;
 			CAMERA.SetLookAtTarget ( endLookPos );
 		}

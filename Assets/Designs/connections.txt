@@ -11,10 +11,11 @@ Gameplay:
 [X] Machine can draw multiple lines when connected to different sat_dish
 [X] Can link/unlink tmachine to sat_dish through UI
 [X] When day is over, player's earnings are calculated based on the types (telecom) and sizes of packages.
-[] Check whether there's service before checking if service is available
+[X] Check whether there's service before checking if service is available
 [] Can purchase more satelite dish
 [] Can purchase more tmMachine
 [] Can purchase service licenses
+[] Display service guide in services section (main UI)
 [X] Game ends when funding hits below negative
 Phase 2
 - Change signal strength/speed change to W/S for selection and A/D

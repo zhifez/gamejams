@@ -207,9 +207,13 @@ namespace com.zhifez.seagj {
       int _totalBills = 0;
       _totalBills -= GAME.enabledTmMachineCount * tMachineRates.dailyRates;
       _totalBills -= GAME.enabledSatDishCount * satDishRates.dailyRates;
-      string _billsResult = "\n     electric_bills: $" + _totalBills;
+      string _billsResult = "\n    electric_bills: $" + _totalBills;
       if ( enabledServices != null ) {
         foreach ( DataPackage.Service es in enabledServices ) {
+          if ( es == DataPackage.Service.unaffiliated ) {
+            continue;
+          }
+
           foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
             if ( ssp.service == es ) {
               _totalBills -= ssp.dailyRates;
@@ -285,8 +289,12 @@ namespace com.zhifez.seagj {
 
         string[] _serviceNames = System.Enum.GetNames ( typeof ( DataPackage.Service ) );
         string[] _typeNames = System.Enum.GetNames ( typeof ( DataPackage.Type ) );
+        int _maxServiceTypes = _serviceNames.Length;
+        if ( enabledServices.Count + 1 < _serviceNames.Length ) {
+          _maxServiceTypes -= enabledServices.Count + 1;
+        }
         pendingData.Add ( new DataPackage (
-          ( DataPackage.Service ) Random.Range ( 0, _serviceNames.Length ),
+          ( DataPackage.Service ) Random.Range ( 0, _maxServiceTypes ),
           ( DataPackage.Type ) Random.Range ( 0, _typeNames.Length ),
           Random.Range ( 0, 3 )
         ) );
