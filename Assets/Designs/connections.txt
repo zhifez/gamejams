@@ -15,6 +15,7 @@ Gameplay:
 [] Can purcahse more tmachine
 [] Game ends when funding hits below negative
 Phase 2
+- Change signal strength/speed change to W/S for selection and A/D
 - Negotiate with telecom company to license their signal service
 - Signal may changes after a while and player will have to reconfigure it
 - Player has a handbook which describes the type of wave pattern by code name.

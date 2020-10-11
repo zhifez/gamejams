@@ -191,9 +191,11 @@ namespace com.zhifez.seagj {
       RunPendingData ();
       RunActiveData ();
 
-      UI_MAIN_TRANSMISSION.UpdatePendingDataLabel ( pendingData );
-      UI_MAIN_TRANSMISSION.UpdateActiveDataLabel ( activeData );
-      UI_MAIN_TRANSMISSION.UpdateTransmittedDataLabel ( transmittedData );
+      if ( UI_MAIN_TRANSMISSION != null ) {
+        UI_MAIN_TRANSMISSION.UpdatePendingDataLabel ( pendingData );
+        UI_MAIN_TRANSMISSION.UpdateActiveDataLabel ( activeData );
+        UI_MAIN_TRANSMISSION.UpdateTransmittedDataLabel ( transmittedData );
+      }
     }
   }
 }

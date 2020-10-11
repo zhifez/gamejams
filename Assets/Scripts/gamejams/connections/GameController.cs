@@ -31,6 +31,7 @@ namespace com.zhifez.seagj {
     // state machine
     //--------------------------------------------------
 		public enum State {
+			none,
 			start,
 			idle,
 			manage_overall,
@@ -68,12 +69,10 @@ namespace com.zhifez.seagj {
 				return;
 			}
 
-			if ( Input.GetKeyDown ( KeyCode.A ) 
-				|| Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
+			if ( Input.GetKeyDown ( KeyCode.Q ) ) {
 				UI_MAIN.GoToPrevSection ();
 			}
-			if ( Input.GetKeyDown ( KeyCode.D ) 
-				|| Input.GetKeyDown ( KeyCode.RightArrow ) ) {
+			if ( Input.GetKeyDown ( KeyCode.E ) ) {
 				UI_MAIN.GoToNextSection ();
 			}
 		}
@@ -268,7 +267,9 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     protected void Awake () {
 			instance = this;
+		}
 
+		protected void Start () {
 			for ( int a=0; a<tmMachines.Length; ++a ) {
 				if ( a > 0 ) {
 					tmMachines[a].gameObject.SetActive ( false );
@@ -289,9 +290,7 @@ namespace com.zhifez.seagj {
 			// tmMachines[1].LinkSateliteDish ( satDishes[0], 0f, 0f );
 
 			serviceStatuses = new List<ServiceStatus> ();
-    }
-
-		protected void Start () {
+			
 			currentState = State.start;
 		}
 

@@ -14,8 +14,8 @@ namespace com.zhifez.seagj {
 
     public enum Section {
       transmission,
-      machines,
       connections,
+      services,
       guide,
       about
     }

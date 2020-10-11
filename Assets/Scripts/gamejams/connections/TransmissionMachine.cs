@@ -165,6 +165,15 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+		public bool SateliteDishIsLinked ( SateliteDish _satDish ) {
+			foreach ( LinkedSatDish lsd in _linkedSatDishes ) {
+				if ( lsd.sateliteDish == _satDish ) {
+					return true;
+				}
+			}
+			return false;
+		}
+
 		public void LinkSateliteDish ( SateliteDish _satDish, float _strength, float _speed ) {
 			EnableWave ( _satDish.name );
 			LinkedSatDish _lsd = new LinkedSatDish ( _satDish );

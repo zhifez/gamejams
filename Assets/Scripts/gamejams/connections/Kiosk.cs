@@ -78,8 +78,8 @@ namespace com.zhifez.seagj {
         float _dist = Vector3.Distance ( _interactPoint, SCIENTIST.transform.position );
         showPointer = ( _dist < interactDistance );
         if ( showPointer ) {
-          if ( Input.GetKeyDown ( KeyCode.Z )
-            || Input.GetKeyDown ( KeyCode.J ) ) {
+          if ( Input.GetKeyDown ( KeyCode.J )
+            || Input.GetKeyDown ( KeyCode.K ) ) {
             switch ( linkType ) {
             case LinkType.main:
               GAME.ManageOverall ();
