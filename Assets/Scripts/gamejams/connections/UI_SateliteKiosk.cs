@@ -22,15 +22,15 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     public void Setup ( SateliteDish _satDish ) {
       title.text = _satDish.name;
-      instructions.text = "Press W/S or Arrow Up/Down keys to change " + _satDish.name + "'s facing direction vertically.";
-      instructions.text += "\nPress A/D or Arrow Left/Right keys to change " + _satDish.name + "'s facing direction horizontally.";
-      instructions.text += "\nPress Escape to close this window.";
+      instructions.text = "Press W/S or Arrow Up/Down keys to change " + _satDish.name + "'s facing direction vertically";
+      instructions.text += "\nPress A/D or Arrow Left/Right keys to change " + _satDish.name + "'s facing direction horizontally";
+      instructions.text += "\nPress Escape to close this window";
       enabled = true;
     }
 
     public void UpdateValues ( float _strength, float _speed ) {
-      values.text = "signal strength: " + _strength +
-        "\nsignal speed: " + _speed;
+      values.text = "signal strength: " + _strength.ToString ( "N2" ) +
+        "\nsignal speed: " + _speed.ToString ( "N2" );
     }
 
     //--------------------------------------------------

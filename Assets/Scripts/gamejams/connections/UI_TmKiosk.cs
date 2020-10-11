@@ -22,9 +22,9 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     public void Setup ( TransmissionMachine _tmMachine ) {
       title.text = _tmMachine.name;
-      instructions.text = "Press W/S or Arrow Up/Down keys to switch between an offset value to alter (arranged by linked satelite dishes).";
-      instructions.text += "\nPress A/D or Arrow Left/Right keys to change the offset value.";
-      instructions.text += "\nPress Escape to close this window.";
+      instructions.text = "Press W/S or Arrow Up/Down keys to switch between an offset value to alter (arranged by linked satelite dishes)";
+      instructions.text += "\nPress A/D or Arrow Left/Right keys to change the offset value";
+      instructions.text += "\nPress Escape to close this window";
       enabled = true;
     }
 
@@ -41,14 +41,14 @@ namespace com.zhifez.seagj {
 					_selected += "> ";
 				}
         float _valueDeci = tm.linkedSatDishes[a].signalStrengthOffset;
-        values.text += "\n  " + _selected + "signal strength offset: " + _valueDeci;
+        values.text += "\n  " + _selected + "signal strength offset: " + _valueDeci.ToString ( "N2" );
         
         _selected = "";
 				if ( _index == a && tm.linkedSatDishIndex % 2 == 1 ) {
 					_selected += "> ";
 				}
         _valueDeci = tm.linkedSatDishes[a].signalSpeedOffset;
-        values.text += "\n  " + _selected + "signal speed offset: " + _valueDeci;
+        values.text += "\n  " + _selected + "signal speed offset: " + _valueDeci.ToString ( "N2" );
       }
     }
 

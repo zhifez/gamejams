@@ -6,8 +6,8 @@ using UnityEngine.UI;
 namespace com.zhifez.seagj {
   public class UI_Main_Connections : Base {
     public Text[] labels;
-    public GameObject instructSelectTm;
-    public GameObject instructSelectLink;
+    public Text instructSelectTm;
+    public Text instructSelectLink;
 
     private int _selectionIndex = 0;
     private int selectionIndex {
@@ -43,6 +43,12 @@ namespace com.zhifez.seagj {
         else if ( _selectionIndex >= _maxLength ) {
           _selectionIndex = 0;
         }
+
+
+        if ( activeTm == null ) {
+          instructSelectTm.text = "Press A/D or Arrow Left/Right keys to choose a machine";
+          instructSelectTm.text += "\nPress S or Arrow Down key to select " + GAME.tmMachines[ _selectionIndex ].name;
+        }
       }
     }
 
@@ -52,8 +58,8 @@ namespace com.zhifez.seagj {
       set {
         _activeTm = value;
 
-        instructSelectTm.SetActive ( _activeTm == null );
-        instructSelectLink.SetActive ( _activeTm != null );
+        instructSelectTm.gameObject.SetActive ( _activeTm == null );
+        instructSelectLink.gameObject.SetActive ( _activeTm != null );
       }
     }
 

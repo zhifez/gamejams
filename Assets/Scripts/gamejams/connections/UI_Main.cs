@@ -10,6 +10,7 @@ namespace com.zhifez.seagj {
 
     public Transform container;
     public Text title;
+    public Text funds;
     public GameObject[] sectionGOs;
 
     public enum Section {
@@ -75,6 +76,10 @@ namespace com.zhifez.seagj {
         _section = sectionNames.Length - 1;
       }
       currentSection = ( Section ) _section;
+    }
+
+    public void UpdateFunds ( int amount ) {
+      funds.text = "funds: $" + amount;
     }
 
     //--------------------------------------------------
