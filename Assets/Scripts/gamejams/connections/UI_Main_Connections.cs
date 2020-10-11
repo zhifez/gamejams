@@ -148,7 +148,7 @@ namespace com.zhifez.seagj {
           }
 
           labels[a].text += "\n    ";
-          if ( activeTm != null 
+          if ( activeTm == tm 
             && selectionIndex == b ) {
             labels[a].text += "> ";
           }

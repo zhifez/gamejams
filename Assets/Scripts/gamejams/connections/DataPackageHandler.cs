@@ -86,7 +86,7 @@ namespace com.zhifez.seagj {
     public float maxResolvePendingInterval = 2f;
     public float dataTransmitDuration = 2f;
     public ServiceSignalPattern[] serviceSignalPatterns;
-    public PriceAndRates tMachineRates;
+    public PriceAndRates tmMachineRates;
     public PriceAndRates satDishRates;
 
     private float timer;
@@ -205,7 +205,7 @@ namespace com.zhifez.seagj {
       }
       
       int _totalBills = 0;
-      _totalBills -= GAME.enabledTmMachineCount * tMachineRates.dailyRates;
+      _totalBills -= GAME.enabledTmMachineCount * tmMachineRates.dailyRates;
       _totalBills -= GAME.enabledSatDishCount * satDishRates.dailyRates;
       string _billsResult = "\n    electric_bills: $" + _totalBills;
       if ( enabledServices != null ) {

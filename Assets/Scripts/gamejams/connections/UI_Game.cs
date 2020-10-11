@@ -18,17 +18,17 @@ namespace com.zhifez.seagj {
     // public
     //--------------------------------------------------
     public void UpdateFundsLabel ( int amount ) {
-      fundsLabel.text = "Funds\n$" + amount;
+      fundsLabel.text = "<size=20>Funds</size>\n$" + amount;
     }
 
     public void UpdateTimeLabel ( float amount ) {
       int _hours = Mathf.FloorToInt ( amount );
       int _minutes = Mathf.FloorToInt ( ( amount % 1.0f ) * 60 );
-      timeLabel.text = "Begin Work\n" + _hours + "h " + _minutes + "m";
+      timeLabel.text = "<size=20>Begin Work</size>\n" + _hours + "h " + _minutes + "m";
     }
 
     public void UpdateTimeLabel ( string label ) {
-      timeLabel.text = label;
+      timeLabel.text = "<size=20>" + label + "</size>";
     }
     
     public void SetLabelsAlpha ( float value = 1.0f ) {

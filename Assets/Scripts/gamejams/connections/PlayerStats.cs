@@ -38,6 +38,10 @@ namespace com.zhifez.seagj {
         UI_GAME.UpdateFundsLabel ( funds );
       }
     }
+    private int _daysSurvived;
+    public int daysSurvived {
+      get { return _daysSurvived; }
+    }
 
     //--------------------------------------------------
     // private
@@ -66,8 +70,9 @@ namespace com.zhifez.seagj {
       if ( dayTimerIsStarted ) {
         dayTimer -= Time.deltaTime;
         if ( dayTimer <= 0 ) {
-          GAME.EndGame ();
+          ++_daysSurvived;
           dayTimerIsStarted = false;
+          GAME.EndGame ();
         }
       }
     }
