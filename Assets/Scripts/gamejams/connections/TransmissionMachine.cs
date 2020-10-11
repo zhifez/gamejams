@@ -24,6 +24,9 @@ namespace com.zhifez.seagj {
 		private const int graphFrequency = 40;
 		private const float graphStrength = 1f;
 		private const float graphSpeed = 5f;
+		private const float offsetMin = -2f;
+		private const float offsetMax = 2f;
+		private const float offsetStep = 0.05f;
 
     private List<LineRenderer> lineRenderers;
 		private int _linkedSatDishIndex = 0;
@@ -122,15 +125,17 @@ namespace com.zhifez.seagj {
 		private void RunWaves () {
 			float _dist = Vector3.Distance ( emitter.position, receiver.position );
 
+			float _min = 0f;
+			float _max = 1.5f;
 			List<SignalPattern> _signalPatterns = new List<SignalPattern> ();
 			foreach ( LinkedSatDish lsd in linkedSatDishes ) {
 				LineRenderer _wave = GetWave ( lsd.sateliteDish.name );
 				_wave.gameObject.SetActive ( true );
 				float _strength = lsd.signalStrengthOffset + lsd.sateliteDish.valueX;
-				_strength = Mathf.Clamp ( _strength, 0f, 1f );
+				_strength = Mathf.Clamp ( _strength, _min, _max );
 				_strength *= graphStrength;
 				float _speed = lsd.signalSpeedOffset + lsd.sateliteDish.valueY;
-				_speed = Mathf.Clamp ( _speed, 0f, 1f );
+				_speed = Mathf.Clamp ( _speed, _min, _max );
 				int _frequency = Mathf.RoundToInt ( _speed * ( float ) graphFrequency );
 				_frequency = Mathf.Max ( 10, _frequency );
 				if ( _wave.positionCount != _frequency ) {
@@ -223,15 +228,15 @@ namespace com.zhifez.seagj {
 
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
-				_linkedSatDishes[ _index ].signalStrengthOffset += 0.05f;
-				if ( _linkedSatDishes[ _index ].signalStrengthOffset >= 1f ) {
-					_linkedSatDishes[ _index ].signalStrengthOffset = 1f;
+				_linkedSatDishes[ _index ].signalStrengthOffset += offsetStep;
+				if ( _linkedSatDishes[ _index ].signalStrengthOffset >= offsetMax ) {
+					_linkedSatDishes[ _index ].signalStrengthOffset = offsetMax;
 				}
 			}
 			else {
-				_linkedSatDishes[ _index ].signalSpeedOffset += 0.05f;
-				if ( _linkedSatDishes[ _index ].signalSpeedOffset >= 1f ) {
-					_linkedSatDishes[ _index ].signalSpeedOffset = 1f;
+				_linkedSatDishes[ _index ].signalSpeedOffset += offsetStep;
+				if ( _linkedSatDishes[ _index ].signalSpeedOffset >= offsetMax ) {
+					_linkedSatDishes[ _index ].signalSpeedOffset = offsetMax;
 				}
 			}
 		}
@@ -243,15 +248,15 @@ namespace com.zhifez.seagj {
 			
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
-				_linkedSatDishes[ _index ].signalStrengthOffset -= 0.05f;
-				if ( _linkedSatDishes[ _index ].signalStrengthOffset <= -1f ) {
-					_linkedSatDishes[ _index ].signalStrengthOffset = -1f;
+				_linkedSatDishes[ _index ].signalStrengthOffset -= offsetStep;
+				if ( _linkedSatDishes[ _index ].signalStrengthOffset <= offsetMin ) {
+					_linkedSatDishes[ _index ].signalStrengthOffset = offsetMin;
 				}
 			}
 			else {
-				_linkedSatDishes[ _index ].signalSpeedOffset -= 0.05f;
-				if ( _linkedSatDishes[ _index ].signalSpeedOffset <= -1f ) {
-					_linkedSatDishes[ _index ].signalSpeedOffset = -1f;
+				_linkedSatDishes[ _index ].signalSpeedOffset -= offsetStep;
+				if ( _linkedSatDishes[ _index ].signalSpeedOffset <= offsetMin ) {
+					_linkedSatDishes[ _index ].signalSpeedOffset = offsetMin;
 				}
 			}
 		}

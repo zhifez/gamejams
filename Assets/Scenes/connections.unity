@@ -3939,19 +3939,25 @@ MonoBehaviour:
     dailyRates: 250
     commission: 25
     signalPatterns:
-    - strength: 0.5
-      speed: 0.65
-    - strength: 0
+    - strength: 0.4
       speed: 0
+    - strength: 0.6
+      speed: 0.8
+    - strength: 1.2
+      speed: 0.3
   - service: 3
     price: 1500
     dailyRates: 350
     commission: 50
     signalPatterns:
-    - strength: 0.5
-      speed: 0.65
     - strength: 0
       speed: 0
+    - strength: 0.5
+      speed: 0.3
+    - strength: 1
+      speed: 0.3
+    - strength: 1.5
+      speed: 0.3
   tmMachineRates:
     price: 400
     dailyRates: 100
@@ -3971,8 +3977,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingFund: 1000
-  secondsPerHour: 10
-  workHour: 8
+  secondsPerHour: 60
+  workHour: 10
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}
