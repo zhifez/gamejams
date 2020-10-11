@@ -55,9 +55,18 @@ namespace com.zhifez.seagj {
 					SCIENTIST.transform.rotation = playerStartPos.rotation;
 					currentState = State.idle;
 					DATA_PACKAGE.enabled = true;
+					PLAYER_STATS.BeginTimer ();
+					UI_GAME.SetLabelsAlpha ( 1.0f );
 					break;
 
 				case State.idle:
+					UI_GAME.SetLabelsAlpha ( 1.0f );
+					break;
+
+				case State.manage_overall:
+				case State.manage_satelite:
+				case State.manage_tm:
+					UI_GAME.SetLabelsAlpha ( 0.3f );
 					break;
 				}
 			}
@@ -291,6 +300,7 @@ namespace com.zhifez.seagj {
 
 			serviceStatuses = new List<ServiceStatus> ();
 			
+			PLAYER_STATS.InitFund ();
 			currentState = State.start;
 		}
 

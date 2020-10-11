@@ -9,6 +9,10 @@ namespace com.zhifez.seagj {
 			get { return GameController.instance; }
 		}
 
+		protected PlayerStats PLAYER_STATS {
+			get { return PlayerStats.instance; }
+		}
+
 		protected DataPackageHandler DATA_PACKAGE {
 			get { return DataPackageHandler.instance; }
 		}
@@ -21,6 +25,10 @@ namespace com.zhifez.seagj {
 			get { return Scientist.instance; }
 		}
 		
+		protected UI_Game UI_GAME {
+			get { return UI_Game.instance; }
+		}
+
 		protected UI_Main UI_MAIN {
 			get { return UI_Main.instance; }
 		}
