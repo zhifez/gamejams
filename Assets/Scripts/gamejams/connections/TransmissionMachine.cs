@@ -127,6 +127,7 @@ namespace com.zhifez.seagj {
 			List<SignalPattern> _signalPatterns = new List<SignalPattern> ();
 			foreach ( LinkedSatDish lsd in linkedSatDishes ) {
 				LineRenderer _wave = GetWave ( lsd.sateliteDish.name );
+				_wave.gameObject.SetActive ( true );
 				float _strength = lsd.signalStrengthOffset + lsd.sateliteDish.valueX;
 				_strength = Mathf.Clamp ( _strength, 0f, 1f );
 				_strength *= graphStrength;

@@ -96,7 +96,7 @@ namespace com.zhifez.seagj {
       baseTransform.gameObject.SetActive ( false );
     }
 
-    protected void OnEnable () {Debug.Log ( "base_enabled: " + name );
+    protected void OnEnable () {
       baseTransform.gameObject.SetActive ( true );
     }
 
