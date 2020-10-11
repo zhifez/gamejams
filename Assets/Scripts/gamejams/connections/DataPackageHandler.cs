@@ -181,15 +181,17 @@ namespace com.zhifez.seagj {
       _result.totalEarnings = 0;
       for ( int a=0; a<serviceSignalPatterns.Length; ++a ) {
         ServiceSignalPattern ssp = serviceSignalPatterns[a];
+        int _totalDataSize = 0;
         foreach ( DataPackage data in transmittedData ) {
           if ( data.service == ssp.service ) {
             ++_dataCount[a];
+            _totalDataSize += data.size;
           }
         }
         if ( _dataCount[a] > 0 ) {
           _result.result0 += "\n    " + ssp.service + ": " + _dataCount[a];
         }
-        _commissions[a] = _dataCount[a] * ssp.commission;
+        _commissions[a] = _dataCount[a] * ssp.commission * _totalDataSize;
         _result.totalEarnings += _commissions[a];
       }
 

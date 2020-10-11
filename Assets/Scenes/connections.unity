@@ -3842,10 +3842,10 @@ MonoBehaviour:
       speed: 0
   tMachineRates:
     price: 400
-    dailyRates: 100
+    dailyRates: 50
   satDishRates:
     price: 600
-    dailyRates: 200
+    dailyRates: 100
 --- !u!114 &1333166202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3859,8 +3859,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingFund: 1000
-  secondsPerHour: 1
-  workHour: 1
+  secondsPerHour: 30
+  workHour: 2
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}
