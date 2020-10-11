@@ -142,7 +142,8 @@ namespace com.zhifez.seagj {
       foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
         List<SignalPattern> _tempSP = new List<SignalPattern> ();
         _tempSP.AddRange ( _signalPatterns );
-        if ( ssp.signalPatterns.Length != _signalPatterns.Length ) {
+        if ( ssp.signalPatterns.Length != _signalPatterns.Length
+          || !enabledServices.Contains ( ssp.service ) ) {
           continue;
         }
 
@@ -263,6 +264,8 @@ namespace com.zhifez.seagj {
       pendingData = new List<DataPackage> ();
       activeData = new List<DataPackage> ();
       transmittedData = new List<DataPackage> ();
+
+      EnableService ( DataPackage.Service.unaffiliated );
 
       enabled = false;
     }

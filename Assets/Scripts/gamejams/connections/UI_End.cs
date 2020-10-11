@@ -73,7 +73,12 @@ namespace com.zhifez.seagj {
 
     private void State_results () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        currentState = State.purchases;
+        if ( PLAYER_STATS.funds > 0 ) {
+          currentState = State.purchases;
+        }
+        else {
+          currentState = State.game_over;
+        }
       }
     }
 
