@@ -146,20 +146,26 @@ namespace com.zhifez.seagj {
         }
       }
 
+      int _maxTmMachinesCount = GAME.tmMachines.Length - GAME.enabledTmMachineCount;
+      int _maxSatDishCount = GAME.satDishes.Length - GAME.enabledSatDishCount;
       if ( Input.GetKeyDown ( KeyCode.A )
         || Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
         switch ( purchaseLog.selectionIndex ) {
         case 0:
-          --purchaseLog.tmMachineCount;
-          if ( purchaseLog.tmMachineCount <= 0 ) {
-            purchaseLog.tmMachineCount = 0;
+          if ( _maxTmMachinesCount > 0 ) {
+            --purchaseLog.tmMachineCount;
+            if ( purchaseLog.tmMachineCount <= 0 ) {
+              purchaseLog.tmMachineCount = 0;
+            }
           }
           break;
 
         case 1:
-          --purchaseLog.satDishCount;
-          if ( purchaseLog.satDishCount <= 0 ) {
-            purchaseLog.satDishCount = 0;
+          if ( _maxSatDishCount > 0 ) {
+            --purchaseLog.satDishCount;
+            if ( purchaseLog.satDishCount <= 0 ) {
+              purchaseLog.satDishCount = 0;
+            }
           }
           break;
 
@@ -170,22 +176,24 @@ namespace com.zhifez.seagj {
         }
       }
 
-      int _maxTmMachinesCount = GAME.tmMachines.Length - GAME.enabledTmMachineCount;
-      int _maxSatDishCount = GAME.satDishes.Length - GAME.enabledSatDishCount;
       if ( Input.GetKeyDown ( KeyCode.D )
         || Input.GetKeyDown ( KeyCode.RightArrow ) ) {
         switch ( purchaseLog.selectionIndex ) {
         case 0:
-          ++purchaseLog.tmMachineCount;
-          if ( purchaseLog.tmMachineCount >= _maxTmMachinesCount ) {
-            purchaseLog.tmMachineCount = _maxTmMachinesCount;
+          if ( _maxTmMachinesCount > 0 ) {
+            ++purchaseLog.tmMachineCount;
+            if ( purchaseLog.tmMachineCount >= _maxTmMachinesCount ) {
+              purchaseLog.tmMachineCount = _maxTmMachinesCount;
+            }
           }
           break;
 
         case 1:
-          ++purchaseLog.satDishCount;
-          if ( purchaseLog.satDishCount >= _maxSatDishCount ) {
-            purchaseLog.satDishCount = _maxSatDishCount;
+          if ( _maxSatDishCount > 0 ) {
+            ++purchaseLog.satDishCount;
+            if ( purchaseLog.satDishCount >= _maxSatDishCount ) {
+              purchaseLog.satDishCount = _maxSatDishCount;
+            }
           }
           break;
 
@@ -209,14 +217,30 @@ namespace com.zhifez.seagj {
 
         switch ( a ) {
         case 0:
-          purchasesLabels[0].text += _prefix + "transmission_machine - $" + DATA_PACKAGE.tmMachineRates.price;
-          purchasesLabels[1].text += "x " + purchaseLog.tmMachineCount;
+          purchasesLabels[0].text += _prefix + "transmission_machine - ";
+          if ( _maxTmMachinesCount <= 0 ) {
+            purchasesLabels[0].text += "[full]";
+            purchasesLabels[1].text += "-";
+          }
+          else {
+            purchasesLabels[0].text += "$" + DATA_PACKAGE.tmMachineRates.price;
+            purchasesLabels[1].text += "x " + purchaseLog.tmMachineCount;
+          }
           break;
 
         case 1:
-          purchasesLabels[0].text += _prefix + "satelite_dish - $" + DATA_PACKAGE.satDishRates.price;
+          // purchasesLabels[0].text += _prefix + "satelite_dish - $" + DATA_PACKAGE.satDishRates.price;
+          // purchasesLabels[1].text += "\nx " + purchaseLog.satDishCount;
+          purchasesLabels[0].text += _prefix + "satelite_dish - ";
+          if ( _maxSatDishCount <= 0 ) {
+            purchasesLabels[0].text += "[full]";
+            purchasesLabels[1].text += "\n-";
+          }
+          else {
+            purchasesLabels[0].text += "$" + DATA_PACKAGE.satDishRates.price;
+            purchasesLabels[1].text += "\nx " + purchaseLog.satDishCount;
+          }
           purchasesLabels[0].text += "\n\n";
-          purchasesLabels[1].text += "\nx " + purchaseLog.satDishCount;
           purchasesLabels[1].text += "\n\n";
           break;
 

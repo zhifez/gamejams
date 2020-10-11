@@ -217,6 +217,10 @@ namespace com.zhifez.seagj {
 		}
 
 		public void IncrementSignalOffset () {
+			if ( _linkedSatDishes.Count <= 0 ) {
+				return;
+			}
+
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
 				_linkedSatDishes[ _index ].signalStrengthOffset += 0.05f;
@@ -233,6 +237,10 @@ namespace com.zhifez.seagj {
 		}
 
 		public void DecrementSignalOffset () {
+			if ( _linkedSatDishes.Count <= 0 ) {
+				return;
+			}
+			
 			int _index = Mathf.FloorToInt ( ( float ) _linkedSatDishIndex / 2f );
 			if ( _linkedSatDishIndex % 2 == 0 ) {
 				_linkedSatDishes[ _index ].signalStrengthOffset -= 0.05f;
