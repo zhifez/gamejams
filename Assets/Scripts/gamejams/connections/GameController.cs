@@ -319,8 +319,8 @@ namespace com.zhifez.seagj {
 		public void RestartGame () {
 			UI_END.enabled = false;
 			enabledTmMachineCount = 1;
-			// enabledSatDishCount = 1;
-			enabledSatDishCount = 4;
+			enabledSatDishCount = 1;
+			// enabledSatDishCount = 4; // testing
 			foreach ( TransmissionMachine tm in tmMachines ) {
 				tm.Reboot ();
 			}

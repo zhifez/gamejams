@@ -6,13 +6,13 @@ namespace com.zhifez.gamejams {
   public class CameraFollow : MonoBehaviour {
     public static CameraFollow instance;
 
-    public Vector3 targetOffset = Vector3.zero;
     public float distance = 10f;
     public float height = 10f;
     public float speed = 10f;
     public float rotateSpeed = 50f;
 
-    private Transform _target;
+    public Transform _target;
+    public Vector3 targetOffset = Vector3.zero;
     private Transform target {
       get { 
         if ( overrideTarget != null ) {
@@ -48,7 +48,9 @@ namespace com.zhifez.gamejams {
     protected void Awake () {
       instance = this;
 
-      _target = GameObject.FindGameObjectWithTag ( "Player" ).transform;
+      if ( _target == null ) {
+        _target = GameObject.FindGameObjectWithTag ( "Player" ).transform;
+      }
     }
 
     protected void Update () {
@@ -106,7 +108,7 @@ namespace com.zhifez.gamejams {
       }
       else {
         Vector3 _followPos = target.position;
-        _followPos.z -= distance;
+        _followPos += target.forward * -distance;
         _followPos.y += Mathf.Min ( height, maxHeight );
 
         transform.position = Vector3.Slerp (
