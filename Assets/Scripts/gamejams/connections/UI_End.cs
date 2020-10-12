@@ -276,7 +276,7 @@ namespace com.zhifez.seagj {
 
     private void State_game_over () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        // SceneManager.LoadScene ( "menu" );
+        SceneManager.LoadScene ( "menu" );
       }
 
       if ( Input.GetKeyDown ( KeyCode.R ) ) {
