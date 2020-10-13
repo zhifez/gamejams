@@ -101,7 +101,7 @@ namespace com.zhifez.seagj {
         float _perc = data.transmitTimer / ( ( data.size + 1 ) * DATA_PACKAGE.dataTransmitDuration );
         _content += " (" + Mathf.RoundToInt ( _perc * 100f ) + "%)";
       }
-      activeDataTitle.text = "active data (" + dataPackages.Count + ")";
+      activeDataTitle.text = "active (" + dataPackages.Count + ")";
       activeDataLabel.text = _content;
     }
 
@@ -128,7 +128,7 @@ namespace com.zhifez.seagj {
           break;
         }
       }
-      transmittedDataTitle.text = "transmitted data (" + dataPackages.Count + ")";
+      transmittedDataTitle.text = "transmitted (" + dataPackages.Count + ")";
       transmittedDataLabel.text = _content;
     }
 
