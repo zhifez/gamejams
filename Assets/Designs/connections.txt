@@ -23,9 +23,10 @@ Gameplay:
 [X] Add win game state -- when player earned $X in funds
 [X] List down electrical consumption in end result
 [X] Welcome screen with instructions/guide (include in main UI too)
+[X] Add new 3D model for transmission machine
 [] Show service status and its stability) on top of transmission machine in 3d text form
-[] Add new 3D model for transmission machine
 [] Add sound effects
+[] Test play and win the game before releasing
 Phase 2
 - Trasmission machine may gets overheated and requires money to repair if not turned off in time
 - Buy new item (advertising) to increase chance of getting higher size package
