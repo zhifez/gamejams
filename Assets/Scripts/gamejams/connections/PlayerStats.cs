@@ -6,7 +6,8 @@ namespace com.zhifez.seagj {
   public class PlayerStats : Base {
     public static PlayerStats instance;
 
-    public int startingFund = 1000;
+    public int startingFunds = 1000;
+    public int targetFunds = 100000;
     public int secondsPerHour = 30;
     public int workHour = 8;
 
@@ -51,7 +52,7 @@ namespace com.zhifez.seagj {
     // public
     //--------------------------------------------------
     public void Init () {
-      funds = startingFund;
+      funds = startingFunds;
       dayTimer = 0f;
       dayTimerIsStarted = false;
       _daysSurvived = 0;

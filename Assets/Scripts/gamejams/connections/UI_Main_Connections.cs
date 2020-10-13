@@ -46,8 +46,8 @@ namespace com.zhifez.seagj {
 
 
         if ( activeTm == null ) {
-          instructSelectTm.text = "Press A/D or Arrow Left/Right keys to choose a machine";
-          instructSelectTm.text += "\nPress S or Arrow Down key to select " + GAME.tmMachines[ _selectionIndex ].name;
+          instructSelectTm.text = "press A/D or Arrow Left/Right keys to choose a machine";
+          instructSelectTm.text += "\npress S or Arrow Down key to select " + GAME.tmMachines[ _selectionIndex ].name;
         }
       }
     }

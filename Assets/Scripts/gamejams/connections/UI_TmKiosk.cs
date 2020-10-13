@@ -22,17 +22,17 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     public void Setup ( TransmissionMachine _tmMachine ) {
       title.text = _tmMachine.name;
-      instructions.text = "Press W/S or Arrow Up/Down keys to switch between an offset value to alter (arranged by linked satelite dishes)";
-      instructions.text += "\nPress A/D or Arrow Left/Right keys to change the offset value";
-      instructions.text += "\nPress Escape to close this window";
+      instructions.text = "press W/S or Arrow Up/Down keys to switch between an offset value to alter (arranged by linked satelite dishes)";
+      instructions.text += "\npress A/D or Arrow Left/Right keys to change the offset value";
+      instructions.text += "\npress ESCAPE to close this window";
       enabled = true;
     }
 
     public void UpdateValues ( TransmissionMachine tm ) {
       values.text = "";
       if ( tm.linkedSatDishes.Count <= 0 ) {
-        values.text = "This machine is not linked to any satelite dish.";
-        values.text += "\nGo to the central kiosk to link them up.";
+        values.text = "this machine is not linked to any satelite dish";
+        values.text += "\ngo to the central kiosk to link them up";
         return;
       }
 

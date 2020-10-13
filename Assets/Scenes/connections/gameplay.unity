@@ -2512,11 +2512,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233e2bb6f6be343018c40c074141972e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetOffset: {x: 0, y: 4, z: 0}
   distance: 10
   height: 15
   speed: 8
   rotateSpeed: 20
+  _target: {fileID: 0}
+  targetOffset: {x: 0, y: 4, z: 0}
+  useTargetTransformForward: 0
 --- !u!81 &777257441
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3310,10 +3312,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press Q/E keys to navigate between screens.
+  m_Text: 'press Q/E keys to navigate between screens
 
-    Press Escape to close
-    this window.'
+    press ESCAPE to close
+    this window'
 --- !u!222 &1072957308
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3976,8 +3978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb476e385298e4f3f9fee767db2061b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingFund: 1000
-  secondsPerHour: 60
+  startingFunds: 1000
+  targetFunds: 0
+  secondsPerHour: 1
   workHour: 10
 --- !u!4 &1341997520 stripped
 Transform:
@@ -4858,11 +4861,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press W/S to select an item for purchase
+  m_Text: 'press W/S to select an item for purchase
 
-    Press A/D to change quantity
+    press A/D to change quantity
 
-    Press
+    press
     ENTER to purchase and continue'
 --- !u!222 &1552311952
 CanvasRenderer:

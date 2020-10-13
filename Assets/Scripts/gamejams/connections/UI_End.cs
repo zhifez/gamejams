@@ -40,7 +40,8 @@ namespace com.zhifez.seagj {
       none,
       results,
       purchases,
-      game_over
+      game_over,
+      game_ends
     }
     private State _currentState = State.none;
     private State currentState {
@@ -56,7 +57,10 @@ namespace com.zhifez.seagj {
         resultsLabels[1].gameObject.SetActive ( _currentState == State.results );
         purchasesLabels[0].gameObject.SetActive ( _currentState == State.purchases );
         purchasesLabels[1].gameObject.SetActive ( _currentState == State.purchases );
-        gameOverLabel.gameObject.SetActive ( _currentState == State.game_over );
+        gameOverLabel.gameObject.SetActive ( 
+          _currentState == State.game_over 
+          || _currentState == State.game_ends 
+        );
 
         switch ( _currentState ) {
         case State.results:
@@ -65,16 +69,16 @@ namespace com.zhifez.seagj {
 
         case State.purchases:
           title.text = "purchases";
-          instructionsLabel.text = "Press W/S or Arrow Up/Down keys to choose an item";
-          instructionsLabel.text += "\nPress A/D or Arrow Left/Right keys to change quantity of selected item";
-          instructionsLabel.text += "\nPress SPACE to purchase and continue";
+          instructionsLabel.text = "press W/S or Arrow Up/Down keys to choose an item";
+          instructionsLabel.text += "\npress A/D or Arrow Left/Right keys to change quantity of selected item";
+          instructionsLabel.text += "\npress SPACE to purchase and continue";
           purchaseLog = new PurchaseLog ();
           break;
 
         case State.game_over:
           title.text = "game over";
-          instructionsLabel.text = "Press R key to restart game";
-          instructionsLabel.text += "\nPress SPACE to continue";
+          instructionsLabel.text = "press R key to restart game";
+          instructionsLabel.text += "\npress SPACE to continue";
 
           gameOverLabel.text = "Oops. You ran out of funds ($" + PLAYER_STATS.funds + ").";
           gameOverLabel.text += "\n\nYou survived " + PLAYER_STATS.daysSurvived;
@@ -84,9 +88,21 @@ namespace com.zhifez.seagj {
           else {
             gameOverLabel.text += " day.";
           }
-          gameOverLabel.text += "\n\nGood luck finding a new job.";
+          gameOverLabel.text += "\n\nBetter luck next time.";
           gameOverLabel.text += "\n\nThank you for playing!";
-          gameOverLabel.text += "\n\nThe end.";
+          gameOverLabel.text += "\n\nThe End";
+          break;
+
+        case State.game_ends:
+          title.text = "endgame";
+          instructionsLabel.text = "press R key to play again";
+          instructionsLabel.text += "\npress SPACE to continue";
+
+          gameOverLabel.text = "You raised $" + PLAYER_STATS.funds + " in funds.";
+          gameOverLabel.text += "\n\nThat's $" + ( PLAYER_STATS.funds - PLAYER_STATS.targetFunds ) + " more than the targeted value!";
+          gameOverLabel.text += "\n\nGood job, thank you for making this far.";
+          gameOverLabel.text += "\n\nSend an email to zhifez.studio@gmail.com if you feel like telling us about what you like/dislike about the game.";
+          gameOverLabel.text += "\n\nHave a nice day!";
           break;
         }
       }
@@ -94,7 +110,7 @@ namespace com.zhifez.seagj {
 
     private void Setup_results () {
       title.text = "results";
-      instructionsLabel.text = "Press SPACE to continue";
+      instructionsLabel.text = "press SPACE to continue";
       
       Result _result = DATA_PACKAGE.GetFinalResult ();
       resultsLabels[0].text = _result.result0;
@@ -103,7 +119,10 @@ namespace com.zhifez.seagj {
 
     private void State_results () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        if ( PLAYER_STATS.funds > 0 ) {
+        if ( PLAYER_STATS.funds >= PLAYER_STATS.targetFunds ) {
+          currentState = State.game_ends;
+        }
+        else if ( PLAYER_STATS.funds > 0 ) {
           currentState = State.purchases;
         }
         else {
@@ -267,6 +286,7 @@ namespace com.zhifez.seagj {
       purchasesLabels[0].text += "\n\n-------------------------\n";
       purchasesLabels[0].text += "\nTotal Price";
       purchasesLabels[0].text += "\nFunds Left After Purchase";
+      purchasesLabels[0].text = purchasesLabels[0].text.ToLower ();
 
       int _totalPrice = GetTotalPurchase ();
       purchasesLabels[1].text += "\n\n-------------------------\n";
@@ -295,6 +315,7 @@ namespace com.zhifez.seagj {
         break;
 
       case State.game_over:
+      case State.game_ends:
         State_game_over ();
         break;
       }

@@ -21,6 +21,8 @@ namespace com.zhifez.gamejams {
         return _target; 
       }
     }
+    public bool useTargetTransformForward = false;
+
     private Transform overrideTarget;
     private Transform lookAtTarget;
     private Transform lookAtMoveToTarget;
@@ -108,7 +110,12 @@ namespace com.zhifez.gamejams {
       }
       else {
         Vector3 _followPos = target.position;
-        _followPos += target.forward * -distance;
+        if ( useTargetTransformForward ) {
+          _followPos += target.forward * -distance;
+        }
+        else {
+          _followPos += Vector3.forward * -distance;
+        }
         _followPos.y += Mathf.Min ( height, maxHeight );
 
         transform.position = Vector3.Slerp (

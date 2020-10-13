@@ -22,9 +22,9 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     public void Setup ( SateliteDish _satDish ) {
       title.text = _satDish.name;
-      instructions.text = "Press W/S or Arrow Up/Down keys to change " + _satDish.name + "'s facing direction vertically";
-      instructions.text += "\nPress A/D or Arrow Left/Right keys to change " + _satDish.name + "'s facing direction horizontally";
-      instructions.text += "\nPress Escape to close this window";
+      instructions.text = "press W/S or Arrow Up/Down keys to change " + _satDish.name + "'s facing direction vertically";
+      instructions.text += "\npress A/D or Arrow Left/Right keys to change " + _satDish.name + "'s facing direction horizontally";
+      instructions.text += "\npress ESCAPE to close this window";
       enabled = true;
     }
 
