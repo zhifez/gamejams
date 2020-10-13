@@ -128,11 +128,11 @@ namespace com.zhifez.seagj {
           break;
         }
 
-        float _serviceMultiplier = GAME.GetServiceMultipler ( activeData[a].service );
+        float _serviceMultiplier = GAME.GetServiceMultiplier ( activeData[a].service );
         activeData[a].transmitTimer += Time.deltaTime * _serviceMultiplier;
         float _duration = ( activeData[a].size + 1 ) * dataTransmitDuration;
-        if( activeData[a].transmitTimer > _duration ) {
-          activeData[a].multiplier = Mathf.Max ( 1f, _serviceMultipler * commissionMultiplier );
+        if ( activeData[a].transmitTimer > _duration ) {
+          activeData[a].multiplier = Mathf.Max ( 1f, _serviceMultiplier * commissionMultiplier );
           transmittedData.Insert ( 0, activeData[a] );
           activeData.RemoveAt ( a );
           break;
@@ -209,9 +209,13 @@ namespace com.zhifez.seagj {
       }
       
       int _totalBills = 0;
-      _totalBills -= GAME.enabledTmMachineCount * tmMachineRates.dailyRates;
-      _totalBills -= GAME.enabledSatDishCount * satDishRates.dailyRates;
-      string _billsResult = "\n  electric_bills: $" + _totalBills;
+      int _tmBills = GAME.enabledTmMachineCount * tmMachineRates.dailyRates;
+      int _satDishBills = GAME.enabledSatDishCount * satDishRates.dailyRates;
+      string _billsResult = "\n  tmMachine_electric_bills: $" + _tmBills;
+      _billsResult += "\n  satDish_electric_bills: $" + _satDishBills;
+
+      _totalBills -= _tmBills;
+      _totalBills -= _satDishBills;
       if ( enabledServices != null ) {
         foreach ( DataPackage.Service es in enabledServices ) {
           if ( es == DataPackage.Service.unaffiliated ) {

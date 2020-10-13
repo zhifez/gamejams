@@ -300,7 +300,7 @@ namespace com.zhifez.seagj {
 			return false;
 		}
 
-		public float GetServiceMultipler ( DataPackage.Service _service ) {
+		public float GetServiceMultiplier ( DataPackage.Service _service ) {
 			float _multiplier = 0f;
 			foreach ( ServiceStatus ss in serviceStatuses ) {
 				if ( ss.service == _service ) {
