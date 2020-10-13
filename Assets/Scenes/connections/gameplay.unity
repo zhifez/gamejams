@@ -700,7 +700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalRotation.x
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23921569, g: 0.3529412, b: 0.42352942, a: 0.3137255}
+  m_Color: {r: 0.23921569, g: 0.3529412, b: 0.42352942, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1699,7 +1699,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3217,7 +3217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3493,7 +3493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -4806,7 +4806,7 @@ MonoBehaviour:
   - service: 1
     price: 500
     dailyRates: 100
-    commission: 10
+    commission: 15
     signalPatterns:
     - strength: 0.7
       speed: 0.4
@@ -4815,7 +4815,7 @@ MonoBehaviour:
   - service: 2
     price: 1000
     dailyRates: 200
-    commission: 25
+    commission: 35
     signalPatterns:
     - strength: 0.4
       speed: 0
@@ -6467,7 +6467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6947,7 +6947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -7188,7 +7188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23921569, g: 0.3529412, b: 0.42352942, a: 0.3137255}
+  m_Color: {r: 0.23921569, g: 0.3529412, b: 0.42352942, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8591,7 +8591,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 2319798896850890872, guid: c37dbc45672f34347b08b4b929872e95, type: 3}
       propertyPath: m_LocalRotation.x
@@ -8648,7 +8648,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4446566498828982409, guid: 5f2900ed7425d4445a1e0d28f8249c9c, type: 3}
       propertyPath: m_LocalRotation.x
