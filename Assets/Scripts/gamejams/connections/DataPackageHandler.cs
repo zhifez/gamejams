@@ -15,6 +15,7 @@ namespace com.zhifez.seagj {
     public Type type;
     public int size;
     public float transmitTimer;
+    public float multiplier;
 
     public DataPackage ( Service service, Type type, int size ) {
       this.service = service;
@@ -87,6 +88,7 @@ namespace com.zhifez.seagj {
     public float minResolvePendingInterval = 1f;
     public float maxResolvePendingInterval = 2f;
     public float dataTransmitDuration = 2f;
+    public float commissionMultiplier = 0.75f;
     public ServiceSignalPattern[] serviceSignalPatterns;
     public PriceAndRates tmMachineRates;
     public PriceAndRates satDishRates;
@@ -130,7 +132,8 @@ namespace com.zhifez.seagj {
         activeData[a].transmitTimer += Time.deltaTime * _serviceMultiplier;
         float _duration = ( activeData[a].size + 1 ) * dataTransmitDuration;
         if( activeData[a].transmitTimer > _duration ) {
-          transmittedData.Add ( activeData[a] );
+          activeData[a].multiplier = Mathf.Max ( 1f, _serviceMultipler * commissionMultiplier );
+          transmittedData.Insert ( 0, activeData[a] );
           activeData.RemoveAt ( a );
           break;
         }
@@ -187,7 +190,7 @@ namespace com.zhifez.seagj {
         foreach ( DataPackage data in transmittedData ) {
           if ( data.service == ssp.service ) {
             ++_dataCount[a];
-            _totalDataSize += data.size;
+            _totalDataSize += Mathf.RoundToInt ( data.size * data.multiplier );
           }
         }
         if ( _dataCount[a] > 0 ) {
