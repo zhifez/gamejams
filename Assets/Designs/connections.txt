@@ -21,12 +21,13 @@ Gameplay:
 [X] Display total signal strength/speed in TmMachine's kiosk
 [X] Main menu - Go to Gameplay
 [X] Add win game state -- when player earned $X in funds
-[] List down electrical consumption in end result
-[] Welcome screen with instructions/guide (include in main UI too)
+[X] List down electrical consumption in end result
+[X] Welcome screen with instructions/guide (include in main UI too)
+[] Show service status and its stability) on top of transmission machine in 3d text form
 [] Add new 3D model for transmission machine
 [] Add sound effects
-[] Trasmission machine may gets overheated and requires money to repair if not turned off in time
 Phase 2
+- Trasmission machine may gets overheated and requires money to repair if not turned off in time
 - Buy new item (advertising) to increase chance of getting higher size package
 - Negotiate with telecom company to license their signal service
 - Signal may changes after a while and player will have to reconfigure it

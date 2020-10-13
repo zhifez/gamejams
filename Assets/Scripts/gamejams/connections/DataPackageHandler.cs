@@ -211,8 +211,8 @@ namespace com.zhifez.seagj {
       int _totalBills = 0;
       int _tmBills = GAME.enabledTmMachineCount * tmMachineRates.dailyRates;
       int _satDishBills = GAME.enabledSatDishCount * satDishRates.dailyRates;
-      string _billsResult = "\n  tmMachine_electric_bills: $" + _tmBills;
-      _billsResult += "\n  satDish_electric_bills: $" + _satDishBills;
+      string _billsResult = "\n  tmMachine_electric_bills: $-" + _tmBills;
+      _billsResult += "\n  satDish_electric_bills: $-" + _satDishBills;
 
       _totalBills -= _tmBills;
       _totalBills -= _satDishBills;

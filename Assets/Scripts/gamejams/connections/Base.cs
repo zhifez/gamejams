@@ -25,6 +25,10 @@ namespace com.zhifez.seagj {
 			get { return Scientist.instance; }
 		}
 		
+		protected UI_Start UI_START {
+			get { return UI_Start.instance; }
+		}
+
 		protected UI_Game UI_GAME {
 			get { return UI_Game.instance; }
 		}

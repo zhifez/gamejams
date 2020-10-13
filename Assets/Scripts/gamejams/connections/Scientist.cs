@@ -40,6 +40,8 @@ namespace com.zhifez.seagj {
 
       player = GetComponentInChildren<Player> ();
       animator = GetComponentInChildren<Animator> ();
+
+      enabled = false;
     }
 
     protected void OnDisable () {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace com.zhifez.seagj {
 	[ System.Serializable ]
@@ -77,13 +78,13 @@ namespace com.zhifez.seagj {
 				// next state
 				switch ( _currentState ) {
 				case State.start:
-					SCIENTIST.enabled = true;
+					SCIENTIST.enabled = false;
 					SCIENTIST.Respawn ( playerStartPos );
-					CAMERA.SetLookAtTarget ( null );
+					CAMERA.SetLookAtTarget ( endLookPos );
 					DATA_PACKAGE.enabled = true;
-					PLAYER_STATS.BeginTimer ();
-					UI_GAME.SetLabelsAlpha ( 1.0f );
-					currentState = State.idle;
+					UI_GAME.SetLabelsAlpha ( 0f );
+					UI_START.enabled = true;
+					UI_END.enabled = false;
 					break;
 
 				case State.idle:
@@ -98,6 +99,17 @@ namespace com.zhifez.seagj {
 					UI_GAME.SetLabelsAlpha ( 0.2f );
 					break;
 				}
+			}
+		}
+
+		private void State_start () {
+			if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				UI_START.enabled = false;
+				PLAYER_STATS.BeginTimer ();
+				CAMERA.SetLookAtTarget ( null );
+				UI_GAME.SetLabelsAlpha ( 1.0f );
+				SCIENTIST.enabled = true;
+				currentState = State.idle;
 			}
 		}
 
@@ -170,6 +182,10 @@ namespace com.zhifez.seagj {
 
 		private void RunState () {
 			switch ( currentState ) {
+			case State.start:
+				State_start ();
+				break;
+
 			case State.manage_overall:
 				State_manage_overall ();
 				break;
@@ -364,7 +380,9 @@ namespace com.zhifez.seagj {
 
 			serviceStatuses = new List<ServiceStatus> ();
 
-			RestartGame ();
+			DOVirtual.DelayedCall ( 1f, () => {
+				RestartGame ();
+			} );
 		}
 
     protected void Update () {
