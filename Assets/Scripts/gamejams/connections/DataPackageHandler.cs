@@ -288,6 +288,9 @@ namespace com.zhifez.seagj {
       pendingData.Clear ();
       activeData.Clear ();
       transmittedData.Clear ();
+
+      System.DateTime _date = System.DateTime.Now;
+      Random.seed = _date.Year + _date.Month + _date.Day + _date.Minute + _date.Second;
     }
 
     protected void Update () {
@@ -297,9 +300,9 @@ namespace com.zhifez.seagj {
 
         string[] _serviceNames = System.Enum.GetNames ( typeof ( DataPackage.Service ) );
         string[] _typeNames = System.Enum.GetNames ( typeof ( DataPackage.Type ) );
-        int _maxServiceTypes = _serviceNames.Length;
-        if ( enabledServices.Count + 1 < _serviceNames.Length ) {
-          _maxServiceTypes -= enabledServices.Count + 1;
+        int _maxServiceTypes = enabledServices.Count + 1;
+        if ( _maxServiceTypes >= _serviceNames.Length ) {
+          _maxServiceTypes = _serviceNames.Length;
         }
         pendingData.Add ( new DataPackage (
           ( DataPackage.Service ) Random.Range ( 0, _maxServiceTypes ),

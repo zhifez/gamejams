@@ -79,7 +79,7 @@ namespace com.zhifez.seagj {
         showPointer = ( _dist < interactDistance );
         if ( showPointer ) {
           if ( Input.GetKeyDown ( KeyCode.J )
-            || Input.GetKeyDown ( KeyCode.K ) ) {
+            || Input.GetKeyDown ( KeyCode.Z ) ) {
             switch ( linkType ) {
             case LinkType.main:
               GAME.ManageOverall ();

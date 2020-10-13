@@ -4805,7 +4805,7 @@ MonoBehaviour:
       speed: 0.65
   - service: 1
     price: 500
-    dailyRates: 150
+    dailyRates: 100
     commission: 10
     signalPatterns:
     - strength: 0.7
@@ -4814,7 +4814,7 @@ MonoBehaviour:
       speed: 0.1
   - service: 2
     price: 1000
-    dailyRates: 250
+    dailyRates: 200
     commission: 25
     signalPatterns:
     - strength: 0.4
@@ -4825,7 +4825,7 @@ MonoBehaviour:
       speed: 0.3
   - service: 3
     price: 1500
-    dailyRates: 350
+    dailyRates: 300
     commission: 50
     signalPatterns:
     - strength: 0
