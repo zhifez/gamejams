@@ -3961,10 +3961,10 @@ MonoBehaviour:
     - strength: 1.5
       speed: 0.3
   tmMachineRates:
-    price: 400
+    price: 500
     dailyRates: 100
   satDishRates:
-    price: 600
+    price: 750
     dailyRates: 200
 --- !u!114 &1333166202
 MonoBehaviour:
@@ -3978,10 +3978,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb476e385298e4f3f9fee767db2061b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingFunds: 1000
-  targetFunds: 0
-  secondsPerHour: 1
-  workHour: 10
+  startingFunds: 500
+  targetFunds: 10000
+  secondsPerHour: 10
+  workHour: 8
 --- !u!4 &1341997520 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2165472388798436926, guid: 466748fe92b0a4dcea4d99f9b4fc1a39, type: 3}

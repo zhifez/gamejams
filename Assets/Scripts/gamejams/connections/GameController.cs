@@ -258,6 +258,16 @@ namespace com.zhifez.seagj {
 			CAMERA.SetLookAtTarget ( null );
 		}
 
+		public bool HasEnabledAllServices () {
+			List<DataPackage.Service> _services = new List<DataPackage.Service> ();
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( !_services.Contains ( ss.service ) ) {
+					_services.Add ( ss.service );
+				}
+			}
+			return ( _services.Count >= DATA_PACKAGE.serviceSignalPatterns.Length );
+		}
+
 		public void AddServiceStatus ( ServiceStatus _status ) {
 			foreach ( ServiceStatus ss in serviceStatuses ) {
 				if ( ss.service == _status.service

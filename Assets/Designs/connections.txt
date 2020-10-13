@@ -20,13 +20,14 @@ Gameplay:
 [X] Game restart function
 [X] Display total signal strength/speed in TmMachine's kiosk
 [X] Main menu - Go to Gameplay
-[] Welcome screen with instructions/guide (include in main UI too)
-[] Add win game state -- when player earned $10,000 in funds
+[X] Add win game state -- when player earned $X in funds
 [] List down electrical consumption in end result
+[] Welcome screen with instructions/guide (include in main UI too)
 [] Add new 3D model for transmission machine
 [] Add sound effects
 [] Trasmission machine may gets overheated and requires money to repair if not turned off in time
 Phase 2
+- Buy new item (advertising) to increase chance of getting higher size package
 - Negotiate with telecom company to license their signal service
 - Signal may changes after a while and player will have to reconfigure it
 - The day's weather may affect direction of satalite's dish

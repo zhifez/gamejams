@@ -119,7 +119,8 @@ namespace com.zhifez.seagj {
 
     private void State_results () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
-        if ( PLAYER_STATS.funds >= PLAYER_STATS.targetFunds ) {
+        if ( PLAYER_STATS.funds >= PLAYER_STATS.targetFunds
+          && GAME.HasEnabledAllServices () ) {
           currentState = State.game_ends;
         }
         else if ( PLAYER_STATS.funds > 0 ) {
@@ -296,6 +297,7 @@ namespace com.zhifez.seagj {
 
     private void State_game_over () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+        DOTween.KillAll ();
         SceneManager.LoadScene ( "menu" );
       }
 

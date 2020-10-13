@@ -218,7 +218,7 @@ namespace com.zhifez.seagj {
           foreach ( ServiceSignalPattern ssp in serviceSignalPatterns ) {
             if ( ssp.service == es ) {
               _totalBills -= ssp.dailyRates;
-              _billsResult += "\n  licensing_" + ssp.service + ": $-" + ssp.dailyRates;
+              _billsResult += "\n  " + ssp.service + "_licensing_daily: $-" + ssp.dailyRates;
               break;
             }
           }

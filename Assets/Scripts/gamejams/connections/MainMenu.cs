@@ -50,6 +50,7 @@ namespace com.zhifez.seagj {
 
     protected void Update () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+        DOTween.KillAll ();
 				SceneManager.LoadScene ( "gameplay" );
 			}
     }
