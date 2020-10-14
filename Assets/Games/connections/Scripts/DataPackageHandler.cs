@@ -290,7 +290,9 @@ namespace com.zhifez.seagj {
       transmittedData.Clear ();
 
       System.DateTime _date = System.DateTime.Now;
-      Random.seed = _date.Year + _date.Month + _date.Day + _date.Minute + _date.Second;
+      Random.InitState ( 
+        _date.Year + _date.Month + _date.Day + _date.Minute + _date.Second
+      );
     }
 
     protected void Update () {
