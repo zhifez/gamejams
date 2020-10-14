@@ -287,6 +287,11 @@ namespace com.zhifez.seagj {
       }
     }
 
+    public void Reboot () {
+      enabledServices.Clear ();
+      EnableService ( DataPackage.Service.unaffiliated );
+    }
+
     //--------------------------------------------------
     // protected
     //--------------------------------------------------
@@ -308,7 +313,6 @@ namespace com.zhifez.seagj {
       pendingData.Clear ();
       activeData.Clear ();
       transmittedData.Clear ();
-      enabledServices.Clear ();
 
       System.DateTime _date = System.DateTime.Now;
       Random.InitState ( 

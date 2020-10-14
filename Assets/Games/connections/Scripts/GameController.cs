@@ -387,6 +387,7 @@ namespace com.zhifez.seagj {
 
 			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
 			serviceStatuses.Clear ();
+			DATA_PACKAGE.Reboot ();
 			PLAYER_STATS.Init ();
 
 			currentState = State.start;
