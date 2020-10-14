@@ -337,6 +337,16 @@ namespace com.zhifez.seagj {
 			return false;
 		}
 
+		public int GetSameServiceCount ( DataPackage.Service _service ) {
+			int _total = 0;
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( ss.service == _service ) {
+					++_total;
+				}
+			}
+			return _total;
+		}
+
 		public float GetServiceMultiplier ( DataPackage.Service _service ) {
 			float _multiplier = 0f;
 			foreach ( ServiceStatus ss in serviceStatuses ) {

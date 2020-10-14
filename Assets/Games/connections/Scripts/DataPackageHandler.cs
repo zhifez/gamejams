@@ -320,7 +320,7 @@ namespace com.zhifez.seagj {
       if ( timer <= 0 ) {
         timer = Random.Range ( minGenerateDataInterval, maxGenerateDataInterval );
         timer *= GetIntervalMultiplier ();
-
+        
         string[] _serviceNames = System.Enum.GetNames ( typeof ( DataPackage.Service ) );
         string[] _typeNames = System.Enum.GetNames ( typeof ( DataPackage.Type ) );
         int _maxServiceTypes = enabledServices.Count + 1;
@@ -333,8 +333,23 @@ namespace com.zhifez.seagj {
           AudioController.Play ( "ui_data_new" );
         }
 
+        // A more elaborate random system that rewards the higher enabled service
+        List<DataPackage.Service> _randServices = new List<DataPackage.Service> ();
+        while ( _randServices.Count <= 0 ) {
+          for ( int a=0; a<_maxServiceTypes; ++a ) {
+            DataPackage.Service _service = ( DataPackage.Service ) a;
+            int _sameServiceCount = Mathf.Max ( 1, GAME.GetSameServiceCount ( _service ) );
+            float _chance = ( 1f / ( float ) GAME.tmMachines.Length ) * _sameServiceCount;
+            float _rand = Random.Range ( 0f, 1f );
+            if ( _rand <= _chance ) {
+              _randServices.Add ( _service );
+            }
+          }
+        }
+
         pendingData.Add ( new DataPackage (
-          ( DataPackage.Service ) Random.Range ( 0, _maxServiceTypes ),
+          // ( DataPackage.Service ) Random.Range ( 0, _maxServiceTypes ),
+          _randServices[ Random.Range ( 0, _randServices.Count ) ],
           ( DataPackage.Type ) Random.Range ( 0, _typeNames.Length ),
           Random.Range ( 0, 3 )
         ) );

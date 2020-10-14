@@ -4838,11 +4838,11 @@ MonoBehaviour:
     - strength: 1.5
       speed: 0.3
   tmMachineRates:
-    price: 500
-    dailyRates: 100
+    price: 400
+    dailyRates: 75
   satDishRates:
-    price: 750
-    dailyRates: 200
+    price: 600
+    dailyRates: 150
 --- !u!114 &1333166202
 MonoBehaviour:
   m_ObjectHideFlags: 0
