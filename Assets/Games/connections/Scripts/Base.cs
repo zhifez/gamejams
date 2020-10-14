@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using com.zhifez.gamejams;
+using ClockStone;
 
 namespace com.zhifez.seagj {
   public class Base : MonoBehaviour {
@@ -59,6 +60,61 @@ namespace com.zhifez.seagj {
 
 		protected float INPUT_VER {
 			get { return Input.GetAxis ( "Vertical" ); }
+		}
+
+		//
+		//
+		//
+		protected List<AudioObject> audioObjects;
+
+		protected void PlayAudio ( string audioID, bool isLoop = false ) {
+			if ( audioObjects == null ) {
+				audioObjects = new List<AudioObject> ();
+			}
+
+			if ( isLoop ) {
+				for ( int a=0; a<audioObjects.Count; ++a ) {
+					if ( audioObjects[a].audioID.Equals ( audioID ) ) {
+						return; // already exists
+					}
+				}
+				
+				AudioObject _obj = AudioController.Play ( audioID );
+				_obj.transform.SetParent ( transform );
+				_obj.transform.localPosition = Vector3.zero;
+				Debug.Log ( _obj.audioID );
+				audioObjects.Add ( _obj );
+			}
+			else {
+				AudioController.Play ( audioID );
+			}
+		}
+
+		protected void StopAudio ( string audioID ) {
+			if ( audioObjects == null
+				|| audioObjects.Count <= 0 ) {
+				return;
+			}
+
+			for ( int a=0; a<audioObjects.Count; ++a ) {
+				if ( audioObjects[a].audioID.Equals ( audioID ) ) {
+					audioObjects[a].Stop ();
+					audioObjects.RemoveAt ( a );
+					break;
+				}
+			}
+		}
+
+		protected void StopAllAudios () {
+			if ( audioObjects == null
+				|| audioObjects.Count <= 0 ) {
+				return;
+			}
+
+			for ( int a=0; a<audioObjects.Count; ++a ) {
+				audioObjects[a].Stop ();
+			}
+			audioObjects.Clear ();
 		}
   }
 }

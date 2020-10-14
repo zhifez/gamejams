@@ -20,10 +20,10 @@ namespace com.zhifez.seagj {
     public Transform emitter;
     public Transform receiver;
 		public Color[] graphColors;
+		public GameObject statusActive;
+		public GameObject statusInactive;
 
 		private const int graphFrequency = 40;
-		private const float graphStrength = 1f;
-		private const float graphSpeed = 5f;
 		private const float offsetMin = -2f;
 		private const float offsetMax = 2f;
 		private const float offsetStep = 0.05f;
@@ -48,12 +48,20 @@ namespace com.zhifez.seagj {
 					}
 
 					GAME.RemoveServiceStatus ( _currentServiceStatus );
+
+					PlayAudio ( "tm_machine_status_inactive" );
+					statusActive.SetActive ( false );
+					statusInactive.SetActive ( true );
 				}
 
 				_currentServiceStatus = value;
 
 				if ( _currentServiceStatus != null ) {
 					GAME.AddServiceStatus ( _currentServiceStatus );
+
+					PlayAudio ( "tm_machine_status_active" );
+					statusActive.SetActive ( true );
+					statusInactive.SetActive ( false );
 				}
 			}
 		}
@@ -133,7 +141,6 @@ namespace com.zhifez.seagj {
 				_wave.gameObject.SetActive ( true );
 				float _strength = lsd.signalStrengthOffset + lsd.sateliteDish.valueX;
 				_strength = Mathf.Clamp ( _strength, _min, _max );
-				_strength *= graphStrength;
 				float _speed = lsd.signalSpeedOffset + lsd.sateliteDish.valueY;
 				_speed = Mathf.Clamp ( _speed, _min, _max );
 				int _frequency = Mathf.RoundToInt ( _speed * ( float ) graphFrequency );
@@ -141,7 +148,7 @@ namespace com.zhifez.seagj {
 				if ( _wave.positionCount != _frequency ) {
 					_wave.positionCount = _frequency;
 				}
-
+				
 				_signalPatterns.Add ( new SignalPattern (
 					_strength,
 					_speed
@@ -169,17 +176,6 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
-		public void Reboot () {
-			_linkedSatDishes.Clear ();
-			_linkedSatDishIndex = 0;
-			if ( lineRenderers != null ) {
-				foreach ( LineRenderer lr in lineRenderers ) {
-					lr.gameObject.SetActive ( false );
-				}
-			}
-			_currentServiceStatus = null;
-		}
-
 		public bool SateliteDishIsLinked ( SateliteDish _satDish ) {
 			foreach ( LinkedSatDish lsd in _linkedSatDishes ) {
 				if ( lsd.sateliteDish == _satDish ) {
@@ -266,7 +262,23 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     protected void Awake () {
 			_linkedSatDishes = new List<LinkedSatDish> ();
+			statusActive.SetActive ( false );
+
+			enabled = false;
     }
+
+		protected void OnDisable () {
+			_linkedSatDishes.Clear ();
+			_linkedSatDishIndex = 0;
+			if ( lineRenderers != null ) {
+				foreach ( LineRenderer lr in lineRenderers ) {
+					lr.gameObject.SetActive ( false );
+				}
+			}
+			_currentServiceStatus = null;
+
+			StopAllAudios ();
+		}
 
     protected void Update () {
 			RunWaves ();

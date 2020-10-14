@@ -36,6 +36,7 @@ namespace com.zhifez.seagj {
 
 				for ( int a=0; a<tmMachines.Length; ++a ) {
 					tmMachines[a].gameObject.SetActive ( a < _enabledTmMachineCount );
+					tmMachines[a].enabled = ( a < _enabledTmMachineCount );
 					tmKiosks[a].gameObject.SetActive ( a < _enabledTmMachineCount );
 				}
 			}
@@ -344,15 +345,16 @@ namespace com.zhifez.seagj {
 
 		public void RestartGame () {
 			UI_END.enabled = false;
-			enabledTmMachineCount = 1;
-			enabledSatDishCount = 1;
-			// enabledSatDishCount = 4; // testing
 			foreach ( TransmissionMachine tm in tmMachines ) {
-				tm.Reboot ();
+				tm.enabled = false;
 			}
+			enabledTmMachineCount = 1;
+			
 			foreach ( SateliteDish sd in satDishes ) {
-				sd.Reboot ();
+				sd.enabled = false;
 			}
+			enabledSatDishCount = 1;
+
 			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
 			serviceStatuses.Clear ();
 			PLAYER_STATS.Init ();
@@ -383,6 +385,8 @@ namespace com.zhifez.seagj {
 			DOVirtual.DelayedCall ( 1f, () => {
 				RestartGame ();
 			} );
+
+			AudioController.PlayAmbienceSound ( "factory_ambience" );
 		}
 
     protected void Update () {

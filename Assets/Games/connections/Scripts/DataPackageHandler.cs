@@ -159,7 +159,7 @@ namespace com.zhifez.seagj {
             SignalPattern spCompare = _tempSP[b];
             float _strengthDiff = Mathf.Abs ( sp.strength - spCompare.strength );
             float _speedDiff = Mathf.Abs ( sp.speed - spCompare.speed );
-            if ( _strengthDiff <= signalAccuracy
+            if ( _strengthDiff < signalAccuracy
               && _speedDiff < signalAccuracy ) { // stable enough
               _tempSP.RemoveAt ( b );
               break;
