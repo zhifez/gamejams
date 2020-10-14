@@ -21,6 +21,7 @@ namespace com.zhifez.seagj {
     public Transform receiver;
 		public Color[] graphColors;
 		public GameObject statusActive;
+		public GameObject statusUnstable;
 		public GameObject statusInactive;
 
 		private const int graphFrequency = 40;
@@ -51,6 +52,7 @@ namespace com.zhifez.seagj {
 
 					PlayAudio ( "tm_machine_status_inactive" );
 					statusActive.SetActive ( false );
+					statusUnstable.SetActive ( false );
 					statusInactive.SetActive ( true );
 				}
 
@@ -60,7 +62,8 @@ namespace com.zhifez.seagj {
 					GAME.AddServiceStatus ( _currentServiceStatus );
 
 					PlayAudio ( "tm_machine_status_active" );
-					statusActive.SetActive ( true );
+					statusActive.SetActive ( _currentServiceStatus.isStable );
+					statusUnstable.SetActive ( !_currentServiceStatus.isStable );
 					statusInactive.SetActive ( false );
 				}
 			}
@@ -263,6 +266,8 @@ namespace com.zhifez.seagj {
     protected void Awake () {
 			_linkedSatDishes = new List<LinkedSatDish> ();
 			statusActive.SetActive ( false );
+			statusUnstable.SetActive ( false );
+			statusInactive.SetActive ( true );
 
 			enabled = false;
     }

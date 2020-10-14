@@ -55,8 +55,8 @@ namespace com.zhifez.seagj {
       content.text += "\n  1. Earn as much money as you can to stay afloat.";
       content.text += "\n  2. Unlock as many service licenses as you can.";
       content.text += "\n  3. You lose when your funds hit $0 or below after a day ended.";
-      content.text += "\n  4. But if your funds hit $0 or below after purchasing new items, the game will not end due to rule No. 3.";
-      content.text += "\n  5. You win when you manage to earn $" + PLAYER_STATS.targetFunds + " in funds.";
+      content.text += "\n  4. However, if your funds hit $0 or below after purchasing new items, the game will not end.";
+      content.text += "\n  5. You win when you manage to earn $" + PLAYER_STATS.targetFunds + " in funds, while purchasing and activating all 4 services.";
       content.text += "\n\nControls:";
       content.text += "\n  1. W/A/S/D or Arrow Keys to move around.";
       content.text += "\n  2. J or Z Key to interact with kiosks.";

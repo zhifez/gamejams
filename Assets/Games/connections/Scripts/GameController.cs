@@ -82,7 +82,6 @@ namespace com.zhifez.seagj {
 					SCIENTIST.enabled = false;
 					SCIENTIST.Respawn ( playerStartPos );
 					CAMERA.SetLookAtTarget ( endLookPos );
-					DATA_PACKAGE.enabled = true;
 					UI_GAME.SetLabelsAlpha ( 0f );
 					UI_START.enabled = true;
 					UI_END.enabled = false;
@@ -111,6 +110,7 @@ namespace com.zhifez.seagj {
 				CAMERA.SetLookAtTarget ( null );
 				UI_GAME.SetLabelsAlpha ( 1.0f );
 				SCIENTIST.enabled = true;
+				DATA_PACKAGE.enabled = true;
 				currentState = State.idle;
 			}
 		}
@@ -283,6 +283,16 @@ namespace com.zhifez.seagj {
 			SCIENTIST.enabled = true;
 			activeTmMachine = null;
 			CAMERA.SetLookAtTarget ( null );
+		}
+
+		public int TotalEnabledAllServices () {
+			List<DataPackage.Service> _services = new List<DataPackage.Service> ();
+			foreach ( ServiceStatus ss in serviceStatuses ) {
+				if ( !_services.Contains ( ss.service ) ) {
+					_services.Add ( ss.service );
+				}
+			}
+			return _services.Count;
 		}
 
 		public bool HasEnabledAllServices () {

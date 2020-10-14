@@ -4793,6 +4793,7 @@ MonoBehaviour:
   maxGenerateDataInterval: 4
   minResolvePendingInterval: 1
   maxResolvePendingInterval: 2
+  constantIntervalMultiplier: 1.5
   dataTransmitDuration: 4
   commissionMultiplier: 0.75
   serviceSignalPatterns:
@@ -4854,7 +4855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb476e385298e4f3f9fee767db2061b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingFunds: 500
+  startingFunds: 1000
   targetFunds: 10000
   secondsPerHour: 10
   workHour: 8
@@ -8562,7 +8563,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: AudioCategories.Array.data[1].AudioItems.Array.size
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[5].subItems.Array.size
@@ -8578,6 +8579,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[8].subItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].subItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].subItems.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
@@ -8610,7 +8619,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: _currentInspectorSelection.currentItemIndex
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[5].subItems.Array.data[0].Probability
@@ -8742,6 +8751,86 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 19f84b3eb32c44c25874b7015f66d93b, type: 3}
     - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
       propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[8].subItems.Array.data[0].Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].Name
+      value: ui_data_done
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].DestroyOnLoad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].SubItemPickMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].MinTimeBetweenPlayCalls
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].audioSource_MinDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].audioSource_MaxDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].subItems.Array.data[0].Probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].subItems.Array.data[0].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5009d8906e3e24664943697199e16f5f, type: 3}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[9].subItems.Array.data[0].Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].Name
+      value: ui_data_new
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].DestroyOnLoad
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].SubItemPickMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].MinTimeBetweenPlayCalls
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].audioSource_MinDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].audioSource_MaxDistance
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].subItems.Array.data[0].Probability
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].subItems.Array.data[0].Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ae108b939b813481f8d0f77d49fdcaa0, type: 3}
+    - target: {fileID: 469361153684807842, guid: 0fd0d5fb0a2854cbea149340808bbcf7, type: 3}
+      propertyPath: AudioCategories.Array.data[1].AudioItems.Array.data[10].subItems.Array.data[0].Volume
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

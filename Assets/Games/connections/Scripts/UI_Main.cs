@@ -23,7 +23,7 @@ namespace com.zhifez.seagj {
       get { return System.Enum.GetNames ( typeof ( Section ) ); }
     }
     private Section _currentSection = Section.transmission;
-    private Section currentSection {
+    public Section currentSection {
       get { return _currentSection; }
       set {
         _currentSection = value;

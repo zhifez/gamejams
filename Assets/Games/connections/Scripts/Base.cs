@@ -82,7 +82,6 @@ namespace com.zhifez.seagj {
 				AudioObject _obj = AudioController.Play ( audioID );
 				_obj.transform.SetParent ( transform );
 				_obj.transform.localPosition = Vector3.zero;
-				Debug.Log ( _obj.audioID );
 				audioObjects.Add ( _obj );
 			}
 			else {

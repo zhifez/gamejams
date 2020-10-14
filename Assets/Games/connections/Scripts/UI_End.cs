@@ -202,8 +202,10 @@ namespace com.zhifez.seagj {
 
         default:
           ServiceSignalPattern _ssp = DATA_PACKAGE.serviceSignalPatterns[ purchaseLog.selectionIndex - 2 ];
-          purchaseLog.newServices.Remove ( _ssp.service );
-          AudioController.Play ( "ui_btn_toggle" );
+          if ( purchaseLog.newServices.Contains ( _ssp.service ) ) {
+            purchaseLog.newServices.Remove ( _ssp.service );
+            AudioController.Play ( "ui_btn_toggle" );
+          }
           break;
         }
       }

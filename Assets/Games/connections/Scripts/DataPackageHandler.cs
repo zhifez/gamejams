@@ -87,6 +87,7 @@ namespace com.zhifez.seagj {
     public float maxGenerateDataInterval = 4f;
     public float minResolvePendingInterval = 1f;
     public float maxResolvePendingInterval = 2f;
+    public float constantIntervalMultiplier = 1.5f;
     public float dataTransmitDuration = 2f;
     public float commissionMultiplier = 0.75f;
     public ServiceSignalPattern[] serviceSignalPatterns;
@@ -112,6 +113,11 @@ namespace com.zhifez.seagj {
           if ( GAME.HasService ( pendingData[a].service ) ) { // TODO: Detect whether service is available
             activeData.Add ( pendingData[a] );
             pendingData.RemoveAt ( a );
+
+            if ( UI_MAIN.enabled
+              && UI_MAIN.currentSection == UI_Main.Section.transmission ) {
+              AudioController.Play ( "ui_data_new" );
+            }
             break;
           }
         }
@@ -125,6 +131,11 @@ namespace com.zhifez.seagj {
           activeData[a].transmitTimer = 0f;
           pendingData.Add ( activeData[a] );
           activeData.RemoveAt ( a );
+
+          if ( UI_MAIN.enabled
+            && UI_MAIN.currentSection == UI_Main.Section.transmission ) {
+            AudioController.Play ( "ui_data_new" );
+          }
           break;
         }
 
@@ -135,9 +146,18 @@ namespace com.zhifez.seagj {
           activeData[a].multiplier = Mathf.Max ( 1f, _serviceMultiplier * commissionMultiplier );
           transmittedData.Insert ( 0, activeData[a] );
           activeData.RemoveAt ( a );
+          
+          if ( UI_MAIN.enabled
+            && UI_MAIN.currentSection == UI_Main.Section.transmission ) {
+            AudioController.Play ( "ui_data_done" );
+          }
           break;
         }
       }
+    }
+
+    private float GetIntervalMultiplier () {
+      return ( constantIntervalMultiplier - ( GAME.TotalEnabledAllServices () / serviceSignalPatterns.Length ) );
     }
 
     //--------------------------------------------------
@@ -299,6 +319,7 @@ namespace com.zhifez.seagj {
       timer -= Time.deltaTime;
       if ( timer <= 0 ) {
         timer = Random.Range ( minGenerateDataInterval, maxGenerateDataInterval );
+        timer *= GetIntervalMultiplier ();
 
         string[] _serviceNames = System.Enum.GetNames ( typeof ( DataPackage.Service ) );
         string[] _typeNames = System.Enum.GetNames ( typeof ( DataPackage.Type ) );
@@ -306,6 +327,12 @@ namespace com.zhifez.seagj {
         if ( _maxServiceTypes >= _serviceNames.Length ) {
           _maxServiceTypes = _serviceNames.Length;
         }
+
+				if ( UI_MAIN.enabled
+          && UI_MAIN.currentSection == UI_Main.Section.transmission ) {
+          AudioController.Play ( "ui_data_new" );
+        }
+
         pendingData.Add ( new DataPackage (
           ( DataPackage.Service ) Random.Range ( 0, _maxServiceTypes ),
           ( DataPackage.Type ) Random.Range ( 0, _typeNames.Length ),
