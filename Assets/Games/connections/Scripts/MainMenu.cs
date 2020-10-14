@@ -46,6 +46,8 @@ namespace com.zhifez.seagj {
       _camAngle.y -= panAngle;
       camTarget.eulerAngles = _camAngle;
       RotateCamTarget ();
+      
+			AudioController.PlayAmbienceSound ( "factory_ambience" );
     }
 
     protected void Update () {
