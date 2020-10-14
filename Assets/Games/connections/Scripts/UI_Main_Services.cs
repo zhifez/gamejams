@@ -26,10 +26,11 @@ namespace com.zhifez.seagj {
 			for ( int a=0; a<DATA_PACKAGE.serviceSignalPatterns.Length; ++a ) {
 				ServiceSignalPattern ssp = DATA_PACKAGE.serviceSignalPatterns[a];
 				if ( !DATA_PACKAGE.ServiceIsEnabled ( ssp.service ) ) {
+					labels[a].text = "";
 					continue;
 				}
-
-				labels[a].text = "<size=25>" + ssp.service + " (" + ssp.signalPatterns.Length + ")</size>";
+		
+				labels[a].text = "<size=25><b>" + ssp.service + " (" + ssp.signalPatterns.Length + ")</b></size>";
 				for ( int b=0; b<ssp.signalPatterns.Length; ++b ) {
 					SignalPattern sp = ssp.signalPatterns[b];
 					labels[a].text += "\n  frequency " + b + ":";

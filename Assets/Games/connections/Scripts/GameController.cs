@@ -139,7 +139,7 @@ namespace com.zhifez.seagj {
 				return;
 			}
 
-			float _offset = 0f;
+			float _offset = 0.1f;
 			if ( INPUT_HOR < -_offset || INPUT_HOR > _offset
 				|| INPUT_VER < -_offset || INPUT_VER > _offset ) {
 				if ( INPUT_HOR < -_offset || INPUT_HOR > _offset ) {
@@ -388,6 +388,7 @@ namespace com.zhifez.seagj {
 			tmMachines[0].LinkSateliteDish ( satDishes[0], 0f, 0f );
 			serviceStatuses.Clear ();
 			DATA_PACKAGE.Reboot ();
+			UI_MAIN.Reboot ();
 			PLAYER_STATS.Init ();
 
 			currentState = State.start;

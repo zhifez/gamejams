@@ -77,8 +77,8 @@ namespace com.zhifez.seagj {
 
         case State.game_over:
           title.text = "game over";
-          instructionsLabel.text = "press R key to restart game";
-          instructionsLabel.text += "\npress SPACE to continue";
+          instructionsLabel.text = "press SPACE to start a new game";
+          instructionsLabel.text += "\npress ESCAPE key to go to the main menu";
 
           gameOverLabel.text = "Oops. You ran out of funds ($" + PLAYER_STATS.funds + ").";
           gameOverLabel.text += "\n\nYou survived " + PLAYER_STATS.daysSurvived;
@@ -95,8 +95,8 @@ namespace com.zhifez.seagj {
 
         case State.game_ends:
           title.text = "endgame";
-          instructionsLabel.text = "press R key to play again";
-          instructionsLabel.text += "\npress SPACE to continue";
+          instructionsLabel.text = "press SPACE to start a new game";
+          instructionsLabel.text += "\npress ESCAPE key to go to the main menu";
 
           gameOverLabel.text = "You raised $" + PLAYER_STATS.funds + " in funds.";
           gameOverLabel.text += "\n\nThat's $" + ( PLAYER_STATS.funds - PLAYER_STATS.targetFunds ) + " more than the targeted value!";
@@ -318,13 +318,17 @@ namespace com.zhifez.seagj {
     }
 
     private void State_game_over () {
-      if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+      if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
 				AudioController.Play ( "ui_btn_direction_section" );
-        DOTween.KillAll ();
-        SceneManager.LoadScene ( "menu" );
+        enabled = false;
+
+        DOVirtual.DelayedCall ( 0.5f, () => {
+          DOTween.KillAll ();
+          SceneManager.LoadScene ( "menu" );
+        } );
       }
 
-      if ( Input.GetKeyDown ( KeyCode.R ) ) {
+      if ( Input.GetKeyDown ( KeyCode.Space ) ) {
         GAME.RestartGame ();
       }
     }

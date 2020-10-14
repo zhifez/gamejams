@@ -16,7 +16,6 @@ namespace com.zhifez.seagj {
       transmission,
       connections,
       services,
-      guide,
       about
     }
     private string[] sectionNames {
@@ -35,7 +34,9 @@ namespace com.zhifez.seagj {
 
           switch ( a ) {
           case 0:
-            UI_MAIN_TRANSMISSION.ClearLabels ();
+            if ( UI_MAIN_TRANSMISSION != null ) {
+              UI_MAIN_TRANSMISSION.ClearLabels ();
+            }
             break;
           }
 
@@ -59,6 +60,10 @@ namespace com.zhifez.seagj {
     //--------------------------------------------------
     // public
     //--------------------------------------------------
+    public void Reboot () {
+      currentSection = Section.transmission;
+    }
+
     public void GoToPrevSection () {
       int _section = ( int ) currentSection;
       --_section;
