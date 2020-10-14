@@ -258,6 +258,7 @@ namespace com.zhifez.seagj {
 			currentState = State.idle;
 			UI_SAT.enabled = false;
 			SCIENTIST.enabled = true;
+			activeSatDish.RotateDish ( 0 );
 			activeSatDish = null;
 			CAMERA.SetLookAtTarget ( null );
 		}
