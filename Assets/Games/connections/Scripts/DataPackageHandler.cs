@@ -308,6 +308,7 @@ namespace com.zhifez.seagj {
       pendingData.Clear ();
       activeData.Clear ();
       transmittedData.Clear ();
+      enabledServices.Clear ();
 
       System.DateTime _date = System.DateTime.Now;
       Random.InitState ( 
@@ -320,7 +321,7 @@ namespace com.zhifez.seagj {
       if ( timer <= 0 ) {
         timer = Random.Range ( minGenerateDataInterval, maxGenerateDataInterval );
         timer *= GetIntervalMultiplier ();
-        
+
         string[] _serviceNames = System.Enum.GetNames ( typeof ( DataPackage.Service ) );
         string[] _typeNames = System.Enum.GetNames ( typeof ( DataPackage.Type ) );
         int _maxServiceTypes = enabledServices.Count + 1;
