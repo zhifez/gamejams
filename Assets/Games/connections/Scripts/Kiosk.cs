@@ -80,6 +80,8 @@ namespace com.zhifez.seagj {
         if ( showPointer ) {
           if ( Input.GetKeyDown ( KeyCode.J )
             || Input.GetKeyDown ( KeyCode.Z ) ) {
+            AudioController.Play ( "kiosk_interact" );
+
             switch ( linkType ) {
             case LinkType.main:
               GAME.ManageOverall ();

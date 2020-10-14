@@ -114,6 +114,8 @@ namespace com.zhifez.seagj {
           _rotation * Time.deltaTime * rotateSpeed,
           Space.World
         );
+
+        PlayAudio ( "sat_dish_move", true );
         break;
 
       case State.move_ver:
@@ -125,6 +127,12 @@ namespace com.zhifez.seagj {
           _rotation * Time.deltaTime * rotateSpeed,
           Space.World
         );
+
+        PlayAudio ( "sat_dish_move", true );
+        break;
+
+      default:
+        StopAudio ( "sat_dish_move" );
         break;
       }
     }
