@@ -105,6 +105,7 @@ namespace com.zhifez.seagj {
 
 		private void State_start () {
 			if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
 				UI_START.enabled = false;
 				PLAYER_STATS.BeginTimer ();
 				CAMERA.SetLookAtTarget ( null );
@@ -116,20 +117,24 @@ namespace com.zhifez.seagj {
 
 		private void State_manage_overall () {
 			if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				StopManageOverall ();
 				return;
 			}
 
 			if ( Input.GetKeyDown ( KeyCode.Q ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
 				UI_MAIN.GoToPrevSection ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.E ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
 				UI_MAIN.GoToNextSection ();
 			}
 		}
 
 		private void State_manage_satelite () {
 			if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				StopManageSatelite ();
 				return;
 			}
@@ -157,24 +162,29 @@ namespace com.zhifez.seagj {
 
 		private void State_manage_tm () {
 			if ( Input.GetKeyDown ( KeyCode.Escape ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				StopManageTM ();
 				return;
 			}
 
 			if ( Input.GetKeyDown ( KeyCode.W ) 
 				|| Input.GetKeyDown ( KeyCode.UpArrow ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				activeTmMachine.SelectPrevLinkedSatDish ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.S ) 
 				|| Input.GetKeyDown ( KeyCode.DownArrow ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				activeTmMachine.SelectNextLinkedSatDish ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.A ) 
 				|| Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				activeTmMachine.DecrementSignalOffset ();
 			}
 			if ( Input.GetKeyDown ( KeyCode.D ) 
 				|| Input.GetKeyDown ( KeyCode.RightArrow ) ) {
+				AudioController.Play ( "ui_btn_direction" );
 				activeTmMachine.IncrementSignalOffset ();
 			}
 

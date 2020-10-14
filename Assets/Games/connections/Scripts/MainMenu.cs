@@ -50,6 +50,7 @@ namespace com.zhifez.seagj {
 
     protected void Update () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
         DOTween.KillAll ();
 				SceneManager.LoadScene ( "gameplay" );
 			}

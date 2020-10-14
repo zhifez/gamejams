@@ -85,16 +85,19 @@ namespace com.zhifez.seagj {
       if ( activeTm == null ) {
         if ( Input.GetKeyDown ( KeyCode.A )
           || Input.GetKeyDown ( KeyCode.LeftArrow ) ) {
+          AudioController.Play ( "ui_btn_direction" );
           --selectionIndex;
         }
 
         if ( Input.GetKeyDown ( KeyCode.D )
           || Input.GetKeyDown ( KeyCode.RightArrow ) ) {
+          AudioController.Play ( "ui_btn_direction" );
           ++selectionIndex;
         }
 
         if ( Input.GetKeyDown ( KeyCode.S )
           || Input.GetKeyDown ( KeyCode.DownArrow ) ) {
+          AudioController.Play ( "ui_btn_direction" );
           activeTm = GAME.tmMachines[ selectionIndex ];
           selectionIndex = 0;
         }
@@ -102,17 +105,21 @@ namespace com.zhifez.seagj {
       else {
         if ( Input.GetKeyDown ( KeyCode.W )
           || Input.GetKeyDown ( KeyCode.UpArrow ) ) {
+          AudioController.Play ( "ui_btn_direction" );
           --selectionIndex;
         }
 
         if ( Input.GetKeyDown ( KeyCode.S )
           || Input.GetKeyDown ( KeyCode.DownArrow ) ) {
+          AudioController.Play ( "ui_btn_direction" );
           ++selectionIndex;
         }
 
         if ( Input.GetKeyDown ( KeyCode.J )
           || Input.GetKeyDown ( KeyCode.Z ) ) {
           // link or unlink
+          AudioController.Play ( "ui_btn_toggle" );
+          
           SateliteDish sd = GAME.satDishes[ selectionIndex ];
           bool _isLinked = activeTm.SateliteDishIsLinked ( sd );
           if ( _isLinked ) {

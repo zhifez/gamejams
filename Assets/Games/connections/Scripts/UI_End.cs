@@ -119,6 +119,7 @@ namespace com.zhifez.seagj {
 
     private void State_results () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
         if ( PLAYER_STATS.funds >= PLAYER_STATS.targetFunds
           && GAME.HasEnabledAllServices () ) {
           currentState = State.game_ends;
@@ -134,6 +135,7 @@ namespace com.zhifez.seagj {
 
     private void State_purchases () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
         PLAYER_STATS.funds -= GetTotalPurchase ();
 
         // if ( PLAYER_STATS.funds > 0 ) {
@@ -152,6 +154,7 @@ namespace com.zhifez.seagj {
       int _maxSelection = DATA_PACKAGE.serviceSignalPatterns.Length + 2;
       if ( Input.GetKeyDown ( KeyCode.W )
         || Input.GetKeyDown ( KeyCode.UpArrow ) ) {
+        AudioController.Play ( "ui_btn_direction" );
         --purchaseLog.selectionIndex;
         if ( purchaseLog.selectionIndex <= 0 ) {
           purchaseLog.selectionIndex = 0;
@@ -160,6 +163,7 @@ namespace com.zhifez.seagj {
 
       if ( Input.GetKeyDown ( KeyCode.S )
         || Input.GetKeyDown ( KeyCode.DownArrow ) ) {
+        AudioController.Play ( "ui_btn_direction" );
         ++purchaseLog.selectionIndex;
         if ( purchaseLog.selectionIndex >= _maxSelection ) {
           purchaseLog.selectionIndex = _maxSelection - 1;
@@ -174,8 +178,12 @@ namespace com.zhifez.seagj {
         case 0:
           if ( _maxTmMachinesCount > 0 ) {
             --purchaseLog.tmMachineCount;
-            if ( purchaseLog.tmMachineCount <= 0 ) {
+            if ( purchaseLog.tmMachineCount < 0 ) {
               purchaseLog.tmMachineCount = 0;
+              AudioController.Play ( "ui_btn_reject" );
+            }
+            else {
+              AudioController.Play ( "ui_btn_toggle" );
             }
           }
           break;
@@ -183,8 +191,11 @@ namespace com.zhifez.seagj {
         case 1:
           if ( _maxSatDishCount > 0 ) {
             --purchaseLog.satDishCount;
-            if ( purchaseLog.satDishCount <= 0 ) {
+            if ( purchaseLog.satDishCount < 0 ) {
               purchaseLog.satDishCount = 0;
+            }
+            else {
+              AudioController.Play ( "ui_btn_toggle" );
             }
           }
           break;
@@ -192,6 +203,7 @@ namespace com.zhifez.seagj {
         default:
           ServiceSignalPattern _ssp = DATA_PACKAGE.serviceSignalPatterns[ purchaseLog.selectionIndex - 2 ];
           purchaseLog.newServices.Remove ( _ssp.service );
+          AudioController.Play ( "ui_btn_toggle" );
           break;
         }
       }
@@ -202,8 +214,12 @@ namespace com.zhifez.seagj {
         case 0:
           if ( _maxTmMachinesCount > 0 ) {
             ++purchaseLog.tmMachineCount;
-            if ( purchaseLog.tmMachineCount >= _maxTmMachinesCount ) {
+            if ( purchaseLog.tmMachineCount > _maxTmMachinesCount ) {
               purchaseLog.tmMachineCount = _maxTmMachinesCount;
+              AudioController.Play ( "ui_btn_reject" );
+            }
+            else {
+              AudioController.Play ( "ui_btn_toggle" );
             }
           }
           break;
@@ -211,8 +227,11 @@ namespace com.zhifez.seagj {
         case 1:
           if ( _maxSatDishCount > 0 ) {
             ++purchaseLog.satDishCount;
-            if ( purchaseLog.satDishCount >= _maxSatDishCount ) {
+            if ( purchaseLog.satDishCount > _maxSatDishCount ) {
               purchaseLog.satDishCount = _maxSatDishCount;
+            }
+            else {
+              AudioController.Play ( "ui_btn_toggle" );
             }
           }
           break;
@@ -222,6 +241,7 @@ namespace com.zhifez.seagj {
           if ( !purchaseLog.newServices.Contains ( _ssp.service )
             && !DATA_PACKAGE.ServiceIsEnabled ( _ssp.service ) ) {
             purchaseLog.newServices.Add ( _ssp.service );
+            AudioController.Play ( "ui_btn_toggle" );
           }
           break;
         }
@@ -297,6 +317,7 @@ namespace com.zhifez.seagj {
 
     private void State_game_over () {
       if ( Input.GetKeyDown ( KeyCode.Space ) ) {
+				AudioController.Play ( "ui_btn_direction_section" );
         DOTween.KillAll ();
         SceneManager.LoadScene ( "menu" );
       }
