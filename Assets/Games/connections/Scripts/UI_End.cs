@@ -98,9 +98,9 @@ namespace com.zhifez.seagj {
           instructionsLabel.text = "press SPACE to start a new game";
           instructionsLabel.text += "\npress ESCAPE key to go to the main menu";
 
-          gameOverLabel.text = "You raised $" + PLAYER_STATS.funds + " in funds.";
+          gameOverLabel.text = "You raised $" + PLAYER_STATS.funds + " in funds, in " + PLAYER_STATS.daysSurvived + " days!";
           gameOverLabel.text += "\n\nThat's $" + ( PLAYER_STATS.funds - PLAYER_STATS.targetFunds ) + " more than the targeted value!";
-          gameOverLabel.text += "\n\nGood job, thank you for making this far.";
+          gameOverLabel.text += "\n\nGood job for making this far.";
           gameOverLabel.text += "\n\nSend an email to zhifez.studio@gmail.com if you feel like telling us about what you like/dislike about the game.";
           gameOverLabel.text += "\n\nHave a nice day!";
           break;

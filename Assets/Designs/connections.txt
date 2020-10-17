@@ -26,10 +26,13 @@ Gameplay:
 [X] Add new 3D model for transmission machine
 [X] Add sound effects
 [X] Test play and win the game before releasing
+
 Phase 2
-- Trasmission machine may gets overheated and requires money to repair if not turned off in time
-- Buy new item (advertising) to increase chance of getting higher size package
-- Negotiate with telecom company to license their signal service
-- Signal may changes after a while and player will have to reconfigure it
+- Create a new mode with more expensive items
+- Main menu will allow for selection of mode (normal, advanced)
+- Gameplay duration: 120 minutes per day (12spd x 10hr)
+- Trasmission machine may gets overheated and requires repair if not turned off in time
+  = Will get overheated after operating for more than 5 - serviceIndex days
+  = Will cool down in 20 seconds 
+  = Can be repaired in under 10 seconds
 - The day's weather may affect direction of satalite's dish
-- Some weather may damage satalite dish, and player will have to spend money to repair it
