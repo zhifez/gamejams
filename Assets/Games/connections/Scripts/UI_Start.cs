@@ -59,16 +59,7 @@ namespace com.zhifez.seagj {
       content.text += "\n\n4. As you purchase higher tier services, you'll need to connect your transmission machine to more satellite dishes (you may purchase up to 4, including the default dish) in order to match the frequencies needed to activate the service. To do this, you'll need to go to the <b>Connections</b> section of the main kiosk UI, and link these machines up with the sat-dishes.";
       content.text += "\n\n5. You lose when your funds hit $0 or below after a day ended.";
       content.text += "\n\n6. However, if your funds hit $0 or below after purchasing new items, the game will not end.";
-      content.text += "\n\n7. You win when you manage to earn $" + PLAYER_STATS.targetFunds + " in funds, and when you've activated all 4 services.";
-      // content.text = "Rules:";
-      // content.text += "\n  1. Earn as much funds as you can to stay afloat.";
-      // content.text += "\n  2. Unlock as many service licenses as you can.";
-      // content.text += "\n  3. You lose when your funds hit $0 or below after a day ended.";
-      // content.text += "\n  4. However, if your funds hit $0 or below after purchasing new items, the game will not end.";
-      // content.text += "\n  5. You win when you manage to earn $" + PLAYER_STATS.targetFunds + " in funds, and when you've activated all 4 services.";
-      // content.text += "\n\nControls:";
-      // content.text += "\n  1. W/A/S/D or Arrow Keys to move around.";
-      // content.text += "\n  2. J or Z Key to interact with kiosks.";
+      content.text += "\n\n7. You win when you manage to earn $" + PLAYER_STATS.targetFunds + " in funds and activated all 4 services.";
     }
   }
 }
