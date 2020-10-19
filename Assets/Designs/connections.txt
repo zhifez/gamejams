@@ -28,11 +28,12 @@ Gameplay:
 [X] Test play and win the game before releasing
 
 Phase 2
-- Create a new mode with more expensive items
-- Main menu will allow for selection of mode (normal, advanced)
-- Gameplay duration: 120 minutes per day (12spd x 10hr)
-- Trasmission machine may gets overheated and requires repair if not turned off in time
-  = Will get overheated after operating for more than 5 - serviceIndex days
-  = Will cool down in 20 seconds 
-  = Can be repaired in under 10 seconds
-- The day's weather may affect direction of satalite's dish
+[X] Create a new mode with more expensive items
+[] Main menu will allow for selection of mode (normal, hard)
+[] A satelite dish can only be connected to a maximum of 3 transmission machines
+[] Transmission machine may gets overheated and requires repair if not turned off in time
+  = Will get overheated after operating for more than 4 - serviceIndex days
+  = Will cool down in 20 seconds
+  = Can be fixed with RepairKit (can be purchased)
+[] The day's weather may affect direction of satalite's dish
+  = Show UI on how much effect it'll cause in terms of offset in sat_dish signal
