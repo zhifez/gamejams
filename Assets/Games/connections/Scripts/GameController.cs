@@ -18,10 +18,7 @@ namespace com.zhifez.seagj {
 	public class GameController : Base {
 		public static GameController instance;
 
-		public bool _isHardMode;
-		private bool isHardMode {
-			get { return _isHardMode; }
-		}
+		public bool isHardMode;
 		public Transform playerStartPos;
 		public Transform endLookPos;
 		public TransmissionMachine[] tmMachines;
